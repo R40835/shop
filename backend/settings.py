@@ -11,10 +11,21 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 import os 
 import environ
+
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+env = environ.Env(
+    # set casting, default value
+    DEBUG=(bool, False)
+)
+
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Take environment variables from .env file
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
+
 TEMPLATE_DIR = os.path.join(BASE_DIR, "frontend/templates")
 STATIC_DIR = os.path.join(BASE_DIR, "frontend/static")
 MEDIA_DIR = os.path.join(BASE_DIR, "frontend/media")
@@ -28,12 +39,13 @@ SECRET_KEY = 'django-insecure-npvmul!vg426w2p8*fbqw1d2ps$k7=cyk4^ys84)z0320sc!ue
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["127.0.0.1"]
 
 
 # Application definition
 
 INSTALLED_APPS = [
+    'products',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -136,3 +148,13 @@ MEDIA_ROOT = MEDIA_DIR
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Email backend setup
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = env('EMAIL_HOST')
+EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+EMAIL_PORT = env('EMAIL_PORT')
+EMAIL_USE_TLS = env('EMAIL_USE_TLS')
+#EMAIL_USE_SSL = env('EMAIL_USE_SSL')
