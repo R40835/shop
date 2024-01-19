@@ -19,7 +19,7 @@ class Contact(models.Model):
     """
         fields : 
         - Firstname: CharField(max_length = 255)
-        - email : 
+        - email : EmailFields
         - Comment : TextArea
     
     """

@@ -4,6 +4,6 @@ from .models import Products, Contact, Subscribe_sending_email
 
 
 class ConatctAdmin(admin.ModelAdmin):
-    display_list = ('first_name','email','Comments')
+    list_display = ('first_name','email','Comments')
 
-admin.site.regester(ConatctAdmin,Contact)
+admin.site.register(Contact,ConatctAdmin)
