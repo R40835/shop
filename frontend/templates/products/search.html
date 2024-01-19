@@ -1,0 +1,15 @@
+{% extends "base/base.html" %}
+{% block title %}
+    <title>Product search</title>
+{% endblock %}
+{% block content %}
+    <br>
+    {% if items %}
+        {% for item in items %}
+            {{item.name}}
+            <img src="{{ item.image.url }}" alt="" style="width: 100px; height: 100px;"> 
+            {{item.image}}
+            <hr>
+        {% endfor %}
+    {% endif %}
+{% endblock content %}

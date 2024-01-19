@@ -46,6 +46,15 @@ class NewsLetterForm(forms.Form):
 
 
 class AdminDressUploadForm(forms.Form):
+    name = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                'id': 'name',
+                'class': 'admin-upload', 
+                'placeholder': 'Nom du produit',
+            }
+        )
+    )
     image = forms.ImageField(
         widget=forms.FileInput(
             attrs={
@@ -54,7 +63,6 @@ class AdminDressUploadForm(forms.Form):
                 'id': "set-image"
             }
         ), 
-        label='Image', 
         required=True
     )
     price = forms.FloatField(
@@ -69,4 +77,4 @@ class AdminDressUploadForm(forms.Form):
 
     class Meta:
         model = Dress
-        fields = ('image', 'price')
+        fields = ('name', 'image', 'price')

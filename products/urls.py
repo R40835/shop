@@ -11,4 +11,5 @@ urlpatterns = [
     path('blankets/', views.blankets, name='blankets'),
     path('upload-content/', views.admin_content_upload, name='upload-content'),
     path('news-letter/', views.newsletter, name='news-letter'),
+    path('search/', views.search, name='search'),
 ]

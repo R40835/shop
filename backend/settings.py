@@ -91,8 +91,12 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": "mydatabase",
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "AShop",
+        "USER": "AShopDjangoAdmin",
+        "PASSWORD": "35ed0cf5f2a3af9039bf",
+        "HOST": "127.0.0.1",
+        "PORT": "5432",
     }
 }
 

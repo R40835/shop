@@ -19,6 +19,7 @@
         </div>
     {% endfor %}
     <form method="post" enctype="multipart/form-data">{% csrf_token %}
+        {{ form.name }}
         {{ form.image }}
         {{ form.price }}
         <input type="submit" value="Upload">
