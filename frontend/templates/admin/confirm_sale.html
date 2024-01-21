@@ -1,0 +1,14 @@
+{% extends "base/base.html" %}
+{% block title %}
+    <title>Couvertures</title>
+{% endblock title %}
+{% block content %}
+<br>
+    <img src="{% if product.image %}{{product.image.url}}{% endif %}" alt="Not Found">
+    {{product.name}}
+    {{product.price}}
+    <form method="POST">{% csrf_token %}
+        {{form.as_p}}
+        <input type="submit" value="Confirm Full Sale">
+    </form>
+{% endblock content %}

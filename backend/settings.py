@@ -34,10 +34,10 @@ MEDIA_DIR = os.path.join(BASE_DIR, "frontend/media")
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-npvmul!vg426w2p8*fbqw1d2ps$k7=cyk4^ys84)z0320sc!ue'
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = ["127.0.0.1"]
 

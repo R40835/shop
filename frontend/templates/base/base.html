@@ -11,9 +11,8 @@
 <body>
     <form action="{% url 'products:search' %}" method="GET" role="search">{% csrf_token %}
         <div class="search-field">
-            <li>
-                <input type="text" name="q" value="{{ request.GET.q }}" placeholder="Search Profuct Here..." required>
-                <input type="submit" class="search-button" value="search">                    
+            <input type="text" name="q" value="{{ request.GET.q }}" placeholder="Search Product Here..." required>
+            <input type="submit" class="search-button" value="search">                    
         </div>
     </form>    
     {% block content %}

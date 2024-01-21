@@ -7,8 +7,13 @@
     {% if items %}
         {% for item in items %}
             {{item.name}}
-            <img src="{{ item.image.url }}" alt="" style="width: 100px; height: 100px;"> 
-            {{item.image}}
+            <img src="{% if item.image.url %}{{ item.image.url }}{% endif %}" alt="Image Corrupted" style="width: 100px; height: 100px;"> 
+            <br>
+            {{item.price}} DA
+            <br>
+            {{item.category}}
+            <br>
+            {{item.stock}}
             <hr>
         {% endfor %}
     {% endif %}

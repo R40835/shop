@@ -6,8 +6,8 @@ from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.db.models import Q
 
-from .models import Followers, Dress, Blanket, Category
-from .forms import NewsLetterForm, AdminDressUploadForm
+from .models import Followers, Product, Category, FullPurchase, InstallementPurchase
+from .forms import NewsLetterForm, AdminProductUploadForm, AdminSaleConfirmationForm
 
 
 def index(request):
@@ -28,7 +28,8 @@ def dresses(request):
     """
     Dresses Page.
     """
-    items = Dress.objects.all().order_by('-created_at')
+    items = Product.objects.filter(category__name='dress').order_by('-created_at')
+    items = [item.check_availabality() for item in items]
     items_per_page = 12
     paginator = Paginator(items, items_per_page)
     page_number = request.GET.get('page')
@@ -41,13 +42,33 @@ def blankets(request):
     """
     Blankets Page.
     """
-    items = Blanket.objects.all().order_by('-created_at')
+    is_admin = request.user.is_superuser
+    print(is_admin)
+    items = Product.objects.filter(category__name__icontains='couverture').order_by('-created_at')
+    print(items)
+    items = [item.check_availabality() for item in items]
+    print([item for item in items])
+
+    items_per_page = 12
+    paginator = Paginator(items, items_per_page)
+    page_number = request.GET.get('page')
+    page = paginator.get_page(page_number)
+    context = {'page': page, 'is_admin': is_admin}
+    return render(request, "products/blankets.html", context)
+
+
+def jackets(request): 
+    """
+    Blankets Page.
+    """
+    items = Product.objects.filter(category__name='jacket').order_by('-created_at')
+    items = [item.check_availabality() for item in items]
     items_per_page = 12
     paginator = Paginator(items, items_per_page)
     page_number = request.GET.get('page')
     page = paginator.get_page(page_number)
     context = {'page': page}
-    return render(request, "products/blankets.html", context)
+    return render(request, "products/jackets.html", context)
 
 
 def newsletter(request):
@@ -57,7 +78,7 @@ def newsletter(request):
     if request.method == 'POST':
         form = NewsLetterForm(request.POST)
         if form.is_valid():
-            follower = Followers(
+            follower = Followers.objects.create(
                 email=form.cleaned_data['email'],
                 phone=form.cleaned_data['phone'],
                 preference=form.cleaned_data['preference']
@@ -72,18 +93,15 @@ def newsletter(request):
 
 def search(request):
     """
-    Searching for Categories.
+    Searching for Categories/Products.
     """
     items = None
     if request.method == 'GET':
         query = request.GET.get('q')
-        # search_result = Category.objects.filter(
-        #     Q(dress__name__icontains=query) | 
-        #     Q(blanket__name__icontains=query)
-        # ).all()#.order_by('-created_at')
-        search_result = Dress.objects.filter(
-            Q(name__icontains=query) 
-        ).all()#.order_by('-created_at')
+        search_result = Product.objects.filter(
+            Q(name__icontains=query) |
+            Q(category__name__icontains=query)
+        ).order_by('-created_at')
         if search_result.exists():
             items = search_result
         else:
@@ -92,27 +110,19 @@ def search(request):
             'searched': query,
             'items': items,
         }
-        print(f'items: {items} serached: {query}')
         return render(request, 'products/search.html', context)
     
 
 #@login_required
 def admin_content_upload(request):
     """
-    Sending emails to the followers upon admin new content upload.
+    Admin - Sending emails to the followers upon admin new content upload.
     """
     followers = Followers.objects.all()
     if request.method == 'POST':
-        form = AdminDressUploadForm(request.POST, request.FILES)
+        form = AdminProductUploadForm(request.POST, request.FILES)
         if form.is_valid():
-            dress = Dress(
-                #add category | type
-                name=form.cleaned_data['name'],
-                image=form.cleaned_data['image'],
-                price=form.cleaned_data['price'],
-            )
-            dress.save()
-            
+            form.save()
             if followers.exists():
                 connection = mail.get_connection()
                 connection.open()
@@ -128,6 +138,32 @@ def admin_content_upload(request):
                 connection.close()
             return redirect('products:index')
     else:
-        form = AdminDressUploadForm()
+        form = AdminProductUploadForm()
+        print(form.fields)
     context = {'form': form}
     return render(request, "admin/upload_content.html", context)
+
+
+
+@login_required
+def admin_product_sold(request, product_pk):
+    """
+    Admin - Confirm sale and update stock.
+    """
+    is_admin = request.user.is_superuser
+    if is_admin:
+        product = Product.objects.get(pk=product_pk)
+        if request.method == 'POST':
+            form = AdminSaleConfirmationForm(request.POST)
+            if form.is_valid():
+                FullPurchase.objects.create(
+                    quantity=form.cleaned_data['quantity'],
+                    product_id=product_pk
+                )
+                return redirect('products:index')
+        else:
+            form = AdminSaleConfirmationForm()
+        context = {'form': form, 'product': product}
+        return render(request, "admin/confirm_sale.html", context)
+    else:
+        print("Action forbidden! (render a template later)")

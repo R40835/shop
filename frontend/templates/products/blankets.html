@@ -1,11 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    
-</body>
-</html>
+{% extends "base/base.html" %}
+{% block title %}
+    <title>Couvertures</title>
+{% endblock title %}
+{% block content %}
+<br>
+    {% for item in page %}
+        <img src="{{item.image.url}}" alt="Not Found" style="height: 100px; width: 100px;">
+        <br>
+        name: {{item.name}}
+        <br>
+        price: {{item.price}} DA
+        <br>
+        stock: {{item.stock}}
+        <br>
+        {% if is_admin %}
+            <a href="{% url 'products:confirm-sale' item.pk %}">Confirm Sale</a>
+        {% endif %}
+        <hr>
+    {% endfor %}
+{% endblock content %}
