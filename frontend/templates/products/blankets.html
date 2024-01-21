@@ -14,7 +14,7 @@
         stock: {{item.stock}}
         <br>
         {% if is_admin %}
-            <a href="{% url 'products:confirm-sale' item.pk %}">Confirm Sale</a>
+            <a href="{% url 'products:confirm-sale' item.pk %}">Sell</a>
         {% endif %}
         <hr>
     {% endfor %}

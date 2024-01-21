@@ -30,9 +30,20 @@ class NewsLetterForm(forms.ModelForm):
             }
         )
     )
-    preference = forms.ModelChoiceField(
-        queryset=Category.objects.all(), 
+    # preference = forms.ModelChoiceField(
+    #     queryset=Category.objects.all(), 
+    #     required=True,
+    #     widget=forms.Select(
+    #         attrs={
+    #             'id': 'preference',
+    #             'class': 'letter-form',
+    #             'placeholder': 'Produit(s)',
+    #         }
+    #     ),
+    # )
+    preference = forms.ChoiceField(
         required=True,
+        choices=(('Tous', 'Tous'),),
         widget=forms.Select(
             attrs={
                 'id': 'preference',
@@ -47,8 +58,8 @@ class NewsLetterForm(forms.ModelForm):
         Overriding the constructor to append a custom choice.
         """
         super(NewsLetterForm, self).__init__(*args, **kwargs)
-        custom_choice = ('Tous', 'Tous')
-        self.fields['preference'].choices = list(self.fields['preference'].choices) + [custom_choice] 
+        custom_choice = (('Tous', 'Tous'))
+        # self.fields['preference'].choices = list(self.fields['preference'].choices) + [custom_choice] 
 
     class Meta:
         model  = Followers
@@ -116,6 +127,18 @@ class AdminProductUploadForm(forms.ModelForm):
             }
         )
     )
+    category = forms.ModelChoiceField(
+        queryset=Category.objects.all(), 
+        required=True,
+        widget=forms.Select(
+            attrs={
+                'id': "product-category",
+                'class': 'admin-upload', 
+                'placeholder': 'Category',
+            }
+        )
+    )
+
 
     class Meta:
         model  = Product

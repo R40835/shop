@@ -1,13 +1,17 @@
 from django.shortcuts import render, redirect
-from django.core import mail
-from django.core.mail import EmailMessage
-from django.conf import settings
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.paginator import Paginator
 from django.db.models import Q
 
 from .models import Followers, Product, Category, FullPurchase, InstallementPurchase
 from .forms import NewsLetterForm, AdminProductUploadForm, AdminSaleConfirmationForm
+
+
+def is_superuser(user):
+    """
+    Checking if the user is an admin for security purposes.
+    """
+    return user.is_superuser
 
 
 def index(request):
@@ -113,29 +117,16 @@ def search(request):
         return render(request, 'products/search.html', context)
     
 
-#@login_required
+@login_required
+@user_passes_test(is_superuser)
 def admin_content_upload(request):
     """
     Admin - Sending emails to the followers upon admin new content upload.
     """
-    followers = Followers.objects.all()
     if request.method == 'POST':
         form = AdminProductUploadForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            if followers.exists():
-                connection = mail.get_connection()
-                connection.open()
-                for follower in followers:
-                    email = EmailMessage(
-                        'New Content!',
-                        'Dear Customer\n\nWe\'ve got brand new products that may be of interest to you. Check it out! 127.0.0.1:8000', 
-                        settings.EMAIL_HOST_USER,
-                        [f'{follower.email}'],
-                        connection=connection,
-                    )
-                    connection.send_messages([email])
-                connection.close()
             return redirect('products:index')
     else:
         form = AdminProductUploadForm()
@@ -144,26 +135,22 @@ def admin_content_upload(request):
     return render(request, "admin/upload_content.html", context)
 
 
-
 @login_required
+@user_passes_test(is_superuser)
 def admin_product_sold(request, product_pk):
     """
     Admin - Confirm sale and update stock.
     """
-    is_admin = request.user.is_superuser
-    if is_admin:
-        product = Product.objects.get(pk=product_pk)
-        if request.method == 'POST':
-            form = AdminSaleConfirmationForm(request.POST)
-            if form.is_valid():
-                FullPurchase.objects.create(
-                    quantity=form.cleaned_data['quantity'],
-                    product_id=product_pk
-                )
-                return redirect('products:index')
-        else:
-            form = AdminSaleConfirmationForm()
-        context = {'form': form, 'product': product}
-        return render(request, "admin/confirm_sale.html", context)
+    product = Product.objects.get(pk=product_pk)
+    if request.method == 'POST':
+        form = AdminSaleConfirmationForm(request.POST)
+        if form.is_valid():
+            FullPurchase.objects.create(
+                quantity=form.cleaned_data['quantity'],
+                product_id=product_pk
+            )
+            return redirect('products:index')
     else:
-        print("Action forbidden! (render a template later)")
+        form = AdminSaleConfirmationForm()
+    context = {'form': form, 'product': product}
+    return render(request, "admin/confirm_sale.html", context)

@@ -7,8 +7,12 @@
     <img src="{% if product.image %}{{product.image.url}}{% endif %}" alt="Not Found">
     {{product.name}}
     {{product.price}}
-    <form method="POST">{% csrf_token %}
-        {{form.as_p}}
-        <input type="submit" value="Confirm Full Sale">
-    </form>
+    {% if product.available %}
+        <form method="POST">{% csrf_token %}
+            {{form.as_p}}
+            <input type="submit" value="Confirm Full Sale">
+        </form>
+    {% else %}
+        product sold out
+    {% endif %}
 {% endblock content %}
