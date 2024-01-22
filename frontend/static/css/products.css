@@ -1,0 +1,222 @@
+/* Reset some default styles */
+body, html {
+    margin: 0;
+    padding: 0;
+    /* background-color: #fff4e0; */
+    /* for image */
+    background-image: url('images/test.jpg'); /* url('images/test2.png') */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 100vh;
+}
+
+/*****************************************************************NAVBAR***************************************************************/
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: transparent; /* #dc143c #333 */
+    color: #fff;
+    padding: 10px;
+}
+
+/* Style the left section (logo) */
+.left-section {
+    flex: 1;
+}
+
+.logo {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+/* Style the middle section (main links) */
+.middle-section {
+    flex: 2;
+    text-align: center;
+}
+
+.nav-links a {
+    color: #fff;
+    text-decoration: none;
+    /* padding: 10px; */
+    padding: 10px 0;
+    margin-left: 15px;
+    font-weight: bold;
+}
+
+.nav-links a:hover {
+    color: rgb(2, 141, 247);
+    text-decoration: none;
+    /* padding: 10px; */
+    padding: 10px 0;
+    font-weight: bold;
+    border-bottom: 2px solid rgb(2, 141, 247);
+}
+
+/* Style the right section (search, fav, and cart links) */
+.right-section {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.search-field {
+    position: relative;
+}
+
+.navbar input[type="text"] {
+    padding: 8px;
+    /* border: none; */
+    border-radius: 25px;
+    color: #fff; /*added*/
+    border: 1px solid #fff; /*added*/
+    background-color: rgba(241, 222, 222, 0.5); /* delete all this line */
+}
+
+.navbar input:focus {
+    border: 1px solid rgb(2, 141, 247); 
+    outline: none; 
+    background-color: rgba(241, 222, 222, 0.5); /* #f0f8ff */
+}
+
+.search-field input[type="text"]::placeholder {
+    color: #fff; /* Placeholder text color */
+}
+
+.search-button {
+    position: absolute;
+    right: 0;
+    top: 0;
+    background-color: transparent;
+    color: rgb(2, 141, 247);
+    border: 1px solid transparent;
+    border-radius: 25px;
+    padding: 8px 15px;
+    cursor: pointer;
+}
+.search-field input[type="text"]:not(:focus) + .search-button:hover {
+    background-color: #ddd;
+    border: 1px solid #fff;
+    border-left: none;
+    border-top-left-radius: 0; 
+    border-bottom-left-radius: 0;
+}
+.search-button:hover {
+    background-color: #ddd;
+    border: 1px solid rgb(2, 141, 247);
+    border-left: none;
+    border-top-left-radius: 0; 
+    border-bottom-left-radius: 0;
+}
+/* Style the right section links */
+.right-section .nav-links a {
+    margin-left: 15px;
+}
+
+/* button marginleft initially 5px*/
+/**************************************************************INDEX*******************************************************************/
+.jumbotron-container {
+    height: 80%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.jumbotron {
+    max-width: 600px;
+    padding: 20px;
+    color: #fff;
+    background-color: transparent;
+    /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.8); */
+    text-align: center;
+}
+
+/* Style the anchor tag as a button */
+.jumbotron-button {
+    display: inline-block;
+    padding: 10px 20px; /* Adjust padding as needed */
+    background-color: #007bff; /* Button background color */
+    color: #fff; /* Button text color */
+    text-decoration: none;
+    border-radius: 5px; /* Rounded corners */
+    border: 1px solid #007bff; /* Button border */
+    transition: background-color 0.3s ease; /* Smooth transition on hover */
+}
+
+/* Change button styles on hover */
+.jumbotron-button:hover {
+    background-color: #0056b3; /* Darker background color on hover */
+    border-color: #0056b3; /* Darker border color on hover */
+}
+
+/**************************************************************Products****************************************************************/
+
+
+/**************************************************************Newsletter****************************************************************/
+.form-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+}
+
+.form {
+    margin-top: 5%;
+    color: #fff;
+    max-width: 60%;
+    width: 100%;
+    padding: 20px;
+    border-radius: 8px; 
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.9);
+}
+
+.centered-element {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.newsletter-field {
+    margin-bottom: 20px;
+    padding: 8px 15px;
+    width: 100%;
+    box-sizing: border-box;
+    border-radius: 5px;
+    color: #fff; 
+    border: 1px solid #fff; 
+    background-color: rgb(51, 51, 51, 0.6);
+}
+
+.newsletter-field:focus {
+    border: 1px solid #007bff; 
+    outline: none; 
+    background-color: rgba(71, 71, 71, 0.6); /* #f0f8ff */
+}
+
+.newsletter-field::placeholder {
+    color: #fff; /* Placeholder text color */
+}
+
+.submit-button {
+    padding: 10px 20px; 
+    background-color: #007bff; 
+    color: #fff; 
+    text-decoration: none;
+    border-radius: 5px; 
+    border: 1px solid #007bff; 
+    transition: background-color 0.3s ease;
+}
+
+.submit-button:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+    cursor: pointer;
+}
+
+#customer-category {
+    color: #fff;
+}

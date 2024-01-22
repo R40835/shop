@@ -1,19 +1,37 @@
 from django.db import models
         
 
-class Followers(models.Model):
-    email       = models.EmailField(null=False, blank=False, unique=True)
-    phone       = models.CharField(max_length=15, null=False, blank=False, unique=True)
-    preference  = models.CharField(max_length=60, null=False, blank=False)
-
-
 class Category(models.Model):
-    name        = models.CharField(max_length=60, null=False, blank=False)
+    name        = models.CharField(max_length=60, null=False, blank=False, unique=True)
     image       = models.ImageField(upload_to="category/", null=False, blank=False)
     description = models.CharField(max_length=255, null=True, blank=True)
     created_at  = models.DateTimeField(auto_now_add=True)
 
-    def __str__(self) -> models.CharField:
+    @classmethod
+    def get_category_choices(cls) -> tuple:
+        """
+        Unique category choices.
+        """
+        unique_values = cls.objects.values('name').distinct()
+        categories =  [(value['name'], value['name']) for value in unique_values] + [('Tous', 'Tous')] 
+        size = cls.get_longest_category_size(categories)
+        no_choice = '-' * size
+        if len(no_choice) <= 3 or size == 0:
+            no_choice = '----'
+        categories = [(no_choice, no_choice)] + categories
+        return tuple(categories)
+    
+    @classmethod
+    def get_longest_category_size(cls, choices: tuple) -> int:
+        """
+        Get the longest category string size.
+        """
+        if choices:
+            longest_category = max(choices, key=lambda x: len(x[0]))
+            return len(longest_category[0])
+        return 0 
+
+    def __str__(self) -> str:
         """
         This method comes into play when using queryset with forms.
         It's the attribute being queried there.
@@ -50,6 +68,12 @@ class Product(models.Model):
         self.save()
 
 
+class Follower(models.Model):
+    email    = models.EmailField(null=False, blank=False, unique=True)
+    phone    = models.CharField(max_length=15, null=False, blank=False, unique=True)
+    category = models.CharField(max_length=60, null=False, blank=False)
+
+
 class Purchase(models.Model):
     quantity = models.PositiveIntegerField(null=False, blank=False)
     revenue  = models.DecimalField(max_digits=10, decimal_places=2, null=False, blank=False)
@@ -80,7 +104,7 @@ class InstallementPurchase(Purchase):
     
     def check_purchase_complete(self) -> bool:
         """
-        Called to check whether a product is fully paid.
+        Check if the product is fully paid and make it a full purchase if it is.
         """
         if self.revenue == self.product.price:
             FullPurchase.objects.create(
@@ -94,10 +118,18 @@ class InstallementPurchase(Purchase):
 
     def pay_installement(self, installement: float) -> None:
         """
-        Called when an part of the full price is paid.
+        Called when a part of the product's full price is paid.
         """
         self.revenue += installement
         self.save()
         self.check_purchase_complete()
 
 
+class Installement(models.Model):
+    amount                  = models.DecimalField(max_digits=10, decimal_places=2, null=False, blank=False)
+    timestamp               = models.DateTimeField(auto_now_add=True)
+
+    installement_purchase   = models.ForeignKey(InstallementPurchase, on_delete=models.CASCADE)
+
+
+class ProductArchive(models.Model): ...

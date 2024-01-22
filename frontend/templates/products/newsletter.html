@@ -1,17 +1,32 @@
+{% extends "base/base.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>News letter</title>
-</head>
-<body>
-    <form method="post">{% csrf_token %}
-        {{ form.email }}
-        {{ form.phone }}
-        {{ form.preference }}    
-        <input type="submit" value="Get Updates">
-    </form>
-</body>
-</html>
+{% block title %}
+    <title>Subscribe</title>
+{% endblock title %}
+{% block content %}
+    <div class="form-container">
+        <div class="form">
+            <h1 class="centered-element">Subscribing</h1>
+            <h3>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            <form method="post">{% csrf_token %}
+                {{ form.email }}
+                {{ form.phone }}
+                {{ form.category }}  
+                <div class="centered-element">
+                    <button class="submit-button">Subscribe</button>
+                </div>
+            </form>    
+            {% for field in form %}
+                <div class="field-errors {% if field.errors %}has-error{% endif %}">
+                    {% if field.errors %}
+                        <ul class="error-list">
+                            {% for error in field.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock content %}

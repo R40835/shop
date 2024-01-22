@@ -1,69 +1,6 @@
 from django import forms
-from .models import (
-    Followers, 
-    Category, 
-    Product, 
-    FullPurchase, 
-    InstallementPurchase
-)
-
-
-class NewsLetterForm(forms.ModelForm): 
-    email = forms.EmailField(
-        min_length=8, 
-        max_length=30, 
-        required=True,         
-        widget=forms.TextInput(
-            attrs={
-                'id': 'email',
-                'class': 'letter-form', 
-                'placeholder': 'Adresse Email',
-            }
-        ),
-    )
-    phone = forms.CharField(
-        widget=forms.TextInput(
-            attrs={
-                'id': 'phone',
-                'class': 'letter-form', 
-                'placeholder': 'Numero de telephone',
-            }
-        )
-    )
-    # preference = forms.ModelChoiceField(
-    #     queryset=Category.objects.all(), 
-    #     required=True,
-    #     widget=forms.Select(
-    #         attrs={
-    #             'id': 'preference',
-    #             'class': 'letter-form',
-    #             'placeholder': 'Produit(s)',
-    #         }
-    #     ),
-    # )
-    preference = forms.ChoiceField(
-        required=True,
-        choices=(('Tous', 'Tous'),),
-        widget=forms.Select(
-            attrs={
-                'id': 'preference',
-                'class': 'letter-form',
-                'placeholder': 'Produit(s)',
-            }
-        ),
-    )
-
-    def __init__(self, *args, **kwargs):
-        """
-        Overriding the constructor to append a custom choice.
-        """
-        super(NewsLetterForm, self).__init__(*args, **kwargs)
-        custom_choice = (('Tous', 'Tous'))
-        # self.fields['preference'].choices = list(self.fields['preference'].choices) + [custom_choice] 
-
-    class Meta:
-        model  = Followers
-        fields = ("email", "phone", "preference")
+from ..models import Category, Product, FullPurchase, InstallementPurchase
+from django.core.exceptions import ValidationError
 
 
 class AdminProductUploadForm(forms.ModelForm):
@@ -127,22 +64,70 @@ class AdminProductUploadForm(forms.ModelForm):
             }
         )
     )
-    category = forms.ModelChoiceField(
-        queryset=Category.objects.all(), 
-        required=True,
-        widget=forms.Select(
-            attrs={
-                'id': "product-category",
-                'class': 'admin-upload', 
-                'placeholder': 'Category',
-            }
-        )
-    )
-
 
     class Meta:
         model  = Product
         fields = ('name', 'description', 'image', 'price', 'stock', 'category')
+
+
+class AdminUpdateProductForm(forms.ModelForm):
+    class Meta:
+        model = Product
+        fields = ('name', 'description', 'image', 'price', 'stock', 'category')
+
+
+class AdminCategoryCreationForm(forms.ModelForm): 
+    name = forms.CharField(
+        required=True,
+        widget=forms.TextInput(
+            attrs={
+                'id': 'category-name',
+                'class': 'admin-category', 
+                'placeholder': 'Nom de votre category',
+            }
+        ),
+    )
+    confirm_name = forms.CharField(
+        required=True,
+        widget=forms.TextInput(
+            attrs={
+                'id': 'category-confirm-name',
+                'class': 'admin-category', 
+                'placeholder': 'Nom de votre category',
+            }
+        ),
+    )
+    description = forms.CharField(
+        required=False,
+        widget=forms.TextInput(
+            attrs={
+                'id': 'category-description',
+                'class': 'admin-category', 
+                'placeholder': 'Description de votre category',
+            }
+        )
+    )
+
+    def clean_confirm_name(self):
+        """
+        Confirm the category name given by 
+        the admin is correct to avoid typos.
+        """
+        name = self.cleaned_data["name"]
+        confirm_name = self.cleaned_data['confirm_name']
+        if name != confirm_name:
+            raise ValidationError("Category name doesn't match.")
+        return name
+
+    class Meta:
+        model = Category
+        fields = ('name', 'confirm_name', 'image', 'description')
+
+
+class AdminEditCategoryForm(forms.ModelForm):
+    class Meta:
+        model = Category
+        fields = ('name', 'image', 'description')
 
 
 class AdminSaleConfirmationForm(forms.Form):
@@ -178,3 +163,4 @@ class AdminInstallementSaleForm:
     class Meta:
         model = InstallementPurchase
         fields = ('')
+

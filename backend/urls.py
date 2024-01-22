@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from products import views
+from products.views import user_views 
 
 # imports to serve the media files
 from django.conf import settings
@@ -26,7 +26,7 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('products/', include('products.urls')),
-    path('', views.index, name='index')
+    path('', user_views.index, name='index')
 ]
 
 if settings.DEBUG:

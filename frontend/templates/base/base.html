@@ -7,14 +7,75 @@
     {% block title %}
         <title>Base</title>
     {% endblock title %}
+    <!-- loading css -->
+    <link rel="stylesheet" href="{% static "css/products.css" %}">
+    <!-- loading JQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!-- google font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap" rel="stylesheet">
+    <!-- app base path -->
+    <script>var basePath = "{% url 'index' %}";</script>
+    <!-- force reloading when using browser back button -->
+    <script>
+        var perfEntries = performance.getEntriesByType("navigation");
+        if (perfEntries[0].type === "back_forward") {
+            location.reload(true);
+        }
+    </script>  
 </head>
 <body>
-    <form action="{% url 'products:search' %}" method="GET" role="search">{% csrf_token %}
-        <div class="search-field">
-            <input type="text" name="q" value="{{ request.GET.q }}" placeholder="Search Product Here..." required>
-            <input type="submit" class="search-button" value="search">                    
+    <div class="navbar">
+        <div class="left-section">
+            <div class="logo">Logo</div>
         </div>
-    </form>    
+        <div class="middle-section">
+            <div class="nav-links">
+                <a href="{% url 'products:index' %}">Home</a>
+                <a href="{% url 'products:products' %}">Products</a>
+                <a href="#">Categories</a>
+                <a href="#">Contact</a>
+                <a href="">Location</a>
+                <a href="{% url 'products:about' %}">About</a>
+            </div>    
+        </div>
+        <div class="right-section">
+            <form action="{% url 'products:search' %}" method="GET" role="search">{% csrf_token %}
+                <div class="search-field">
+                    <input type="text" name="q" value="{{ request.GET.q }}" placeholder="Search" required>
+                    <button class="search-button">
+                        <img class="search-icon" src="/static/icons/magnifying-glass2.svg" alt="Search Icon" width="12" height="12">
+                    </button>     
+                </div>
+            </form> 
+            <div class="nav-links">
+                <a href="{% url 'products:news-letter' %}">Subscribe</a>
+                <!-- <a href="#">Cart</a> -->
+            </div>   
+        </div>
+    </div>
+    <!-- <h1>Actions</h1>
+    {% if request.user.is_superuser %}
+        Admin - <a href="{% url 'products:upload-content' %}">Upload product</a>
+        <br>
+        Admin - <a href="{% url 'products:create-category' %}">Create category</a>
+    {% else %}
+        Customer - <a href="{% url 'products:news-letter' %}">News letter</a>
+    {% endif %}
+    <br>
+    <a href=""></a>
+    <h1>Categories</h1> 
+    {% if categories %}
+        {% for category in categories %}
+            {{category.name}}
+            {% if request.user.is_superuser %}
+                <a href="{% url 'products:edit-category' category.pk %}">Edit category</a>
+            {% endif %}
+            <br>
+        {% endfor %}
+    {% endif %}
+    <hr> -->
     {% block content %}
     {% endblock content %}
 </body>

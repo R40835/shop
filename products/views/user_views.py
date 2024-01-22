@@ -1,17 +1,11 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required, user_passes_test
+from django.http import JsonResponse
 from django.core.paginator import Paginator
 from django.db.models import Q
 
-from .models import Followers, Product, Category, FullPurchase, InstallementPurchase
-from .forms import NewsLetterForm, AdminProductUploadForm, AdminSaleConfirmationForm
+from ..models import Follower, Product, Category
 
-
-def is_superuser(user):
-    """
-    Checking if the user is an admin for security purposes.
-    """
-    return user.is_superuser
+from ..forms.user_forms import NewsLetterForm 
 
 
 def index(request):
@@ -21,6 +15,21 @@ def index(request):
     return render(request, "products/index.html")
 
 
+def products(request):
+    """
+    All Products Page.
+    """
+    is_admin: bool = request.user.is_superuser
+    items = Product.objects.all().order_by('-created_at')
+    items = [item.check_availabality() for item in items]
+    items_per_page = 12
+    paginator = Paginator(items, items_per_page)
+    page_number = request.GET.get('page')
+    page = paginator.get_page(page_number)
+    context = {'page': page, 'is_admin': is_admin}
+    return render(request, "products/products.html", context)
+
+    
 def about(request): 
     """
     About Page.
@@ -32,13 +41,14 @@ def dresses(request):
     """
     Dresses Page.
     """
+    is_admin: bool = request.user.is_superuser
     items = Product.objects.filter(category__name='dress').order_by('-created_at')
     items = [item.check_availabality() for item in items]
     items_per_page = 12
     paginator = Paginator(items, items_per_page)
     page_number = request.GET.get('page')
     page = paginator.get_page(page_number)
-    context = {'page': page}
+    context = {'page': page, 'is_admin': is_admin}
     return render(request, "products/dresses.html", context)
 
 
@@ -46,7 +56,7 @@ def blankets(request):
     """
     Blankets Page.
     """
-    is_admin = request.user.is_superuser
+    is_admin: bool = request.user.is_superuser
     print(is_admin)
     items = Product.objects.filter(category__name__icontains='couverture').order_by('-created_at')
     print(items)
@@ -65,13 +75,14 @@ def jackets(request):
     """
     Blankets Page.
     """
+    is_admin: bool = request.is_superuser
     items = Product.objects.filter(category__name='jacket').order_by('-created_at')
     items = [item.check_availabality() for item in items]
     items_per_page = 12
     paginator = Paginator(items, items_per_page)
     page_number = request.GET.get('page')
     page = paginator.get_page(page_number)
-    context = {'page': page}
+    context = {'page': page, 'is_admin': is_admin}
     return render(request, "products/jackets.html", context)
 
 
@@ -82,13 +93,16 @@ def newsletter(request):
     if request.method == 'POST':
         form = NewsLetterForm(request.POST)
         if form.is_valid():
-            follower = Followers.objects.create(
+            follower = Follower.objects.create(
                 email=form.cleaned_data['email'],
                 phone=form.cleaned_data['phone'],
-                preference=form.cleaned_data['preference']
+                category=form.cleaned_data['category']
             )
             follower.save()
             return redirect('products:index')
+        else:
+            print("Invalid form submission. Data:", request.POST)
+
     else:
         form = NewsLetterForm()
     context = {'form': form}
@@ -115,42 +129,6 @@ def search(request):
             'items': items,
         }
         return render(request, 'products/search.html', context)
-    
-
-@login_required
-@user_passes_test(is_superuser)
-def admin_content_upload(request):
-    """
-    Admin - Sending emails to the followers upon admin new content upload.
-    """
-    if request.method == 'POST':
-        form = AdminProductUploadForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return redirect('products:index')
-    else:
-        form = AdminProductUploadForm()
-        print(form.fields)
-    context = {'form': form}
-    return render(request, "admin/upload_content.html", context)
 
 
-@login_required
-@user_passes_test(is_superuser)
-def admin_product_sold(request, product_pk):
-    """
-    Admin - Confirm sale and update stock.
-    """
-    product = Product.objects.get(pk=product_pk)
-    if request.method == 'POST':
-        form = AdminSaleConfirmationForm(request.POST)
-        if form.is_valid():
-            FullPurchase.objects.create(
-                quantity=form.cleaned_data['quantity'],
-                product_id=product_pk
-            )
-            return redirect('products:index')
-    else:
-        form = AdminSaleConfirmationForm()
-    context = {'form': form, 'product': product}
-    return render(request, "admin/confirm_sale.html", context)
+#TODO filter price max & min
