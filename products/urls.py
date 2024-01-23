@@ -19,5 +19,6 @@ urlpatterns = [
     path('update-product/<int:product_pk>/', admin_views.admin_update_product, name='update-product'),
 
     path('get-categories/', json_views.get_categories, name='get-categories'),
+    path('search-autocomplete/', json_views.search_autocomplete, name='search-autocomplete'),
 ]
  

@@ -10,7 +10,8 @@
     <!-- loading css -->
     <link rel="stylesheet" href="{% static "css/products.css" %}">
     <!-- loading JQuery -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> -->
+    <!-- <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"> -->
     <!-- google font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -31,30 +32,42 @@
             <div class="logo">Logo</div>
         </div>
         <div class="middle-section">
-            <div class="nav-links">
+            <div id="middle-links" class="nav-links">
                 <a href="{% url 'products:index' %}">Home</a>
-                <a href="{% url 'products:products' %}">Products</a>
                 <a href="#">Categories</a>
+                <a href="{% url 'products:products' %}">Products</a>
                 <a href="#">Contact</a>
                 <a href="">Location</a>
                 <a href="{% url 'products:about' %}">About</a>
             </div>    
+            <span class="search"></span>
         </div>
         <div class="right-section">
-            <form action="{% url 'products:search' %}" method="GET" role="search">{% csrf_token %}
-                <div class="search-field">
-                    <input type="text" name="q" value="{{ request.GET.q }}" placeholder="Search" required>
-                    <button class="search-button">
-                        <img class="search-icon" src="/static/icons/magnifying-glass2.svg" alt="Search Icon" width="12" height="12">
-                    </button>     
-                </div>
-            </form> 
-            <div class="nav-links">
-                <a href="{% url 'products:news-letter' %}">Subscribe</a>
+            <div class="move">
+                <form id="search-form" action="{% url 'products:search' %}" method="GET" role="search">{% csrf_token %}
+                    <div id="searchbar" class="search-field">
+                        <input id="product-search" type="text" name="q" value="{{ request.GET.q }}" placeholder="Search" required>
+                        <button class="search-button">
+                            <img class="search-icon" src="/static/icons/magnifying-glass2.svg" alt="Search Icon" width="12" height="12">
+                        </button>     
+                        <!-- <ul id="search-results"></ul> -->
+                    </div>
+                </form>     
+            </div>
+            <div id="right-links" class="nav-links">
+                <a href="{% url 'products:news-letter' %}">Subscribe</a>                
                 <!-- <a href="#">Cart</a> -->
             </div>   
+            <div class="nav-links">
+                <div id="cancel-link" style="display: none;">
+                    <a href="" class="cancel-link">Cancel</a>
+                    <!-- <a href="">Hello</a> -->
+                </div>
+            </div>
         </div>
+        <span class="centered-element" id="search-results"></span>
     </div>
+
     <!-- <h1>Actions</h1>
     {% if request.user.is_superuser %}
         Admin - <a href="{% url 'products:upload-content' %}">Upload product</a>
@@ -63,20 +76,10 @@
     {% else %}
         Customer - <a href="{% url 'products:news-letter' %}">News letter</a>
     {% endif %}
-    <br>
-    <a href=""></a>
-    <h1>Categories</h1> 
-    {% if categories %}
-        {% for category in categories %}
-            {{category.name}}
-            {% if request.user.is_superuser %}
-                <a href="{% url 'products:edit-category' category.pk %}">Edit category</a>
-            {% endif %}
-            <br>
-        {% endfor %}
-    {% endif %}
-    <hr> -->
+    <br>-->
     {% block content %}
     {% endblock content %}
+    <script type="text/javascript" src="/static/js/search_autocomplete.js"></script>
+    <script type="text/javascript" src="/static/js/search_layout.js"></script>
 </body>
 </html>

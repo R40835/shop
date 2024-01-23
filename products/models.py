@@ -1,4 +1,5 @@
 from django.db import models
+from PIL import Image
         
 
 class Category(models.Model):
@@ -10,16 +11,26 @@ class Category(models.Model):
     @classmethod
     def get_category_choices(cls) -> tuple:
         """
-        Unique category choices.
+        Unique category choices, used in newsletter form.
         """
-        unique_values = cls.objects.values('name').distinct()
-        categories =  [(value['name'], value['name']) for value in unique_values] + [('Tous', 'Tous')] 
-        size = cls.get_longest_category_size(categories)
-        no_choice = '-' * size
-        if len(no_choice) <= 3 or size == 0:
-            no_choice = '----'
-        categories = [(no_choice, no_choice)] + categories
-        return tuple(categories)
+        try:
+            # check if the table exists in the database
+            cls.objects.exists()
+            
+            # if the table exists, proceed with the query
+            unique_values = cls.objects.values('name').distinct()
+            categories = [(value['name'], value['name']) for value in unique_values] + [('Tous', 'Tous')]
+            size = cls.get_longest_category_size(categories)
+            no_choice = '-' * size
+            if len(no_choice) <= 3 or size == 0:
+                no_choice = '----'
+            categories = [(no_choice, no_choice)] + categories
+            return tuple(categories)
+        
+        except Exception as e:
+            # handle the exception when creating db (table doesn't exist at this point)
+            print(f"Database has just being created, setting choice field for categories to default (in forms.py)")
+            return (('----', '----'),)
     
     @classmethod
     def get_longest_category_size(cls, choices: tuple) -> int:
@@ -37,6 +48,17 @@ class Category(models.Model):
         It's the attribute being queried there.
         """
         return self.name
+    
+    def save(self, *args, **kwargs):
+        """
+        Overriding the save method to resize the images uploaded.
+        """
+        super(Category, self).save(*args, **kwargs)
+
+        SIZE = (500, 500)
+        image = Image.open(self.image.path)
+        category_image = image.resize(SIZE)
+        category_image.save(self.image.path)
 
 
 class Product(models.Model):
@@ -66,6 +88,17 @@ class Product(models.Model):
         """
         self.stock -= sold_quantity
         self.save()
+
+    def save(self, *args, **kwargs):
+        """
+        Overriding the save method to resize the images uploaded.
+        """
+        super(Product, self).save(*args, **kwargs)
+
+        SIZE = (500, 500)
+        image = Image.open(self.image.path)
+        product_image = image.resize(SIZE)
+        product_image.save(self.image.path)
 
 
 class Follower(models.Model):

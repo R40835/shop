@@ -13,6 +13,7 @@ body, html {
 
 /*****************************************************************NAVBAR***************************************************************/
 .navbar {
+    position: relative; /********************************************/
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -63,17 +64,32 @@ body, html {
     align-items: center;
 }
 
-.search-field {
+.search-field,
+.navbar .middle-section .search-field {
     position: relative;
+    transition: all 0.3s ease;
+    transform-origin: right center;
 }
 
 .navbar input[type="text"] {
     padding: 8px;
-    /* border: none; */
     border-radius: 25px;
-    color: #fff; /*added*/
-    border: 1px solid #fff; /*added*/
-    background-color: rgba(241, 222, 222, 0.5); /* delete all this line */
+    color: #fff; 
+    border: 1px solid #fff; 
+    background-color: rgba(241, 222, 222, 0.5); 
+    transition: all 0.3s ease;
+}
+
+
+.navbar .middle-section input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    border-radius: 25px;
+    color: #fff; 
+    border: 1px solid #fff; 
+    background-color: rgba(241, 222, 222, 0.5); 
+    transition: all 0.3s ease;
+
 }
 
 .navbar input:focus {
@@ -97,6 +113,19 @@ body, html {
     padding: 8px 15px;
     cursor: pointer;
 }
+
+.navbar .middle-section .search-button {
+    position: absolute;
+    right: -18px; /* overlapping search button */
+    top: 0;
+    background-color: transparent;
+    color: rgb(2, 141, 247);
+    border: 1px solid transparent;
+    border-radius: 25px;
+    padding: 8px 15px;
+    cursor: pointer;
+}
+
 .search-field input[type="text"]:not(:focus) + .search-button:hover {
     background-color: #ddd;
     border: 1px solid #fff;
@@ -110,6 +139,34 @@ body, html {
     border-left: none;
     border-top-left-radius: 0; 
     border-bottom-left-radius: 0;
+}
+#search-results {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    width: 100%;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    top: 100%;
+    left: 0;
+}
+
+.result-found {
+    /* background-color: #dc143c; */
+    color: #333; /* rgb(2, 141, 247) */
+    padding: 0px; /* 8px */
+    cursor: pointer;
+}
+
+/* .result-found:hover {
+    color: #fff;
+    background-color: rgb(2, 141, 247);
+} */
+
+.result-not-found {
+    color: #dc143c;
+    padding: 8px;
 }
 /* Style the right section links */
 .right-section .nav-links a {
@@ -219,4 +276,27 @@ body, html {
 
 #customer-category {
     color: #fff;
+}
+/*********************************************************************************************************************************/
+/*************************************************************************************************************************************/
+/* Add a new CSS class for the search layout */
+.image-container {
+    display: flex;
+}
+
+.image-item {
+    text-align: center;
+    margin: 10px;
+}
+
+.image-item img {
+    max-width: 100%;
+    height: auto;
+    border: 1px solid #ddd; /* Add a border to the images if desired */
+    border-radius: 8px; /* Add border-radius for rounded corners */
+}
+
+.image-item p {
+    margin: 0;
+    padding: 5px;
 }
