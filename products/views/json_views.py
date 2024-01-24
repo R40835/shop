@@ -23,7 +23,7 @@ def search_autocomplete(request):
             Q(category__name__icontains=query)
         ).order_by('-created_at')[:5]
         if search_results.exists():
-            items = [[item.image.url, item.name, item.price, item.category.name, item.pk] for item in search_results]
+            items = [(item.image.url, item.name, item.price, item.category.name, item.pk) for item in search_results]
     return JsonResponse({'items': items, 'searched': query}, safe=False)
 
 

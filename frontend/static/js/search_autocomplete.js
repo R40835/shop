@@ -46,23 +46,27 @@ async function search() {
                 const category = document.createElement('p');
 
                 img.src = result[0];
-                img.width = '300';
-                img.height = '300';
+                img.width = '200';
+                img.height = '200';
                 
                 name.textContent = result[1];
                 name.classList.add('result-found');
                 name.style.fontWeight = 'bold';
 
                 category.textContent = result[3];
-                category.style.color = '#999';
+                category.style.color = '#626262';
 
                 price.innerText = result[2] + 'DA';
-                price.style.color = '#333';
 
                 searchResultDiv.appendChild(img);
                 searchResultDiv.appendChild(name);
                 searchResultDiv.appendChild(category);
                 searchResultDiv.appendChild(price);
+
+                searchResultDiv.addEventListener('click', function() {
+                    // Redirect the user to the target link when searchResultDiv is clicked
+                    window.location.href = `/products/item/${result[4]}/`;
+                });
 
                 searchResultsDiv.appendChild(searchResultDiv)
                 searchResults.appendChild(searchResultsDiv)

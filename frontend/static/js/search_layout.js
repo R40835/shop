@@ -26,6 +26,11 @@
                     middleLinks.style.display = 'inline-block';
                     rightLinks.style.display = 'inline-block';
                 }
+            if (searchField.value === '') {
+                cancelLink.style.display = 'inline-block';
+                middleLinks.style.display = 'none';
+                rightLinks.style.display = 'none';
+            }
         }
     });
     // Add click event listener to the cancel link
@@ -34,8 +39,10 @@
         if (searchbarDiv.parentNode !== moveDiv) {
             moveDiv.innerHTML = ''; // Clear previous content
             moveDiv.appendChild(searchbarDiv);
-            searchInput.value = ''; // Clear the input value
-            searchInput.blur(); // Remove focus from the input field
+            // searchInput.value = ''; // Clear the input value
+            // searchInput.blur(); // Remove focus from the input field
+            searchField.value = ''; // Clear the input value
+            searchField.blur(); // Remove focus from the input field
             middleLinks.style.display = 'inline-block';
             cancelLink.style.display = 'none';
         }

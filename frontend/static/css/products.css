@@ -2,9 +2,9 @@
 body, html {
     margin: 0;
     padding: 0;
-    /* background-color: #fff4e0; */
+    background-color: #333;
     /* for image */
-    background-image: url('images/test.jpg'); /* url('images/test2.png') */
+    /*background-image: url('images/test.jpg'); /* url('images/test2.png') */
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -13,13 +13,14 @@ body, html {
 
 /*****************************************************************NAVBAR***************************************************************/
 .navbar {
-    position: relative; /********************************************/
+    position: relative; 
     display: flex;
     justify-content: space-between;
     align-items: center;
     background-color: transparent; /* #dc143c #333 */
     color: #fff;
     padding: 10px;
+    z-index: 2;
 }
 
 /* Style the left section (logo) */
@@ -92,7 +93,8 @@ body, html {
 
 }
 
-.navbar input:focus {
+.navbar input:focus,
+.navbar .middle-section input:focus {
     border: 1px solid rgb(2, 141, 247); 
     outline: none; 
     background-color: rgba(241, 222, 222, 0.5); /* #f0f8ff */
@@ -127,13 +129,15 @@ body, html {
 }
 
 .search-field input[type="text"]:not(:focus) + .search-button:hover {
+/* .navbar .middle-section .search-field input[type="text"]:not(:focus) + .navbar .middle-section .search-button { */
     background-color: #ddd;
     border: 1px solid #fff;
     border-left: none;
     border-top-left-radius: 0; 
     border-bottom-left-radius: 0;
 }
-.search-button:hover {
+.search-button:hover,
+.navbar .middle-section .search-button:hover {
     background-color: #ddd;
     border: 1px solid rgb(2, 141, 247);
     border-left: none;
@@ -150,6 +154,7 @@ body, html {
     background-color: #fff;
     top: 100%;
     left: 0;
+    z-index: 2;
 }
 
 .result-found {
@@ -277,26 +282,122 @@ body, html {
 #customer-category {
     color: #fff;
 }
-/*********************************************************************************************************************************/
-/*************************************************************************************************************************************/
-/* Add a new CSS class for the search layout */
+
+/******************************************************SEARCH-AUTOCOMPLETE*************************************************************/
 .image-container {
     display: flex;
 }
 
 .image-item {
-    text-align: center;
+    text-align: start;
+    color: #333;
     margin: 10px;
+}
+
+.image-item:hover {
+    cursor: pointer;
 }
 
 .image-item img {
     max-width: 100%;
     height: auto;
-    border: 1px solid #ddd; /* Add a border to the images if desired */
-    border-radius: 8px; /* Add border-radius for rounded corners */
+    border: 1px solid #ddd; 
+    border-radius: 8px; 
 }
 
 .image-item p {
     margin: 0;
     padding: 5px;
 }
+
+/*************************************************************ITEM*********************************************************************/
+.item-container {
+    margin: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.main-photo-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative; 
+}
+
+.small-photos {
+    display: flex;
+    flex-direction: column;
+    margin-left: 20px;
+}
+
+.small-photo {
+    margin-bottom: 10px;
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border: 2px solid transparent;
+    border-radius: 4px;
+}
+
+.small-photo:hover {
+    cursor: pointer;
+}
+
+.carousel-btn {
+    position: absolute;
+    top: 85%; 
+    width: 30px;
+    height: 30px;
+    background-color: #fff;
+    color: rgb(2, 141, 247);
+    font-size: 20px;
+    border-radius: 50%;
+    border-color: transparent;
+    cursor: pointer;
+    outline: none;
+}
+
+#prev-btn {
+    left: 420px;
+}
+
+#next-btn {
+    right: 20px;
+}
+
+.main-photo {
+    max-width: 100%;
+    width: 500px;
+    height: 500px;
+    border: 2px solid #333;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.carousel-indicators {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.indicator {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    background-color: #ccc;
+    border-radius: 50%;
+    margin: 0 5px;
+    cursor: pointer;
+}
+.active-indicator {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    background-color: rgb(2, 141, 247);
+    border-radius: 50%;
+    margin: 0 5px;
+    cursor: pointer;
+}
+
+

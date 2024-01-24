@@ -3,7 +3,7 @@ from django.http import JsonResponse
 from django.core.paginator import Paginator
 from django.db.models import Q
 
-from ..models import Follower, Product, Category
+from ..models import Follower, Product, Category, ProductImages
 
 from ..forms.user_forms import NewsLetterForm 
 
@@ -102,7 +102,6 @@ def newsletter(request):
             return redirect('products:index')
         else:
             print("Invalid form submission. Data:", request.POST)
-
     else:
         form = NewsLetterForm()
     context = {'form': form}
@@ -129,6 +128,20 @@ def search(request):
             'items': items,
         }
         return render(request, 'products/search.html', context)
+    
+
+def item(request, product_pk):
+    """
+    Item/Product view.
+    """
+    item = Product.objects.get(pk=product_pk)
+    images = None
+    item_images = item.images
+    if item_images.exists():
+        images = item.images.all()
+    context = {'item': item, 'images': images}
+    return render(request, "products/item.html", context)
+
 
 
 #TODO filter price max & min

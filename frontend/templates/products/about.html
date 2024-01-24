@@ -3,16 +3,25 @@
     <title>About</title>
 {% endblock title %}
 {% block content %}
-<div class="image-container">
-    <div class="image-item">
-        <img src="image1.jpg" alt="Image 1">
-        <p>Image 1 Name</p>
+<div class="item-container">
+    <div class="main-photo-container">
+        <img class="main-photo" src="https://st.depositphotos.com/2001755/3622/i/450/depositphotos_36220949-stock-photo-beautiful-landscape.jpg" alt="Main Photo">
+        <div class="carousel-indicators">
+            <span class="active-indicator"></span>
+            <span class="indicator"></span>
+            <span class="indicator"></span>
+            <span class="indicator"></span>
+        </div>
+        <button id="prev-btn" class="carousel-btn" onclick="prevSlide()"><b>&#8249;</b></button>
+        <button id="next-btn" class="carousel-btn" onclick="nextSlide()"><b>&#8250;</b></button>
     </div>
-    <div class="image-item">
-        <img src="image2.jpg" alt="Image 2">
-        <p>Image 2 Name</p>
+    <div class="small-photos">
+        <img class="small-photo" src="https://st.depositphotos.com/2001755/3622/i/450/depositphotos_36220949-stock-photo-beautiful-landscape.jpg" alt="">
+        <img class="small-photo" src="https://img.freepik.com/free-photo/people-making-hands-heart-shape-silhouette-sunset_53876-15987.jpg" alt="Small Photo 1">
+        <img class="small-photo" src="https://media.istockphoto.com/id/843408508/photo/photography-camera-lens-concept.jpg?s=612x612&w=0&k=20&c=-tm5TKrPDMakrT1vcOE-4Rlyj-iBVdzKuX4viFkd7Vo=" alt="Small Photo 2">
+        <img class="small-photo" src="https://images.unsplash.com/photo-1699694927472-46a4fcf68973?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Small Photo 3">
     </div>
-    <!-- Add more image items as needed -->
 </div>
-
+<div class="item-details"></div>
+<script type="text/javascript" src="/static/js/item.js"></script>
 {% endblock %}

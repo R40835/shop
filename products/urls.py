@@ -11,6 +11,7 @@ urlpatterns = [
     path('blankets/', user_views.blankets, name='blankets'),
     path('news-letter/', user_views.newsletter, name='news-letter'),
     path('search/', user_views.search, name='search'),
+    path('item/<product_pk>/', user_views.item, name='item'),
     
     path('upload-content/', admin_views.admin_content_upload, name='upload-content'),
     path('confirm-sale/<int:product_pk>/', admin_views.admin_product_sold, name='confirm-sale'),

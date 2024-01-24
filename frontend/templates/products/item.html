@@ -1,0 +1,118 @@
+{% extends "base/base.html" %}
+{% block title %}
+    <title>Item</title>
+    <style>
+        /* .carousel-container {
+                    position: relative;
+                    max-width: 600px;
+                }
+        
+                .main-photo {
+                    width: 100%;
+                    height: auto;
+                    border-radius: 10px;
+                }
+        
+                .small-photos {
+                    display: flex;
+                    justify-content: space-between;
+                    margin-top: 10px;
+                }
+        
+                .small-photo {
+                    width: 30px;
+                    height: 30px;
+                    border-radius: 50%;
+                    cursor: pointer;
+                    transition: transform 0.3s ease-in-out;
+                }
+        
+                .small-photo:hover {
+                    transform: scale(1.1);
+                }
+        
+                .navigation-buttons {
+                    position: absolute;
+                    bottom: 10px;
+                    width: 100%;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                }
+        
+                .indicator {
+                    display: flex;
+                    align-items: center;
+                    gap: 5px;
+                }
+        
+                .indicator-dot {
+                    width: 10px;
+                    height: 10px;
+                    border-radius: 50%;
+                    background-color: #555;
+                } */
+    </style>
+{% endblock title %}
+{% block content %}
+    <!-- <img src="{{item.image.url}}" alt="Not Found">
+    {{item.name}}
+    {{item.description}}
+    {{item.price}}
+    {% if item.available %}
+        <h3>In Stock</h3>
+    {% else %}
+        <h3>Sold out</h3>
+    {% endif %}
+    {% for image in images %}
+        <img src="{{image.image.url}}" alt="Not Found">
+    {% endfor %} -->
+
+    <!-- <div id="carousel-container">
+        <div class="carousel-slides">
+            <div class="slide" style="background-color: transparent;">
+                <div class="carousel-content">
+                    <img src="{{item.image.url}}" alt="Slide 1">
+                    <h2>Slide 1</h2>
+                    <p>This is the content of slide 1.</p>
+                </div>
+            </div>
+            {% for image in images %}
+                <div class="slide" style="background-color: transparent;">
+                    <div class="carousel-content">
+                        <img src="{{image.image.url}}" alt="Slide 2">
+                        <h2>Slide 2</h2>
+                        <p>This is the content of slide 2.</p>
+                    </div>
+                </div>
+             <div class="slide" style="background-color: #2ecc71;">
+                <div class="carousel-content">
+                    <img src="product/tree-736885_1280.jpg" alt="Slide 3">
+                    <h2>Slide 3</h2>
+                    <p>This is the content of slide 3.</p>
+                </div>
+            </div> 
+            {% endfor %} -->
+<div class="item-container">
+    <div class="main-photo-container">
+        <img class="main-photo" src="{% if item.image %}{{item.image.url}}{% endif %}" alt="Not Found">
+        <div class="carousel-indicators">
+            <span class="active-indicator"></span>
+            {% for image in images %}
+                <span class="indicator"></span>
+            {% endfor %}
+        </div>
+        <button id="prev-btn" class="carousel-btn" onclick="prevSlide()"><b>&#8249;</b></button>
+        <button id="next-btn" class="carousel-btn" onclick="nextSlide()"><b>&#8250;</b></button>
+    </div>
+    <div class="small-photos">
+        <img class="small-photo" src="{% if item.image %}{{item.image.url}}{% endif %}" alt="Not Found">
+        {% for image in images %}
+            <img class="small-photo" src="{% if image.image %}{{image.image.url}}{% endif %}" alt="Small Photo 1">
+        {% endfor %}
+    </div>
+</div>
+<div class="item-details"></div>
+<script type="text/javascript" src="/static/js/item.js"></script>
+
+{% endblock content %}

@@ -101,6 +101,13 @@ class Product(models.Model):
         product_image.save(self.image.path)
 
 
+class ProductImages(models.Model):
+    image      = models.ImageField(upload_to='product/', null=False, blank=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    product    = models.ManyToManyField(Product, related_name='images')
+
+
 class Follower(models.Model):
     email    = models.EmailField(null=False, blank=False, unique=True)
     phone    = models.CharField(max_length=15, null=False, blank=False, unique=True)
