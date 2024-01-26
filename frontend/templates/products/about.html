@@ -1,27 +1,55 @@
-{% extends "base/base.html" %}
-{% block title %}
+{# {% extends "base/base.html" %} #}
+{# {% block title %}
     <title>About</title>
 {% endblock title %}
 {% block content %}
-<div class="item-container">
-    <div class="main-photo-container">
-        <img class="main-photo" src="https://st.depositphotos.com/2001755/3622/i/450/depositphotos_36220949-stock-photo-beautiful-landscape.jpg" alt="Main Photo">
-        <div class="carousel-indicators">
-            <span class="active-indicator"></span>
-            <span class="indicator"></span>
-            <span class="indicator"></span>
-            <span class="indicator"></span>
-        </div>
-        <button id="prev-btn" class="carousel-btn" onclick="prevSlide()"><b>&#8249;</b></button>
-        <button id="next-btn" class="carousel-btn" onclick="nextSlide()"><b>&#8250;</b></button>
-    </div>
-    <div class="small-photos">
-        <img class="small-photo" src="https://st.depositphotos.com/2001755/3622/i/450/depositphotos_36220949-stock-photo-beautiful-landscape.jpg" alt="">
-        <img class="small-photo" src="https://img.freepik.com/free-photo/people-making-hands-heart-shape-silhouette-sunset_53876-15987.jpg" alt="Small Photo 1">
-        <img class="small-photo" src="https://media.istockphoto.com/id/843408508/photo/photography-camera-lens-concept.jpg?s=612x612&w=0&k=20&c=-tm5TKrPDMakrT1vcOE-4Rlyj-iBVdzKuX4viFkd7Vo=" alt="Small Photo 2">
-        <img class="small-photo" src="https://images.unsplash.com/photo-1699694927472-46a4fcf68973?q=80&w=1000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Small Photo 3">
-    </div>
+{% endblock %} #}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Border Bottom on Hover</title>
+<style>
+  .container {
+    position: relative;
+    padding-bottom: 20px; /* Add padding to make space for the border bottom */
+  }
+
+  .container::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0;
+    height: 2px; /* Adjust the height of the border bottom as needed */
+    background-color: #000; /* Adjust the color of the border bottom as needed */
+    transition: width 0.3s ease; /* Add transition for smooth effect */
+  }
+
+  .container:hover::after {
+    width: 100%;
+  }
+
+  /* For demonstration purposes */
+  .container {
+    padding: 20px;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+  }
+</style>
+</head>
+<body>
+<!-- testing stuff -->
+<div class="container">
+  <h2>Hover over me</h2>
+  <p>This is a container with a border bottom that appears on hover.</p>
 </div>
-<div class="item-details"></div>
-<script type="text/javascript" src="/static/js/item.js"></script>
-{% endblock %}
+
+<div class="container">
+  <h2>Another container</h2>
+  <p>This is another container with the same effect.</p>
+</div>
+
+</body>
+</html>

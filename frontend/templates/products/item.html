@@ -2,117 +2,115 @@
 {% block title %}
     <title>Item</title>
     <style>
-        /* .carousel-container {
-                    position: relative;
-                    max-width: 600px;
-                }
-        
-                .main-photo {
-                    width: 100%;
-                    height: auto;
-                    border-radius: 10px;
-                }
-        
-                .small-photos {
-                    display: flex;
-                    justify-content: space-between;
-                    margin-top: 10px;
-                }
-        
-                .small-photo {
-                    width: 30px;
-                    height: 30px;
-                    border-radius: 50%;
-                    cursor: pointer;
-                    transition: transform 0.3s ease-in-out;
-                }
-        
-                .small-photo:hover {
-                    transform: scale(1.1);
-                }
-        
-                .navigation-buttons {
-                    position: absolute;
-                    bottom: 10px;
-                    width: 100%;
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                }
-        
-                .indicator {
-                    display: flex;
-                    align-items: center;
-                    gap: 5px;
-                }
-        
-                .indicator-dot {
-                    width: 10px;
-                    height: 10px;
-                    border-radius: 50%;
-                    background-color: #555;
-                } */
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr 45%; /* Allocate more width to the item-container */
+    gap: 0px; /* Adjust the gap as needed */
+}
+
+.details-button {
+    width: 60%;
+    margin: 5px;
+    padding: 30px;
+    border-radius: 25px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #555;
+    border-color: transparent;
+}
+
+.details-button:hover {
+    background-color: rgb(2, 141, 247, 0.7);
+    border-color: transparent;
+    cursor: pointer;
+}
+.item-details h1,
+.item-details p {
+    color: #555;
+}
     </style>
 {% endblock title %}
 {% block content %}
-    <!-- <img src="{{item.image.url}}" alt="Not Found">
-    {{item.name}}
-    {{item.description}}
-    {{item.price}}
-    {% if item.available %}
-        <h3>In Stock</h3>
-    {% else %}
-        <h3>Sold out</h3>
-    {% endif %}
-    {% for image in images %}
-        <img src="{{image.image.url}}" alt="Not Found">
-    {% endfor %} -->
-
-    <!-- <div id="carousel-container">
-        <div class="carousel-slides">
-            <div class="slide" style="background-color: transparent;">
-                <div class="carousel-content">
-                    <img src="{{item.image.url}}" alt="Slide 1">
-                    <h2>Slide 1</h2>
-                    <p>This is the content of slide 1.</p>
-                </div>
+<div class="grid-container">
+    <div class="item-container">
+        <div class="main-photo-container">
+            <img class="main-photo" src="{% if item.image %}{{item.image.url}}{% endif %}" alt="Not Found">
+            <div class="carousel-indicators">
+                <span class="active-indicator"></span>
+                {% if images %}
+                    {% for image in images %}
+                        <span class="indicator"></span>
+                    {% endfor %}
+                {% endif %}
             </div>
-            {% for image in images %}
-                <div class="slide" style="background-color: transparent;">
-                    <div class="carousel-content">
-                        <img src="{{image.image.url}}" alt="Slide 2">
-                        <h2>Slide 2</h2>
-                        <p>This is the content of slide 2.</p>
-                    </div>
-                </div>
-             <div class="slide" style="background-color: #2ecc71;">
-                <div class="carousel-content">
-                    <img src="product/tree-736885_1280.jpg" alt="Slide 3">
-                    <h2>Slide 3</h2>
-                    <p>This is the content of slide 3.</p>
-                </div>
-            </div> 
-            {% endfor %} -->
-<div class="item-container">
-    <div class="main-photo-container">
-        <img class="main-photo" src="{% if item.image %}{{item.image.url}}{% endif %}" alt="Not Found">
-        <div class="carousel-indicators">
-            <span class="active-indicator"></span>
-            {% for image in images %}
-                <span class="indicator"></span>
-            {% endfor %}
+            <button id="prev-btn" class="carousel-btn" onclick="prevSlide()"><b>&#8249;</b></button>
+            <button id="next-btn" class="carousel-btn" onclick="nextSlide()"><b>&#8250;</b></button>
         </div>
-        <button id="prev-btn" class="carousel-btn" onclick="prevSlide()"><b>&#8249;</b></button>
-        <button id="next-btn" class="carousel-btn" onclick="nextSlide()"><b>&#8250;</b></button>
+        <div class="small-photos">
+            <img class="small-photo" src="{% if item.image %}{{item.image.url}}{% endif %}" alt="Not Found">
+            {% if images %}
+                {% for image in images %}
+                    <img class="small-photo" src="{% if image.image %}{{image.image.url}}{% endif %}" alt="Small Photo 1">
+                {% endfor %}
+            {% endif %}
+        </div>
     </div>
-    <div class="small-photos">
-        <img class="small-photo" src="{% if item.image %}{{item.image.url}}{% endif %}" alt="Not Found">
-        {% for image in images %}
-            <img class="small-photo" src="{% if image.image %}{{image.image.url}}{% endif %}" alt="Small Photo 1">
-        {% endfor %}
+    <div class="item-details" style="margin-left: 0px; margin-top: 40px; color: #fff;">
+        <h1>{{item.name}}</h1>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatum laudantium unde voluptate explicabo doloribus dolore vero suscipit, tempora animi quia cumque deleniti mollitia accusamus facilis. Optio, iste! Necessitatibus, quae incidunt!</p>        
+        <p>{{item.description}}</p>
+        <p style="color: green; font-weight: bold;">{{item.price}} DA</p>
+        {% if item.available %}
+            <p>In Stock - {{item.stock}}</p>
+        {% else %}
+            <p>Sold Out</p>
+        {% endif %}
+        <div class="centered-element">
+            <button class="details-button">Contact</button>
+            <button class="details-button">Do it</button>
+        </div>
     </div>
 </div>
-<div class="item-details"></div>
 <script type="text/javascript" src="/static/js/item.js"></script>
 
+<div class="product-suggestions">
+    <h1>You Might Also Like</h1>
+    <div class="carousel-container">
+        <div class="carousel">
+            <div class="carousel-item-container">
+                <img src="https://media.istockphoto.com/id/843408508/photo/photography-camera-lens-concept.jpg?s=612x612&w=0&k=20&c=-tm5TKrPDMakrT1vcOE-4Rlyj-iBVdzKuX4viFkd7Vo=" alt="Image 1">
+                <p>Kaftan</p>
+                <p>robe</p>
+                <p>1800.00 DA</p>
+            </div>
+            <div class="carousel-item-container">
+                <img src="https://st.depositphotos.com/2001755/3622/i/450/depositphotos_36220949-stock-photo-beautiful-landscape.jpg" alt="Image 2">
+                <p>Kaftan</p>
+                <p>robe</p>
+                <p>1800.00 DA</p>
+            </div>
+            <div class="carousel-item-container">
+                <img src="https://media.istockphoto.com/id/843408508/photo/photography-camera-lens-concept.jpg?s=612x612&w=0&k=20&c=-tm5TKrPDMakrT1vcOE-4Rlyj-iBVdzKuX4viFkd7Vo=" alt="Image 1">
+                <p>Kaftan</p>
+                <p>robe</p>
+                <p>1800.00 DA</p>
+            </div>
+            <div class="carousel-item-container">
+                <img src="https://st.depositphotos.com/2001755/3622/i/450/depositphotos_36220949-stock-photo-beautiful-landscape.jpg" alt="Image 2">
+                <p>Kaftan</p>
+                <p>robe</p>
+                <p>1800.00 DA</p>
+            </div>
+            <div class="carousel-item-container">
+                <img src="https://media.istockphoto.com/id/843408508/photo/photography-camera-lens-concept.jpg?s=612x612&w=0&k=20&c=-tm5TKrPDMakrT1vcOE-4Rlyj-iBVdzKuX4viFkd7Vo=" alt="Image 1">
+                <p>Kaftan</p>
+                <p>robe</p>
+                <p>1800.00 DA</p>
+            </div>
+        </div>
+        <button class="prev-button" onclick="changeSlide(-1)"><b>&#8249;</b></button>
+        <button class="next-button" onclick="changeSlide(1)"><b>&#8250;</b></button>
+    </div>
+</div>
+<script type="text/javascript" src="/static/js/product_suggestions.js"></script>
 {% endblock content %}

@@ -27,47 +27,86 @@
     </script>  
 </head>
 <body>
-    <div class="navbar">
-        <div class="left-section">
-            <div class="logo">Logo</div>
-        </div>
-        <div class="middle-section">
-            <div id="middle-links" class="nav-links">
-                <a href="{% url 'products:index' %}">Home</a>
-                <a href="#">Categories</a>
-                <a href="{% url 'products:products' %}">Products</a>
-                <a href="#">Contact</a>
-                <a href="">Location</a>
-                <a href="{% url 'products:about' %}">About</a>
-            </div>    
-            <span class="search"></span>
-        </div>
-        <div class="right-section">
-            <div class="move">
-                <form id="search-form" action="{% url 'products:search' %}" method="GET" role="search">{% csrf_token %}
-                    <div id="searchbar" class="search-field">
-                        <input id="product-search" type="text" name="q" value="{{ request.GET.q }}" placeholder="Search" required>
-                        <button class="search-button">
-                            <img class="search-icon" src="/static/icons/magnifying-glass2.svg" alt="Search Icon" width="12" height="12">
-                        </button>     
-                        <!-- <ul id="search-results"></ul> -->
+    <nav>
+        <div class="navbar">
+            <div class="left-section">
+                <div class="logo">Logo</div>
+            </div>        
+    
+            <div class="middle-section">
+                <div id="middle-links" class="nav-links">
+                    <a href="{% url 'products:index' %}">Home</a>
+                    <div class="dropdown">
+                        <a id="dropdown-button" href="#">Categories <span id="dropdown-symbol">&#9660;</span></a>
                     </div>
-                </form>     
+                    <a href="#">Contact</a>
+                    <a href="{% url 'products:about' %}">About</a>
+                </div>    
+                <span id="middle-search"></span>
             </div>
-            <div id="right-links" class="nav-links">
-                <a href="{% url 'products:news-letter' %}">Subscribe</a>                
-                <!-- <a href="#">Cart</a> -->
-            </div>   
-            <div class="nav-links">
-                <div id="cancel-link" style="display: none;">
-                    <a href="" class="cancel-link">Cancel</a>
-                    <!-- <a href="">Hello</a> -->
+            <div class="right-section">
+                <div id="right-search">
+                    <form id="search-form" action="{% url 'products:search' %}" method="GET" role="search">{% csrf_token %}
+                        <div id="searchbar" class="search-field">
+                            <input id="product-search" type="text" name="q" value="{{ request.GET.q }}" placeholder="Search" required>
+                            <button class="search-button">
+                                <img class="search-icon" src="/static/icons/magnifying-glass2.svg" alt="Search Icon" width="12" height="12">
+                            </button>     
+                        </div>
+                    </form>     
+                </div>
+                <div id="right-links" class="nav-links">
+                    <a href="{% url 'products:news-letter' %}">Subscribe</a>                
+                </div>   
+                <div class="nav-links">
+                    <div id="cancel-link" style="display: none;">
+                        <a href="" class="cancel-link">Cancel</a>
+                    </div>
                 </div>
             </div>
+            <span class="centered-element" id="search-results"></span>
+            <div class="dropdown-content">
+                {% for category in categories %}
+                    <a id="dropdown-link" href="#">{{category.name}}</a>
+                {% endfor %}
+            </div>
         </div>
-        <span class="centered-element" id="search-results"></span> <!-- -->
-    </div>
+    </nav>
+    <script type="text/javascript" src="/static/js/categories_layout.js"></script>
+    <script type="text/javascript" src="/static/js/search_layout.js"></script>
+    <script type="text/javascript" src="/static/js/search_autocomplete.js"></script>
 
+    {% block content %}
+    {% endblock content %}
+    <footer>
+        <div class="footer-container">
+            <div class="footer-info">
+                <h3>Your Website Name</h3>
+                <p>A brief description of your website or company. Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere reprehenderit deserunt perspiciatis molestias asperiores, ipsam quasi excepturi possimus! Sapiente accusamus sequi laudantium laboriosam, at quod? Quas omnis voluptates voluptas minima.</p>
+            </div>
+            <div class="footer-links">
+                <h3>Quick Links</h3>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">About</a></li>
+                    <li><a href="#">Services</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+            <div class="footer-contact">
+                <h3>Contact Us</h3>
+                <p>Email: info@example.com</p>
+                <p>Phone: +1234567890</p>
+                <p>Address: 123 Street, City, Country</p>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Your Website. All Rights Reserved. | Designed by Your Name</p>
+        </div>
+    </footer>
+    
+</body>
+</html>
     <!-- <h1>Actions</h1>
     {% if request.user.is_superuser %}
         Admin - <a href="{% url 'products:upload-content' %}">Upload product</a>
@@ -77,9 +116,4 @@
         Customer - <a href="{% url 'products:news-letter' %}">News letter</a>
     {% endif %}
     <br>-->
-    {% block content %}
-    {% endblock content %}
-    <script type="text/javascript" src="/static/js/search_autocomplete.js"></script>
-    <script type="text/javascript" src="/static/js/search_layout.js"></script>
-</body>
-</html>
+
