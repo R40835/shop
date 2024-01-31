@@ -1,12 +1,25 @@
 from django.http import JsonResponse
-from .models import Category
+from .models import TopCategory, MidCategory, BottomCategory
 
 
-def categories(request):
+def clothing_products(request):
     """
-    Unique categories of the shop products.
+    Unique categories and sub-categories of the clothing products.
     """
-    is_admin: bool = request.user.is_superuser
-    categories = Category.objects.distinct('name')
-    print(categories)
-    return {'categories': categories, 'is_admin': is_admin}
+    clothing = MidCategory.objects.filter(
+        top_category__name='Clothing'
+    ).order_by('created_at') 
+    return {'clothing': clothing}
+
+
+def garniture_products(request):
+    """
+    Unique categories and sub-categories of the garniture products.
+    """
+    garniture = MidCategory.objects.filter(
+        top_category__name='Garniture'
+    ).order_by('-created_at') 
+    return {'garniture': garniture}
+
+
+

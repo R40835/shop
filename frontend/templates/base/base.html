@@ -7,15 +7,22 @@
     {% block title %}
         <title>Base</title>
     {% endblock title %}
+    {% block styles %}
+    {% endblock styles %}
     <!-- loading css -->
-    <link rel="stylesheet" href="{% static "css/products.css" %}">
-    <!-- loading JQuery -->
-    <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script> -->
-    <!-- <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css"> -->
+    <link rel="stylesheet" href="{% static "css/core.css" %}">
+    <link rel="stylesheet" href="{% static "css/navbar.css" %}">
+    <link rel="stylesheet" href="{% static "css/newsletter.css" %}">
+    <link rel="stylesheet" href="{% static "css/footer.css" %}">
+    <!-- loading leaflet -->
+    <link rel="stylesheet" href="/static/leaflet/leaflet.css"/>
+    <script src="/static/leaflet/leaflet.js"></script>
     <!-- google font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap" rel="stylesheet">
+    <!--<link href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap" rel="stylesheet"> -->
+    <link href="https://fonts.googleapis.com/css2?family=Oxygen&family=Space+Grotesk:wght@500&family=Teko&display=swap" rel="stylesheet">
+
     <!-- app base path -->
     <script>var basePath = "{% url 'index' %}";</script>
     <!-- force reloading when using browser back button -->
@@ -28,18 +35,17 @@
 </head>
 <body>
     <nav>
-        <div class="navbar">
+        <div id="navbar" class="navbar">
             <div class="left-section">
                 <div class="logo">Logo</div>
             </div>        
-    
             <div class="middle-section">
                 <div id="middle-links" class="nav-links">
                     <a href="{% url 'products:index' %}">Home</a>
                     <div class="dropdown">
-                        <a id="dropdown-button" href="#">Categories <span id="dropdown-symbol">&#9660;</span></a>
+                        <a id="dropdown-button" href="#">Products <span id="dropdown-symbol">&#9660;</span></a>
                     </div>
-                    <a href="#">Contact</a>
+                    <a href="#">Location</a>
                     <a href="{% url 'products:about' %}">About</a>
                 </div>    
                 <span id="middle-search"></span>
@@ -50,13 +56,13 @@
                         <div id="searchbar" class="search-field">
                             <input id="product-search" type="text" name="q" value="{{ request.GET.q }}" placeholder="Search" required>
                             <button class="search-button">
-                                <img class="search-icon" src="/static/icons/magnifying-glass2.svg" alt="Search Icon" width="12" height="12">
+                                <img class="search-icon" src="/static/icons/magnifying-glass.svg" alt="Search Icon" width="12" height="12">
                             </button>     
                         </div>
                     </form>     
                 </div>
                 <div id="right-links" class="nav-links">
-                    <a href="{% url 'products:news-letter' %}">Subscribe</a>                
+                    <a href="" id="subscribe-link">Subscribe</a>                
                 </div>   
                 <div class="nav-links">
                     <div id="cancel-link" style="display: none;">
@@ -66,18 +72,64 @@
             </div>
             <span class="centered-element" id="search-results"></span>
             <div class="dropdown-content">
-                {% for category in categories %}
-                    <a id="dropdown-link" href="#">{{category.name}}</a>
-                {% endfor %}
+                <div class="grid-container">
+                    <div class="left-content">
+                        <a class="title" href="{% url 'products:clothing' %}">Clothing</a>
+                        {% for category in clothing %}
+                            <a href="{% url 'products:category-products' category.pk %}">{{category.name}}</a>
+                        {% endfor %}    
+                        <br>
+                    </div>
+                    <div class="middle-content">
+                        <a class="title" href="#">Garniture</a>
+                        <p>blanket</p>
+                        <p>table cloth</p>
+                        <p>bed sheet</p>
+                        <br>
+                    </div>
+                    <div class="right-content">
+                        <a class="title" href="#">Collections</a>
+                        <p>Winter 2024</p>
+                        <p>Summer 2024</p>
+                        <p>Spring 2024</p>
+                        <p>Autumn 2024</p>
+                        <br>
+                    </div>
+                </div>
             </div>
         </div>
     </nav>
-    <script type="text/javascript" src="/static/js/categories_layout.js"></script>
+    <script type="text/javascript" src="/static/js/dropdown_layout.js"></script>
     <script type="text/javascript" src="/static/js/search_layout.js"></script>
     <script type="text/javascript" src="/static/js/search_autocomplete.js"></script>
-
+    <script type="text/javascript" src="/static/js/navbar_visibility.js"></script>
+    <!--NEWSLETTER FORM-->
+    <div class="form-container">
+        <div id="newsletter-popup" class="newsletter-form">
+            <h1 class="centered-element">Subscribing</h1>
+            <h3>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            <form method="post">{% csrf_token %}
+                <input class="newsletter-field" id="email" type="email" placeholder="Email..." required>
+                <input class="newsletter-field" id="phone" type="text" placeholder="Phone..." required>
+                <label for="choice_field">Clothing category of interest</label>
+                <select name="choice_field" id="choice_field">
+                    <option value="All">All</option>
+                    <option value="option1">option1</option>
+                    <option value="option2">option2</option>
+                    <option value="option3">option3</option>
+                    <option value="option4">option4</option>
+                </select>
+                <div class="centered-element">
+                    <button class="submit-button">Subscribe</button>
+                </div>
+            </form>    
+        </div>
+    </div>
     {% block content %}
     {% endblock content %}
+    <script type="text/javascript" src="/static/js/filterbar_visibility.js"></script>
+    <script type="text/javascript" src="/static/js/newsletter.js"></script>
+
     <footer>
         <div class="footer-container">
             <div class="footer-info">
@@ -89,7 +141,7 @@
                 <ul>
                     <li><a href="#">Home</a></li>
                     <li><a href="#">About</a></li>
-                    <li><a href="#">Services</a></li>
+                    <li><a href="#">newsletter</a></li>
                     <li><a href="#">Contact</a></li>
                 </ul>
             </div>

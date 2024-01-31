@@ -3,7 +3,7 @@ from django.http import JsonResponse
 from django.core.paginator import Paginator
 from django.db.models import Q
 
-from ..models import Follower, Product, Category, ProductImages
+from ..models import Follower, Product, MidCategory, BottomCategory, ProductImages
 
 from ..forms.user_forms import NewsLetterForm 
 
@@ -37,38 +37,36 @@ def about(request):
     return render(request, "products/about.html")
 
 
-def dresses(request): 
+def clothing(request): 
     """
     Dresses Page.
     """
     is_admin: bool = request.user.is_superuser
-    items = Product.objects.filter(category__name='dress').order_by('-created_at')
+    items = Product.objects.filter(top_category__name='clothing').order_by('-created_at')
     items = [item.check_availabality() for item in items]
+
     items_per_page = 12
     paginator = Paginator(items, items_per_page)
     page_number = request.GET.get('page')
     page = paginator.get_page(page_number)
     context = {'page': page, 'is_admin': is_admin}
-    return render(request, "products/dresses.html", context)
+    return render(request, "products/clothing.html", context)
 
 
-def blankets(request): 
+def garniture(request): 
     """
     Blankets Page.
     """
     is_admin: bool = request.user.is_superuser
-    print(is_admin)
-    items = Product.objects.filter(category__name__icontains='couverture').order_by('-created_at')
-    print(items)
+    items = Product.objects.filter(top_category__name='garniture').order_by('-created_at')
     items = [item.check_availabality() for item in items]
-    print([item for item in items])
 
     items_per_page = 12
     paginator = Paginator(items, items_per_page)
     page_number = request.GET.get('page')
     page = paginator.get_page(page_number)
     context = {'page': page, 'is_admin': is_admin}
-    return render(request, "products/blankets.html", context)
+    return render(request, "products/garniture.html", context)
 
 
 def jackets(request): 
@@ -143,5 +141,29 @@ def item(request, product_pk):
     return render(request, "products/item.html", context)
 
 
+def mid_category_products(request, mid_category_pk):
+    """
+    Shows a specific mid category products.
+    """
+    # check if the category has a sub-category
+    # if MidCategory.objects.filter(bottom_category__is_null=False):
+    sub_categories = BottomCategory.objects.values_list('mid_category', flat=True)
+    items = Product.objects.filter(mid_category_id=mid_category_pk)
+    mid_category = items.first().mid_category if items else None
+    print(f'this is -> {mid_category}')
+    top_category = mid_category.top_category if mid_category else None
+    print(f"items --> {items} type --> {type(mid_category_pk)}")
+    items_per_page = 12
+    paginator = Paginator(items, items_per_page)
+    page_number = request.GET.get('page')
+    page = paginator.get_page(page_number)
+    context = {'page': page, 'mid_category': mid_category, 'top_category': top_category}
+    return render(request, "products/category.html", context)
 
-#TODO filter price max & min
+
+def location(request):
+    """
+    
+    """
+    context = {'': ''}
+    return render(request, "products/location.html", context)

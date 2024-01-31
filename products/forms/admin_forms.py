@@ -1,5 +1,5 @@
 from django import forms
-from ..models import Category, Product, FullPurchase, InstallementPurchase
+from ..models import TopCategory, MidCategory, Product, Purchase, BottomCategory
 from django.core.exceptions import ValidationError
 
 
@@ -53,8 +53,20 @@ class AdminProductUploadForm(forms.ModelForm):
             }
         )
     )
-    category = forms.ModelChoiceField(
-        queryset=Category.objects.all(), 
+    top_category = forms.ModelChoiceField(
+        queryset=TopCategory.objects.all(), 
+        required=True,
+        widget=forms.Select(
+            attrs={
+                'id': "product-category",
+                'class': 'admin-subcategory', 
+                'placeholder': 'category',
+            }
+        )
+    )    
+
+    mid_category = forms.ModelChoiceField(
+        queryset=MidCategory.objects.all(), 
         required=True,
         widget=forms.Select(
             attrs={
@@ -64,19 +76,79 @@ class AdminProductUploadForm(forms.ModelForm):
             }
         )
     )
+    bottom_category = forms.ModelChoiceField(
+        queryset=BottomCategory.objects.all(), 
+        required=False,
+        widget=forms.Select(
+            attrs={
+                'id': "product-bottom-category",
+                'class': 'admin-upload', 
+                'placeholder': 'Bottom category',
+            }
+        )
+    )
 
     class Meta:
         model  = Product
-        fields = ('name', 'description', 'image', 'price', 'stock', 'category')
+        fields = ('name', 'description', 'image', 'price', 'stock','top_category', 'mid_category', 'bottom_category')
 
 
 class AdminUpdateProductForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = ('name', 'description', 'image', 'price', 'stock', 'category')
+        fields = ('name', 'description', 'image', 'price', 'stock', 'mid_category')
 
 
-class AdminCategoryCreationForm(forms.ModelForm): 
+class AdminTopCategoryCreationForm(forms.ModelForm): 
+    name = forms.CharField(
+        required=True,
+        widget=forms.TextInput(
+            attrs={
+                'id': 'top-category-name',
+                'class': 'admin-category', 
+                'placeholder': 'Nom de votre category',
+            }
+        ),
+    )
+    confirm_name = forms.CharField(
+        required=True,
+        widget=forms.TextInput(
+            attrs={
+                'id': 'top-category-confirm-name',
+                'class': 'admin-category', 
+                'placeholder': 'Nom de votre category',
+            }
+        ),
+    )
+    description = forms.CharField(
+        required=False,
+        widget=forms.TextInput(
+            attrs={
+                'id': 'top-category-description',
+                'class': 'admin-category', 
+                'placeholder': 'Description de votre category',
+            }
+        )
+    )
+
+    def clean_confirm_name(self):
+        """
+        Confirm the category name given by 
+        the admin is correct to avoid typos.
+        """
+        name = self.cleaned_data["name"]
+        confirm_name = self.cleaned_data['confirm_name']
+        if name != confirm_name:
+            raise ValidationError("Category name doesn't match.")
+        return name
+
+    class Meta:
+        model = TopCategory
+        fields = ('name', 'confirm_name', 'image', 'description')
+
+
+
+class AdminMidCategoryCreationForm(forms.ModelForm): 
     name = forms.CharField(
         required=True,
         widget=forms.TextInput(
@@ -107,6 +179,17 @@ class AdminCategoryCreationForm(forms.ModelForm):
             }
         )
     )
+    top_category = forms.ModelChoiceField(
+        queryset=TopCategory.objects.all(), 
+        required=True,
+        widget=forms.Select(
+            attrs={
+                'id': "category-category",
+                'class': 'admin-subcategory', 
+                'placeholder': 'category',
+            }
+        )
+    )    
 
     def clean_confirm_name(self):
         """
@@ -120,14 +203,73 @@ class AdminCategoryCreationForm(forms.ModelForm):
         return name
 
     class Meta:
-        model = Category
-        fields = ('name', 'confirm_name', 'image', 'description')
+        model = MidCategory
+        fields = ('name', 'confirm_name', 'image', 'description', 'top_category')
 
 
-class AdminEditCategoryForm(forms.ModelForm):
+class AdminEditMidCategoryForm(forms.ModelForm):
     class Meta:
-        model = Category
+        model = MidCategory
         fields = ('name', 'image', 'description')
+
+
+class AdminBottomCategoryCreationForm(forms.ModelForm): 
+    name = forms.CharField(
+        required=True,
+        widget=forms.TextInput(
+            attrs={
+                'id': 'subcategory-name',
+                'class': 'admin-subcategory', 
+                'placeholder': 'Nom de votre sous category',
+            }
+        ),
+    )
+    confirm_name = forms.CharField(
+        required=True,
+        widget=forms.TextInput(
+            attrs={
+                'id': 'subcategory-confirm-name',
+                'class': 'admin-subcategory', 
+                'placeholder': 'Nom de votre sous category',
+            }
+        ),
+    )
+    description = forms.CharField(
+        required=False,
+        widget=forms.TextInput(
+            attrs={
+                'id': 'subcategory-description',
+                'class': 'admin-subcategory', 
+                'placeholder': 'Description de votre sous category',
+            }
+        )
+    )
+    mid_category = forms.ModelChoiceField(
+        queryset=MidCategory.objects.all(), 
+        required=True,
+        widget=forms.Select(
+            attrs={
+                'id': "subcategory-category",
+                'class': 'admin-subcategory', 
+                'placeholder': 'category',
+            }
+        )
+    )
+
+    def clean_confirm_name(self):
+        """
+        Confirm the category name given by 
+        the admin is correct to avoid typos.
+        """
+        name = self.cleaned_data["name"]
+        confirm_name = self.cleaned_data['confirm_name']
+        if name != confirm_name:
+            raise ValidationError("Category name doesn't match.")
+        return name
+
+    class Meta:
+        model = BottomCategory
+        fields = ('name', 'confirm_name', 'image', 'description', 'mid_category')
 
 
 class AdminSaleConfirmationForm(forms.Form):
@@ -143,24 +285,8 @@ class AdminSaleConfirmationForm(forms.Form):
     )
 
     class Meta:
-        model  = FullPurchase
+        model  = Purchase
         fields = ('quantity')
 
 
-class AdminInstallementSaleForm:
-    #TODO: working on...
-    paid_installement = forms.FloatField(
-        required=True,
-        widget=forms.TextInput(
-            attrs={
-                'id': "sale-revenue",
-                'class': 'admin-sale-confirmation', 
-                'placeholder': 'Revenue',
-            }
-        )
-    )
-
-    class Meta:
-        model = InstallementPurchase
-        fields = ('')
 

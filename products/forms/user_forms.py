@@ -1,5 +1,5 @@
 from django import forms
-from ..models import Follower, Category
+from ..models import Follower, TopCategory, MidCategory, BottomCategory
 from django.core.exceptions import ValidationError
 
 
@@ -26,8 +26,9 @@ class NewsLetterForm(forms.ModelForm):
             }
         )
     )
-    category = forms.ChoiceField(
-        choices=Category.get_category_choices(),
+    category = forms.ModelChoiceField(
+        queryset=MidCategory.objects.all(), 
+        required=False,
         widget=forms.Select(
             attrs={
                 'id': 'customer-category',

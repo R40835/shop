@@ -3,10 +3,11 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.paginator import Paginator
 from django.db.models import Q
 
-from ..models import Follower, Product, Category, FullPurchase, InstallementPurchase
+from ..models import Follower, Product, TopCategory, MidCategory, BottomCategory, Purchase
 
-from ..forms.admin_forms import AdminProductUploadForm, AdminSaleConfirmationForm, AdminInstallementSaleForm, \
-                                AdminCategoryCreationForm, AdminEditCategoryForm, AdminUpdateProductForm
+from ..forms.admin_forms import AdminProductUploadForm, AdminSaleConfirmationForm, AdminMidCategoryCreationForm, \
+                                AdminBottomCategoryCreationForm, AdminEditMidCategoryForm, AdminUpdateProductForm, \
+                                AdminTopCategoryCreationForm
 
 
 def is_superuser(user):
@@ -18,7 +19,7 @@ def is_superuser(user):
 
 @login_required
 @user_passes_test(is_superuser)
-def admin_content_upload(request):
+def admin_upload_product(request):
     """
     Admin - Sending emails to the followers upon admin new content upload.
     """
@@ -27,6 +28,8 @@ def admin_content_upload(request):
         if form.is_valid():
             form.save()
             return redirect('products:index')
+        else:
+            print(form.errors)
     else:
         form = AdminProductUploadForm()
         print(form.fields)
@@ -44,7 +47,7 @@ def admin_product_sold(request, product_pk):
     if request.method == 'POST':
         form = AdminSaleConfirmationForm(request.POST)
         if form.is_valid():
-            FullPurchase.objects.create(
+            Purchase.objects.create(
                 quantity=form.cleaned_data['quantity'],
                 product_id=product_pk
             )
@@ -57,19 +60,53 @@ def admin_product_sold(request, product_pk):
 
 @login_required
 @user_passes_test(is_superuser)
-def admin_category_creation(request):
+def admin_create_top_category(request):
     """
     Admin - Create a new unique category.
     """
     if request.method == 'POST':
-        form = AdminCategoryCreationForm(request.POST, request.FILES)
+        form = AdminTopCategoryCreationForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
             return redirect('products:index')
     else:
-        form = AdminCategoryCreationForm()
+        form = AdminTopCategoryCreationForm()
+    context = {'form': form}
+    return render(request, "admin/create_top_category.html", context)
+
+
+@login_required
+@user_passes_test(is_superuser)
+def admin_create_mid_category(request):
+    """
+    Admin - Create a new unique category.
+    """
+    if request.method == 'POST':
+        form = AdminMidCategoryCreationForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('products:index')
+    else:
+        form = AdminMidCategoryCreationForm()
     context = {'form': form}
     return render(request, "admin/create_category.html", context)
+
+
+@login_required
+@user_passes_test(is_superuser)
+def admin_create_bottom_category(request):
+    """
+    Admin - Create a new unique subcategory.
+    """
+    if request.method == 'POST':
+        form = AdminBottomCategoryCreationForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('products:index')
+    else:
+        form = AdminBottomCategoryCreationForm()
+    context = {'form': form}
+    return render(request, "admin/create_subcategory.html", context)
 
 
 @login_required
@@ -78,13 +115,13 @@ def admin_edit_category(request, category_pk):
     """
     Admin - Create a new unique category.
     """
-    category = Category.objects.get(pk=category_pk)
+    category = MidCategory.objects.get(pk=category_pk)
     if request.method == 'POST':
-        form = AdminEditCategoryForm(request.POST, request.FILES, instance=category)
+        form = AdminEditMidCategoryForm(request.POST, request.FILES, instance=category)
         if form.is_valid():
             form.save()
             return redirect('products:index')
-    form = AdminEditCategoryForm(instance=category)
+    form = AdminEditMidCategoryForm(instance=category)
     context = {'form': form}
     return render(request, "admin/update_category.html", context)
 
@@ -112,7 +149,7 @@ def admin_full_purchases(request):
     """
     Admin - Purchases Page.
     """
-    purchases = FullPurchase.objects.all()
+    purchases = Purchase.objects.all()
     items_per_page = 12
     paginator = Paginator(purchases, items_per_page)
     page_number = request.GET.get('page')
@@ -127,22 +164,11 @@ def admin_full_purchase_details(request, product_pk):
     """
     Admin - Products' Full Purchase Details Page.
     """
-    purchase = FullPurchase.objects.get(product_id=product_pk)
+    purchase = Purchase.objects.get(product_id=product_pk)
     context = {'purchase': purchase}
     return render(request, "admin/full_purchase_details.html", context)
 
 
-@login_required
-@user_passes_test(is_superuser)
-def admin_installement_purchases(request):
-    """
-    Admin - Products' Installement Purchases Page.
-    """
-    purchases = InstallementPurchase.objects.all()
-    items_per_page = 12
-    paginator = Paginator(purchases, items_per_page)
-    page_number = request.GET.get('page')
-    page = paginator.get_page(page_number)
-    context = {'page': page}
-    return render(request, "admin/installement_purchases.html", context)
 
+
+# no money tracking
