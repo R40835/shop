@@ -102,9 +102,10 @@ class ProductImage(models.Model):
 
 
 class Follower(models.Model):
-    email    = models.EmailField(null=False, blank=False, unique=True)
-    phone    = models.CharField(max_length=15, null=False, blank=False, unique=True)
-    category = models.CharField(max_length=60, null=False, blank=False)
+    # first_name = models.CharField(max_length=60, null=False, blank=False)
+    # last_name  = models.CharField(max_length=60, null=False, blank=False)
+    email      = models.EmailField(null=False, blank=False, unique=True)
+    category   = models.CharField(max_length=60, null=False, blank=False)
 
 
 class Purchase(models.Model):

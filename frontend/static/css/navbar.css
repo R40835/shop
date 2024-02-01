@@ -52,7 +52,7 @@
     left: 0;
     width: 0;
     height: 2px; /* Adjust the height of the border bottom as needed */
-    background-color: #f08080; /* Adjust the color of the border bottom as needed */
+    background-color: #dec88e; /* Adjust the color of the border bottom as needed */
     transition: width 0.3s ease; /* Add transition for smooth effect */
 }
 
@@ -108,7 +108,7 @@
 
 .navbar input:focus,
 .navbar .middle-section input:focus {
-    border: 1px solid #f08080; 
+    border: 1px solid #dec88e; 
     outline: none; 
 }
 
@@ -121,7 +121,7 @@
     right: 0;
     top: 0;
     background-color: transparent;
-    color: #f08080;
+    color: #dec88e;
     border: 1px solid transparent;
     border-radius: 25px;
     padding: 8px 15px;
@@ -133,7 +133,7 @@
     right: -18px; /* overlapping search button */
     top: 0;
     background-color: transparent;
-    color: #f08080;
+    color: #dec88e;
     border: 1px solid transparent;
     border-radius: 25px;
     padding: 8px 15px;
@@ -150,7 +150,7 @@
 .search-button:hover,
 .navbar .middle-section .search-button:hover {
     background-color: #ddd;
-    border: 1px solid #f08080;
+    border: 1px solid #dec88e;
     border-left: none;
     border-top-left-radius: 0; 
     border-bottom-left-radius: 0;

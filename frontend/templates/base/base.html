@@ -120,8 +120,14 @@
             <h1 class="centered-element">Subscribe</h1>
             <h3>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
             <form method="post">{% csrf_token %}
+                <small id="email-field-required" class="newsletter-error">This field is required!</small>
+                <small id="invalid-email" class="newsletter-error">Email is invalid!</small>
+                <small id="existing-email" class="newsletter-error">This email is already subscribed to our newsletter!</small>
                 <input class="newsletter-field" id="email" type="email" placeholder="Email..." required>
-                <input class="newsletter-field" id="phone" type="text" placeholder="Phone..." required>
+
+                <small id="confirm-email-field-required" class="newsletter-error">This field is required!</small>
+                <small id="unmatching-email" class="newsletter-error">Email does not match!</small>
+                <input class="newsletter-field" id="confirm-email" type="text" placeholder="Confirm email..." required>
                 <label for="choice-field">Shopping Preference</label>
                 <select name="choice-field" id="choice-field">
                     <option value="All">All</option>
@@ -136,6 +142,20 @@
             </form>    
         </div>
     </div>
+    <!--SUCCESS MESSAGE-->
+    <div id="success-message">
+        <div class="close-message">
+            <div class="close-message-button" close="success-close">&times;</div>
+        </div>
+        <p>Thank you for following us! We will get in touch as soon as we have new products of interest.</p>
+    </div>
+    <div id="failure-message">
+        <div class="close-message">
+            <div class="close-message-button" close="failure-close">&times;</div>
+        </div>
+        <p>The following email "something@gmail.com" is already subscribed to our newsletter.</p>
+    </div>
+
     <script>
         const dashboard = document.querySelector('.dashboard');
         dashboard.addEventListener('click', () => {

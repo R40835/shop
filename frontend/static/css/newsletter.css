@@ -20,14 +20,15 @@
 
 .close-button:hover {
     cursor: pointer;
-    color: #e47d92;
+    color: #f7bac6;
 }
 
 .newsletter-form {
     display: none;
     position: fixed;
-    top: 10vh;
-    left: auto;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     margin-top: 5%;
     color: #555;
     background-color: #ededed;
@@ -51,7 +52,7 @@
 }
 
 .newsletter-field:focus {
-    border-bottom: 2px solid #f08080; 
+    border-bottom: 2px solid #dec88e; 
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
     outline: none; 
@@ -71,7 +72,7 @@
 }
 
 #choice-field:focus {
-    border-bottom: 2px solid #f08080; 
+    border-bottom: 2px solid #dec88e; 
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
 }
@@ -79,21 +80,85 @@
 .submit-button {
     width: 100%;
     padding: 20px 50px; 
-    background-color: #f08080; 
+    background-color: #dec88e; 
     color: #fff; 
     font-weight: bold;
     text-decoration: none;
     border-radius: 5px; 
-    border: 1px solid #f08080; 
+    border: 1px solid #dec88e; 
     transition: background-color 0.3s ease;
 }
 
 .submit-button:hover {
-    background-color: #f39d9d;
-    border-color: #f39d9d;
+    background-color: #eed9a5;
+    border-color: #eed9a5;
     cursor: pointer;
 }
 
 #customer-category {
     color: #fff;
+}
+
+#success-message {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-weight: bold;
+    font-size: large;
+    width: 500px;
+    background-color: #e2f3e3; 
+    color: #4CAF50;
+    border: 2px solid #4CAF50;
+    padding: 40px;
+    border-radius: 10px;
+    z-index: 4000; /* Ensure it's above other elements */
+    display: none; 
+}
+
+#failure-message {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-weight: bold;
+    font-size: large;
+    width: 500px;
+    background-color: #d796a3; 
+    color: #dc143c;
+    border: 2px solid #dc143c;
+    padding: 40px;
+    border-radius: 10px;
+    z-index: 4000; /* Ensure it's above other elements */
+    display: none; 
+}
+
+.close-message {
+    position: relative;
+}
+
+.close-message-button {
+    position: absolute;
+    top: -20px;
+    right: -20px;
+    font-size: 25px;
+    color: #dc143c;
+    cursor: pointer;
+}
+
+.close-message-button:hover {
+    color: #f7bac6;
+}
+
+.newsletter-error {
+   color: rgb(211, 21, 21);
+   display: none;
+}
+
+.newsletter-field-error {
+    border-bottom: 2px solid rgb(211, 21, 21); 
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    outline: none; 
+   /* background-color: rgba(71, 71, 71, 0.6); /* #f0f8ff */
 }

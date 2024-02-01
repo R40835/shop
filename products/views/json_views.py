@@ -1,26 +1,38 @@
 from django.http import JsonResponse
 from django.db.models import Q
+from django.core.validators import validate_email
+from django.core.exceptions import ValidationError
+
 
 from ..models import MidCategory, Product, Follower
 
 
 def newsletter(request):
     """
-    Json response containing unique categories of the shop products.
+    This endpoint receives data from the client to create a new db entry and returns 
+    a Json response to reflect the success or the failure of the operation. 
     """
     email = request.GET.get('email')
-    phone = request.GET.get('phone')
+    confirm_email = request.GET.get('confirm_email')
     choice = request.GET.get('choice')
-    _, new_follower = Follower.objects.get_or_create(
-        email=email,
-        phone=phone,
-        category=choice
-    )
-    if new_follower:
-        response = 'success'
+
+    try:
+        validate_email(email)
+    except ValidationError:
+        return JsonResponse({'response': 'invalid-email'})
+    
+    if email == confirm_email:
+        _, new_follower = Follower.objects.get_or_create(
+            email=email,
+            category=choice
+        )
+        if new_follower:
+            response = 'success'
+        else:
+            response = 'failure'
+        return JsonResponse({'response': response})
     else:
-        response = 'failure'
-    return JsonResponse({'response': response})
+        return JsonResponse({'response': 'unmatching-email'})
 
 
 def search_autocomplete(request):
@@ -35,7 +47,15 @@ def search_autocomplete(request):
             Q(mid_category__name__icontains=query)
         ).order_by('-created_at')[:5]
         if search_results.exists():
-            items = [(item.image.url, item.name, item.price, item.mid_category.name, item.pk) for item in search_results]
+            items = [
+                (
+                    item.image.url, 
+                    item.name, 
+                    item.price, 
+                    item.mid_category.name, 
+                    item.pk
+                ) for item in search_results
+            ]
     return JsonResponse({'items': items, 'searched': query}, safe=False)
 
 

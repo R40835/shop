@@ -61,8 +61,8 @@
 .bar .sub-category:hover {
     cursor: pointer ;
     color: #fff;
-    border: 1px solid #f08080;
-    background-color: #f08080;
+    border: 1px solid #dec88e;
+    background-color: #dec88e;
 }
 
 .bar a:hover {
