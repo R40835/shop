@@ -23,6 +23,7 @@ urlpatterns = [
     path('create-subcategory/', admin_views.admin_create_bottom_category, name='create-subcategory'),
     path('edit-category/<int:category_pk>/', admin_views.admin_edit_category, name='edit-category'),
     path('update-product/<int:product_pk>/', admin_views.admin_update_product, name='update-product'),
+    path('dashboard/', admin_views.admin_dashboard, name='dashboard'),
     # json
     path('newsletter/', json_views.newsletter, name='newsletter'),
     path('search-autocomplete/', json_views.search_autocomplete, name='search-autocomplete'),

@@ -7,6 +7,22 @@
     <link rel="stylesheet" href="{% static "css/category.css" %}">
     <link rel="stylesheet" href="{% static "css/filter_category.css" %}">
 {% endblock styles %}
+{% block image_url %}
+    <style>
+        .product-image-background {
+            background-image: url('/static/css/images/dresses.jpg'); 
+            /* background-image: url('{{ mid_category.image.url }}');  */
+            background-color: #cccccc;
+            height: 50vh;
+            width: 70%;
+            background-repeat: no-repeat;
+            background-size: 100% 100%; 
+            padding: 5px;
+            margin: 20px auto;
+        }
+
+    </style>
+{% endblock image_url %}
 {% block content %}
     <!-- {% for item in page %}
         <img src="{{item.image.url}}" alt="Not Found" style="height: 100px; width: 100px;">
@@ -26,10 +42,10 @@
     <div class="page-path">
         <h4>{{top_category}} > {{mid_category}}</h4>
     </div>    
-    <div class="dresses-background"></div>
+    <div class="product-image-background"></div>
     <div class="category-grid">
         <div class="category-name">
-            <h1>Dresses</h1>
+            <h1>{{mid_category}}</h1>
         </div>
         <div class="category-description">
             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Corrupti atque quidem enim laudantium, quibusdam obcaecati dicta nobis eius fugit necessitatibus praesentium. Dolor natus vel, eius vitae minus voluptates iure sed?</p>
@@ -37,12 +53,14 @@
     </div>
     <div id="filterbar" class="bar">
         <div class="left-section">
-            <h3>111 Dresses</h3>
+            <h3>{{results_no}} {{mid_category}}</h3>
         </div>
         <div class="middle-section">
-            <a class="sub-category" href="#">Traditional</a>
-            <a class="sub-category" href="#">Kimono</a>
-            <a class="sub-category" href="#">Night-out</a>
+            {% if bottom_categories %}
+                {% for category in bottom_categories %}
+                    <a class="sub-category" href="#">{{category}}</a>
+                {% endfor %}
+            {% endif %}
         </div>
         <div class="right-section">
             <img src="/static/icons/filter.svg" alt="Filter Icon" width="20" height="20">

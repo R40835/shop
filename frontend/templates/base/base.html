@@ -32,13 +32,15 @@
             location.reload(true);
         }
     </script>  
+    {% block image_url %}
+    {% endblock image_url %}
 </head>
 <body>
     <nav>
         <div id="navbar" class="navbar">
             <div class="left-section">
-                <div class="logo">Logo</div>
-            </div>        
+                <div class="logo">Shop</div>
+            </div>    
             <div class="middle-section">
                 <div id="middle-links" class="nav-links">
                     <a href="{% url 'products:index' %}">Home</a>
@@ -46,7 +48,7 @@
                         <a id="dropdown-button" href="#">Products <span id="dropdown-symbol">&#9660;</span></a>
                     </div>
                     <a href="" id="subscribe-link">Subscribe</a>
-                    <a href="#">Location</a>
+                    <a href="{% url 'products:location' %}">Location</a>
                     <a href="{% url 'products:about' %}">About</a>
                 </div>    
                 <span id="middle-search"></span>
@@ -62,7 +64,14 @@
                         </div>
                     </form>     
                 </div>
-                <img id="right-links" style="padding: 0px 10px;" src="/static/icons/gear.svg" alt="Search Icon" width="20" height="20">
+                <div id="right-links">
+                    <img class="settings" src="/static/icons/gear.svg" alt="Search Icon" width="20" height="20">
+                    <img class="help" src="/static/icons/help.svg" alt="Search Icon" width="20" height="20">
+                    {% if request.user.is_superuser %}
+                        <img class="dashboard" src="/static/icons/dashboard.svg" alt="Search Icon" width="20" height="20">    
+                    {% endif %}
+                </div>
+
                 <div class="nav-links">
                     <div id="cancel-link" style="display: none;">
                         <a href="" class="cancel-link">Cancel</a>
@@ -81,9 +90,9 @@
                     </div>
                     <div class="middle-content">
                         <a class="title" href="#">Garniture</a>
-                        <p>blanket</p>
-                        <p>table cloth</p>
-                        <p>bed sheet</p>
+                        {% for category in garniture %}
+                            <a href="{% url 'products:category-products' category.pk %}">{{category.name}}</a>
+                        {% endfor %}    
                         <br>
                     </div>
                     <div class="right-content">
@@ -113,7 +122,7 @@
             <form method="post">{% csrf_token %}
                 <input class="newsletter-field" id="email" type="email" placeholder="Email..." required>
                 <input class="newsletter-field" id="phone" type="text" placeholder="Phone..." required>
-                <label for="choice-field">Clothing category of interest</label>
+                <label for="choice-field">Shopping Preference</label>
                 <select name="choice-field" id="choice-field">
                     <option value="All">All</option>
                     <option value="option1">option1</option>
@@ -127,6 +136,13 @@
             </form>    
         </div>
     </div>
+    <script>
+        const dashboard = document.querySelector('.dashboard');
+        dashboard.addEventListener('click', () => {
+            window.location.href = '/products/dashboard/';
+        })
+    </script>
+
     {% block content %}
     {% endblock content %}
     <script type="text/javascript" src="/static/js/filterbar_visibility.js"></script>

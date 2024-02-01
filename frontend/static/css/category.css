@@ -1,28 +1,4 @@
-/* .dresses-background {
-    background-image: url('images/dresses.jpg'); 
-    background-color: #cccccc;
-    height: 50vh;
-    width: 100%;
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
-} */
-
-/* .category-grid {
-    display: grid;
-    grid-template-columns: 70% 30%; 
-    padding: 0 10px;
-    padding-left: 0;
-    grid-gap: 10px;
-    background-color: #fff; 
-    border-top: 1px solid #ccc;
-    border-bottom: 1px solid #ccc;
-}
-
-.category-description {
-    margin: auto 40px;
-} */
-
-.dresses-background {
+/* .product-image-background {
     background-image: url('images/dresses.jpg'); 
     background-color: #cccccc;
     height: 50vh;
@@ -31,7 +7,7 @@
     background-size: 100% 100%; 
     padding: 5px;
     margin: 20px auto;
-}
+} */
 
 .category-grid {
     width: 80%;
@@ -42,13 +18,11 @@
     padding-left: 0;
     grid-gap: 10px;
     background-color: #fff; 
-    /* border-bottom: 1px solid #ccc; */
-    /* margin: auto 200px; */
 }
 
 .category-name {
     margin: auto;
-    font-size: large;
+    font-size: x-large;
     margin-right: 0px;
     color: #f08080;
 }

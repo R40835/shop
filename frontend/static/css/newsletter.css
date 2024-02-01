@@ -77,12 +77,13 @@
 }
 
 .submit-button {
+    width: 100%;
     padding: 20px 50px; 
     background-color: #f08080; 
     color: #fff; 
     font-weight: bold;
     text-decoration: none;
-    border-radius: 25px; 
+    border-radius: 5px; 
     border: 1px solid #f08080; 
     transition: background-color 0.3s ease;
 }

@@ -19,6 +19,9 @@
 /* Style the left section (logo) */
 .left-section {
     flex: 1;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
 }
 
 .logo {
@@ -153,9 +156,13 @@
     border-bottom-left-radius: 0;
 }
 
-.navbar a {
+.help,
+.settings,
+.dashboard {
+    padding-left: 10px;
     cursor: pointer;
 }
+
 
 /******************************************************SEARCH-AUTOCOMPLETE*************************************************************/
 #search-results {

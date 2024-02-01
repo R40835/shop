@@ -94,7 +94,7 @@ class Product(models.Model):
         product_image.save(self.image.path)
 
 
-class ProductImages(models.Model):
+class ProductImage(models.Model):
     image      = models.ImageField(upload_to='product/', null=False, blank=False)
     created_at = models.DateTimeField(auto_now_add=True)
 

@@ -169,6 +169,15 @@ def admin_full_purchase_details(request, product_pk):
     return render(request, "admin/full_purchase_details.html", context)
 
 
+@login_required
+@user_passes_test(is_superuser)
+def admin_dashboard(request):
+    """
+    Admin - Dashboard view.
+    """
+    # purchase = Purchase.objects.get(product_id=product_pk)
+    # context = {'purchase': purchase}
+    return render(request, "admin/dashboard.html", context=None)
 
 
 # no money tracking

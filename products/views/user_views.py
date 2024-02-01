@@ -3,7 +3,7 @@ from django.http import JsonResponse
 from django.core.paginator import Paginator
 from django.db.models import Q
 
-from ..models import Follower, Product, MidCategory, BottomCategory, ProductImages
+from ..models import Follower, Product, TopCategory, MidCategory, BottomCategory, ProductImage
 
 from ..forms.user_forms import NewsLetterForm 
 
@@ -149,17 +149,22 @@ def mid_category_products(request, mid_category_pk):
     """
     # check if the category has a sub-category
     # if MidCategory.objects.filter(bottom_category__is_null=False):
-    sub_categories = BottomCategory.objects.values_list('mid_category', flat=True)
     items = Product.objects.filter(mid_category_id=mid_category_pk)
-    mid_category = items.first().mid_category if items else None
-    print(f'this is -> {mid_category}')
-    top_category = mid_category.top_category if mid_category else None
-    print(f"items --> {items} type --> {type(mid_category_pk)}")
+    bottom_categories = BottomCategory.objects.filter(mid_category_id=mid_category_pk)
+    mid_category = MidCategory.objects.get(pk=mid_category_pk)
+    top_category = mid_category.top_category
+    results_no = items.count()
     items_per_page = 12
     paginator = Paginator(items, items_per_page)
     page_number = request.GET.get('page')
     page = paginator.get_page(page_number)
-    context = {'page': page, 'mid_category': mid_category, 'top_category': top_category}
+    context = {
+        'page': page, 
+        'results_no': results_no,
+        'top_category': top_category,  
+        'mid_category': mid_category,
+        'bottom_categories': bottom_categories
+    }
     return render(request, "products/category.html", context)
 
 

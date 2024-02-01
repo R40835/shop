@@ -3,27 +3,28 @@ const dropDownContent = document.querySelector('.dropdown-content');
 
 function updateButtonStyle(action) {
     switch(action) {
-        case 'mouseover':
+        case 'open':
             dropdownButton.classList.add('hovered');
             dropDownContent.style.display = 'block';
             break;
-        case 'mouseout':
+        case 'close':
             dropdownButton.classList.remove('hovered'); 
             dropDownContent.style.display = 'none';
             break;
     }
 }
 
-dropDownContent.addEventListener('mouseover', function() {
-    updateButtonStyle('mouseover');
+dropDownContent.addEventListener('click', function(event) {
+    updateButtonStyle('open');
 });
 
-dropdownButton.addEventListener('mouseover', function() {
-    updateButtonStyle('mouseover');
+dropdownButton.addEventListener('click', function(event) {
+    event.preventDefault();
+    updateButtonStyle('open');
 })
 
-window.addEventListener('mouseout', function(event) {
-    if (event.target !== dropdownButton) {
-        updateButtonStyle('mouseout');
+window.addEventListener('click', function(event) {
+    if (event.target !== dropdownButton && !dropDownContent.contains(event.target)) {
+        updateButtonStyle('close');
     }
 })

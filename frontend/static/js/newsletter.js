@@ -43,7 +43,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 break;
         }
 
-
         function SubmitNewsletter(email, phone, choice) {
             let xhr = new XMLHttpRequest();
             xhr.open('GET', `/products/newsletter/?email=${email}&phone=${phone}&choice=${choice}`, false); // Make the request synchronous

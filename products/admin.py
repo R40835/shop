@@ -1,12 +1,20 @@
 from django.contrib import admin
-from .models import Product, MidCategory, Follower, ProductImages
+from .models import Product, TopCategory, MidCategory, BottomCategory, Follower, ProductImage
 
 
 class AdminProduct(admin.ModelAdmin):
     list_display = ('name',)
 
 
-class AdminCategory(admin.ModelAdmin):
+class AdminTopCategory(admin.ModelAdmin):
+    list_display = ('name',)
+
+
+class AdminMidCategory(admin.ModelAdmin):
+    list_display = ('name',)
+
+
+class AdminBottomCategory(admin.ModelAdmin):
     list_display = ('name',)
 
 
@@ -19,9 +27,11 @@ class AdminProductImages(admin.ModelAdmin):
 
 
 admin.site.register(Product, AdminProduct)
-admin.site.register(MidCategory, AdminCategory)
+admin.site.register(TopCategory, AdminTopCategory)
+admin.site.register(MidCategory, AdminMidCategory)
+admin.site.register(BottomCategory, AdminBottomCategory)
 admin.site.register(Follower, AdminFollowers)
-admin.site.register(ProductImages, AdminProductImages)
+admin.site.register(ProductImage, AdminProductImages)
 
 
 

@@ -3,8 +3,28 @@ if (filterbar) {
     var cloneCreated = false;
     var filterbarClone = filterbar.cloneNode(true); 
     var lastScrollTopCategoryPage = 0;
-    var filterbarHeight = 450 //filterbar.offsetHeight; not very precise better find another way
-    const filterbarInitialHeight = filterbar.top + window.scrollY;
+
+    function hideFilterbar(filterbarClone) {
+        this.document.body.removeChild(filterbarClone);
+        return false;
+    }
+
+    function showFilterbar(direction) {
+        switch(direction) {
+            case 'up':
+                filterbarClone.style.top = "80px";
+                break;
+            case 'down':
+                filterbarClone.style.top = "0px";
+                break;
+        }
+        filterbarClone.style.width = '100%';
+        filterbarClone.style.padding = '0 10px';
+        filterbarClone.style.position = 'fixed';
+        filterbarClone.style.zIndex = '1';
+        this.document.body.appendChild(filterbarClone);
+        return true;
+    }
     
     window.addEventListener("scroll", function() {
         filterbarCurrentPosition = filterbar.getBoundingClientRect();
@@ -14,27 +34,23 @@ if (filterbar) {
 
         if (filterbarCurrentYPosition >= (0 + filterbarCurrentPositionHeight)) {
             if (cloneCreated) {
-                this.document.body.removeChild(filterbarClone);
-                cloneCreated = false;   
+                cloneCreated = hideFilterbar(filterbarClone);   
             }
         }
         if (currentScroll > lastScrollTopCategoryPage && currentScroll > filterbarCurrentYPosition) {
             // Scrolling down, hide the navbar
             if (cloneCreated) {
-                this.document.body.removeChild(filterbarClone);
-                cloneCreated = false;
+                cloneCreated = hideFilterbar(filterbarClone);
             }
+            if (filterbarCurrentYPosition <= 0) {
+                // stick filterbar to the top as you reach it by scrolling down
+                cloneCreated = showFilterbar('down'); 
+            }
+
         } else {
             if (filterbarCurrentYPosition < 0) {
                 // Scrolling up or at the top, show the navbar
-                filterbarClone.style.top = "80px";
-                filterbarClone.style.width = '100%';
-                filterbarClone.style.padding = '0 10px';
-                filterbarClone.style.position = 'fixed';
-                filterbarClone.style.zIndex = '1';
-                // console.log(filterbarClone)
-                this.document.body.appendChild(filterbarClone);
-                cloneCreated = true;
+                cloneCreated = showFilterbar('up');
             }
         }
         lastScrollTopCategoryPage = currentScroll;
@@ -51,6 +67,4 @@ if (filterbar) {
         }
     });
 
-} else {
-    console.log('filter bar does not exist')
-}
+} 

@@ -11,32 +11,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Border Bottom on Hover</title>
 <style>
-  .container {
-    position: relative;
-    padding-bottom: 20px; /* Add padding to make space for the border bottom */
-  }
-
-  .container::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 0;
-    height: 2px; /* Adjust the height of the border bottom as needed */
-    background-color: #000; /* Adjust the color of the border bottom as needed */
-    transition: width 0.3s ease; /* Add transition for smooth effect */
-  }
-
-  .container:hover::after {
-    width: 100%;
-  }
-
-  /* For demonstration purposes */
-  .container {
-    padding: 20px;
-    border: 1px solid #ccc;
-    margin-bottom: 20px;
-  }
 </style>
 </head>
 <body>

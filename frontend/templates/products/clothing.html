@@ -21,12 +21,9 @@
         <h3>111 results</h3>
     </div>
     <div class="middle-section">
-        <a class="sub-category" href="#">Dresses</a>
-        <a class="sub-category" href="#">Tops</a>
-        <a class="sub-category" href="#">Trousers</a>
-        <a class="sub-category" href="#">Hats</a>
-        <a class="sub-category" href="#">Jackets</a>
-        <a class="sub-category" href="#">Coats</a>
+        {% for category in clothing %}
+            <a class="sub-category" href="{% url 'products:category-products' category.pk  %}">{{category}}</a>
+        {% endfor %}
     </div>
     <div class="right-section">
         <img src="/static/icons/filter.svg" alt="Filter Icon" width="20" height="20">
