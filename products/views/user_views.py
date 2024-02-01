@@ -115,7 +115,9 @@ def search(request):
         query = request.GET.get('q')
         search_result = Product.objects.filter(
             Q(name__icontains=query) |
-            Q(category__name__icontains=query)
+            Q(top_category__name__icontains=query) |
+            Q(mid_category__name__icontains=query) |
+            Q(bottom_category__name__icontains=query)
         ).order_by('-created_at')
         if search_result.exists():
             items = search_result

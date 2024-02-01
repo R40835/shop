@@ -45,6 +45,7 @@
                     <div class="dropdown">
                         <a id="dropdown-button" href="#">Products <span id="dropdown-symbol">&#9660;</span></a>
                     </div>
+                    <a href="" id="subscribe-link">Subscribe</a>
                     <a href="#">Location</a>
                     <a href="{% url 'products:about' %}">About</a>
                 </div>    
@@ -61,9 +62,7 @@
                         </div>
                     </form>     
                 </div>
-                <div id="right-links" class="nav-links">
-                    <a href="" id="subscribe-link">Subscribe</a>                
-                </div>   
+                <img id="right-links" style="padding: 0px 10px;" src="/static/icons/gear.svg" alt="Search Icon" width="20" height="20">
                 <div class="nav-links">
                     <div id="cancel-link" style="display: none;">
                         <a href="" class="cancel-link">Cancel</a>
@@ -106,13 +105,16 @@
     <!--NEWSLETTER FORM-->
     <div class="form-container">
         <div id="newsletter-popup" class="newsletter-form">
-            <h1 class="centered-element">Subscribing</h1>
+            <div class="close-button-container">
+                <div id="close-newsletter" class="close-button">&times;</div>
+            </div>    
+            <h1 class="centered-element">Subscribe</h1>
             <h3>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
             <form method="post">{% csrf_token %}
                 <input class="newsletter-field" id="email" type="email" placeholder="Email..." required>
                 <input class="newsletter-field" id="phone" type="text" placeholder="Phone..." required>
-                <label for="choice_field">Clothing category of interest</label>
-                <select name="choice_field" id="choice_field">
+                <label for="choice-field">Clothing category of interest</label>
+                <select name="choice-field" id="choice-field">
                     <option value="All">All</option>
                     <option value="option1">option1</option>
                     <option value="option2">option2</option>
@@ -139,10 +141,10 @@
             <div class="footer-links">
                 <h3>Quick Links</h3>
                 <ul>
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">About</a></li>
-                    <li><a href="#">newsletter</a></li>
-                    <li><a href="#">Contact</a></li>
+                    <li><a href="{% url 'products:index' %}">Home</a></li>
+                    <li><a href="{% url 'products:about' %}">About</a></li>
+                    <li><a href="{% url 'products:news-letter' %}">newsletter</a></li>
+                    <li><a href="{% url 'products:location' %}">Location</a></li>
                 </ul>
             </div>
             <div class="footer-contact">

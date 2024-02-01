@@ -1,5 +1,6 @@
 const newsletterLink = document.getElementById('subscribe-link')
 const newsletterForm = document.getElementById('newsletter-popup');
+const closeNewsletter = document.getElementById('close-newsletter');
 
 newsletterLink.addEventListener('click', (event) => {
     event.preventDefault(); 
@@ -14,25 +15,34 @@ document.addEventListener('click', (event) => {
     }
 });
 
-document.addEventListener("DOMContentLoaded", function() {
+closeNewsletter.addEventListener('click', () => {
+    newsletterForm.style.display = 'none';
+});
+
+document.addEventListener("DOMContentLoaded", () => {
     const emailInput = document.getElementById('email');
     const phoneInput = document.getElementById('phone');
-    const choiceField = document.getElementById('choice_field');
+    const choiceField = document.getElementById('choice-field');
     const submitButton = document.querySelector('.submit-button');
 
-    submitButton.addEventListener('click', function(event) {
-        event.preventDefault(); // Prevent form submission
+    submitButton.addEventListener('click', (event) => {
+        event.preventDefault(); 
         
         const emailValue = emailInput.value;
         const phoneValue = phoneInput.value;
         const choiceValue = choiceField.value;
-        
-        // Do something with the values, such as sending them to the server
-        console.log("Email:", emailValue);
-        console.log("Phone:", phoneValue);
-        console.log("Clothing category of interest:", choiceValue);
-        
-        SubmitNewsletter(emailValue, phoneValue, choiceValue)
+                
+        const response = SubmitNewsletter(emailValue, phoneValue, choiceValue)
+
+        switch (response) {
+            case 'success':
+                console.log("new follower!")
+                break;
+            case 'failure':
+                console.log('existing follower')
+                break;
+        }
+
 
         function SubmitNewsletter(email, phone, choice) {
             let xhr = new XMLHttpRequest();
@@ -42,7 +52,7 @@ document.addEventListener("DOMContentLoaded", function() {
             if (xhr.status === 200) {
                 let data = JSON.parse(xhr.responseText);
                 console.log(data)
-                return data;
+                return data.response;
             } else {
                 throw new Error('Failed to fetch data');
             }

@@ -1,7 +1,7 @@
 from django.http import JsonResponse
 from django.db.models import Q
 
-from ..models import MidCategory, Product
+from ..models import MidCategory, Product, Follower
 
 
 def newsletter(request):
@@ -11,9 +11,16 @@ def newsletter(request):
     email = request.GET.get('email')
     phone = request.GET.get('phone')
     choice = request.GET.get('choice')
-    
-    print(email, phone, choice)
-    return JsonResponse({'response': 'success'})
+    _, new_follower = Follower.objects.get_or_create(
+        email=email,
+        phone=phone,
+        category=choice
+    )
+    if new_follower:
+        response = 'success'
+    else:
+        response = 'failure'
+    return JsonResponse({'response': response})
 
 
 def search_autocomplete(request):
