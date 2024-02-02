@@ -120,13 +120,26 @@
             <h1 class="centered-element">Subscribe</h1>
             <h3>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
             <form method="post">{% csrf_token %}
+                <div class="name-field-container">
+                    <div>
+                        <small id="first-name-required" class="newsletter-error">This field is required!</small>
+                        <small id="first-name-char" class="newsletter-error">The first name should only be made of letters</small>
+                        <input class="newsletter-field" id="first-name" type="text" placeholder="First name...">    
+                    </div>
+                    <div>
+                        <small id="last-name-char" class="newsletter-error">The last name should only be made of letters</small>
+                        <small id="last-name-required" class="newsletter-error">This field is required!</small>
+                        <input class="newsletter-field" id="last-name" type="text" placeholder="Last name...">    
+                    </div>
+                </div>
+
                 <small id="email-field-required" class="newsletter-error">This field is required!</small>
                 <small id="invalid-email" class="newsletter-error">Email is invalid!</small>
                 <small id="existing-email" class="newsletter-error">This email is already subscribed to our newsletter!</small>
                 <input class="newsletter-field" id="email" type="email" placeholder="Email..." required>
 
                 <small id="confirm-email-field-required" class="newsletter-error">This field is required!</small>
-                <small id="unmatching-email" class="newsletter-error">Email does not match!</small>
+                <small id="unmatching-email" class="newsletter-error">Emails do not match!</small>
                 <input class="newsletter-field" id="confirm-email" type="text" placeholder="Confirm email..." required>
                 <label for="choice-field">Shopping Preference</label>
                 <select name="choice-field" id="choice-field">
@@ -142,23 +155,36 @@
             </form>    
         </div>
     </div>
+    <!--OVERLAY TO PREVENT ACTIONS-->
+    <div id="overlay"></div>
+    <!--SPINNER-->
+    <div id="centered-spinner-container">
+        <div class="centered-spinner"></div>
+    </div>
     <!--SUCCESS MESSAGE-->
     <div id="success-message">
         <div class="close-message">
             <div class="close-message-button" close="success-close">&times;</div>
         </div>
+        <h1 class="centered-element">Success!</h1>
         <p>Thank you for following us! We will get in touch as soon as we have new products of interest.</p>
-    </div>
-    <div id="failure-message">
-        <div class="close-message">
-            <div class="close-message-button" close="failure-close">&times;</div>
-        </div>
-        <p>The following email "something@gmail.com" is already subscribed to our newsletter.</p>
+        <button id="continue-button">Continue</button>
     </div>
 
     <script>
+        const help = document.querySelector('.help');
+        const settings = document.querySelector('.settings');
         const dashboard = document.querySelector('.dashboard');
+
         dashboard.addEventListener('click', () => {
+            window.location.href = '/products/dashboard/';
+        })
+
+        help.addEventListener('click', () => {
+            window.location.href = '/products/dashboard/';
+        })
+
+        settings.addEventListener('click', () => {
             window.location.href = '/products/dashboard/';
         })
     </script>

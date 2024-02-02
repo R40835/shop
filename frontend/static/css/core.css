@@ -20,7 +20,6 @@ body {
 .page-path {
     height: 60px;
     padding-left: 10px;
-    /* background-color: #f0efef; */
     border-top: 1px solid transparent;
     border-bottom: 1px solid #ccc;
     background-color: #f0efef; /*  f0efef */
@@ -41,4 +40,42 @@ body {
     cursor: pointer;
     color: #fff;
     background-color: #555;
+}
+
+#centered-spinner-container {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 5000; /* Ensure the spinner is above other content */
+}
+  
+.centered-spinner {
+    border: 5px solid rgba(0, 0, 255, 0.1); /* Light blue border */
+    border-top: 5px solid #007bff;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite; /* Spin animation */
+}
+  
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+#overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: transparent; /* Semi-transparent black overlay */
+    z-index: 9999; /* Ensure the overlay is below the spinner but above other content */
+    display: none; /* Initially hidden */
+}
+
+body.overlay-visible {
+    overflow: hidden;
 }

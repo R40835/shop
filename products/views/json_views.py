@@ -12,27 +12,34 @@ def newsletter(request):
     This endpoint receives data from the client to create a new db entry and returns 
     a Json response to reflect the success or the failure of the operation. 
     """
+    first_name = request.GET.get('first_name')
+    last_name = request.GET.get('last_name')
     email = request.GET.get('email')
     confirm_email = request.GET.get('confirm_email')
     choice = request.GET.get('choice')
 
+    if not first_name.isalpha():
+        return JsonResponse({'response': 'invalid-first-name'})
+    if not last_name.isalpha():
+        return JsonResponse({'response': 'invalid-last-name'})
     try:
         validate_email(email)
     except ValidationError:
         return JsonResponse({'response': 'invalid-email'})
-    
-    if email == confirm_email:
-        _, new_follower = Follower.objects.get_or_create(
-            email=email,
-            category=choice
-        )
-        if new_follower:
-            response = 'success'
-        else:
-            response = 'failure'
-        return JsonResponse({'response': response})
-    else:
+    if not email == confirm_email:
         return JsonResponse({'response': 'unmatching-email'})
+    
+    _, new_follower = Follower.objects.get_or_create(
+        first_name=first_name,
+        last_name=last_name,
+        email=email,
+        category=choice
+    )
+    if new_follower:
+        response = 'success'
+    else:
+        response = 'failure'
+    return JsonResponse({'response': response})
 
 
 def search_autocomplete(request):

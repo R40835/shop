@@ -33,14 +33,14 @@
     border-radius: 25px;
     font-weight: bold;
     color: #fff;
-    background-color: #dec88e;
+    background-color: #333;
     border-color: transparent;
     transition: background-color 0.5s ease;
 }
 
 .details-button:hover {
     color: #fff;
-    background-color: #eed9a5;
+    background-color: #555;
     border-color: transparent;
     cursor: pointer;
 }
