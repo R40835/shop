@@ -18,7 +18,7 @@
             <img class="small-photo" src="{% if item.image %}{{item.image.url}}{% endif %}" alt="Not Found">
             {% if images %}
                 {% for image in images %}
-                    <img class="small-photo" src="{% if image.image %}{{image.image.url}}{% endif %}" alt="Small Photo 1">
+                    <img class="small-photo" src="{% if image.extra_image %}{{image.extra_image.url}}{% endif %}" alt="Small Photo 1">
                 {% endfor %}
             {% endif %}
         </div>

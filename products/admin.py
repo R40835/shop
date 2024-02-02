@@ -23,7 +23,7 @@ class AdminFollowers(admin.ModelAdmin):
 
 
 class AdminProductImages(admin.ModelAdmin):
-    list_display = ('image',)
+    list_display = ('extra_image',)
 
 
 admin.site.register(Product, AdminProduct)

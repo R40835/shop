@@ -1,5 +1,5 @@
 from django import forms
-from ..models import TopCategory, MidCategory, Product, Purchase, BottomCategory
+from ..models import TopCategory, MidCategory, Product, ProductImage, Purchase, BottomCategory
 from django.core.exceptions import ValidationError
 
 
@@ -25,6 +25,7 @@ class AdminProductUploadForm(forms.ModelForm):
     )
     image = forms.ImageField(
         required=True,
+        label='Main image*',
         widget=forms.FileInput(
             attrs={
                 'id': "product-image",
@@ -56,10 +57,11 @@ class AdminProductUploadForm(forms.ModelForm):
     top_category = forms.ModelChoiceField(
         queryset=TopCategory.objects.all(), 
         required=True,
+        label='Top Category*',
         widget=forms.Select(
             attrs={
                 'id': "product-category",
-                'class': 'admin-subcategory', 
+                'class': 'admin-upload', 
                 'placeholder': 'category',
             }
         )
@@ -68,6 +70,7 @@ class AdminProductUploadForm(forms.ModelForm):
     mid_category = forms.ModelChoiceField(
         queryset=MidCategory.objects.all(), 
         required=True,
+        label='Mid Category*',
         widget=forms.Select(
             attrs={
                 'id': "product-category",
@@ -79,6 +82,7 @@ class AdminProductUploadForm(forms.ModelForm):
     bottom_category = forms.ModelChoiceField(
         queryset=BottomCategory.objects.all(), 
         required=False,
+        label='Bottom Category',
         widget=forms.Select(
             attrs={
                 'id': "product-bottom-category",
@@ -90,13 +94,56 @@ class AdminProductUploadForm(forms.ModelForm):
 
     class Meta:
         model  = Product
-        fields = ('name', 'description', 'image', 'price', 'stock','top_category', 'mid_category', 'bottom_category')
+        fields = ('name', 'description', 'price', 'stock','top_category', 'mid_category', 'bottom_category', 'image')
 
 
 class AdminUpdateProductForm(forms.ModelForm):
     class Meta:
         model = Product
         fields = ('name', 'description', 'image', 'price', 'stock', 'mid_category')
+
+
+class MultipleFileInput(forms.ClearableFileInput):
+    allow_multiple_selected = True
+
+
+class MultipleFileField(forms.FileField):
+    def __init__(self, max_files=5, max_file_size=10 * 1024 * 1024, *args, **kwargs):
+        self.max_files = max_files #TODO: Limits set doesn't seem to be working
+        self.max_files_size = max_file_size
+        kwargs.setdefault('widget', MultipleFileInput())
+        super(MultipleFileField, self).__init__(*args, **kwargs)
+
+    def clean(self, data, initial=None):
+        # field not required and no data provided
+        single_file_clean = super(MultipleFileField, self).clean
+        if isinstance(data, (list, tuple)):
+            if len(data) > self.max_files:
+                raise forms.ValidationError(f'You can upload up to {self.max_files} files only.')
+            result = [single_file_clean(d, initial) for d in data]
+            for file in result:
+                if file.size > self.max_files_size:
+                    raise forms.ValidationError(f'File size should not exceed {self.max_files_size} bytes.')
+                else:
+                    return result
+
+
+class AdminProductImageForm(forms.Form):
+    class Meta:
+        model = ProductImage
+        fields = ['extra_image']
+    
+    extra_image = MultipleFileField(
+            required=False, 
+            label='Extra images:',
+            widget=MultipleFileInput(
+                attrs={
+                    'id': 'multiple-images',
+                    'class': 'admin-upload',
+                    'placeholder': 'Product extra images'
+                }
+            ),
+        ) 
 
 
 class AdminTopCategoryCreationForm(forms.ModelForm): 
@@ -144,7 +191,7 @@ class AdminTopCategoryCreationForm(forms.ModelForm):
 
     class Meta:
         model = TopCategory
-        fields = ('name', 'confirm_name', 'image', 'description')
+        fields = ('name', 'confirm_name', 'description', 'image')
 
 
 
@@ -184,8 +231,8 @@ class AdminMidCategoryCreationForm(forms.ModelForm):
         required=True,
         widget=forms.Select(
             attrs={
-                'id': "category-category",
-                'class': 'admin-subcategory', 
+                'id': "top-category-choice",
+                'class': 'admin-category', 
                 'placeholder': 'category',
             }
         )
@@ -204,7 +251,7 @@ class AdminMidCategoryCreationForm(forms.ModelForm):
 
     class Meta:
         model = MidCategory
-        fields = ('name', 'confirm_name', 'image', 'description', 'top_category')
+        fields = ('name', 'confirm_name', 'description', 'top_category', 'image')
 
 
 class AdminEditMidCategoryForm(forms.ModelForm):
@@ -219,7 +266,7 @@ class AdminBottomCategoryCreationForm(forms.ModelForm):
         widget=forms.TextInput(
             attrs={
                 'id': 'subcategory-name',
-                'class': 'admin-subcategory', 
+                'class': 'admin-category', 
                 'placeholder': 'Nom de votre sous category',
             }
         ),
@@ -229,7 +276,7 @@ class AdminBottomCategoryCreationForm(forms.ModelForm):
         widget=forms.TextInput(
             attrs={
                 'id': 'subcategory-confirm-name',
-                'class': 'admin-subcategory', 
+                'class': 'admin-category', 
                 'placeholder': 'Nom de votre sous category',
             }
         ),
@@ -239,7 +286,7 @@ class AdminBottomCategoryCreationForm(forms.ModelForm):
         widget=forms.TextInput(
             attrs={
                 'id': 'subcategory-description',
-                'class': 'admin-subcategory', 
+                'class': 'admin-category', 
                 'placeholder': 'Description de votre sous category',
             }
         )
@@ -250,7 +297,7 @@ class AdminBottomCategoryCreationForm(forms.ModelForm):
         widget=forms.Select(
             attrs={
                 'id': "subcategory-category",
-                'class': 'admin-subcategory', 
+                'class': 'admin-category', 
                 'placeholder': 'category',
             }
         )
@@ -269,7 +316,7 @@ class AdminBottomCategoryCreationForm(forms.ModelForm):
 
     class Meta:
         model = BottomCategory
-        fields = ('name', 'confirm_name', 'image', 'description', 'mid_category')
+        fields = ('name', 'confirm_name', 'description', 'mid_category', 'image')
 
 
 class AdminSaleConfirmationForm(forms.Form):

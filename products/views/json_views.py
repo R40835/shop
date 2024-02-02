@@ -1,10 +1,8 @@
 from django.http import JsonResponse
 from django.db.models import Q
-from django.core.validators import validate_email
-from django.core.exceptions import ValidationError
 
-
-from ..models import MidCategory, Product, Follower
+from ..models import Product, Follower
+from ..utils import is_valid_email
 
 
 def newsletter(request):
@@ -22,12 +20,12 @@ def newsletter(request):
         return JsonResponse({'response': 'invalid-first-name'})
     if not last_name.isalpha():
         return JsonResponse({'response': 'invalid-last-name'})
-    try:
-        validate_email(email)
-    except ValidationError:
+    if not is_valid_email(email):
         return JsonResponse({'response': 'invalid-email'})
     if not email == confirm_email:
         return JsonResponse({'response': 'unmatching-email'})
+    if Follower.objects.filter(email=email).exists():
+        return JsonResponse({'response': 'existing-email'})
     
     _, new_follower = Follower.objects.get_or_create(
         first_name=first_name,

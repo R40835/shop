@@ -95,10 +95,10 @@ class Product(models.Model):
 
 
 class ProductImage(models.Model):
-    image      = models.ImageField(upload_to='product/', null=False, blank=False)
-    created_at = models.DateTimeField(auto_now_add=True)
+    extra_image = models.ImageField(upload_to='product/', null=False, blank=False)
+    created_at  = models.DateTimeField(auto_now_add=True)
 
-    product    = models.ManyToManyField(Product, related_name='images')
+    product     = models.ManyToManyField(Product, related_name='images')
 
 
 class Follower(models.Model):

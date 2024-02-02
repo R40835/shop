@@ -162,7 +162,25 @@
     padding-left: 10px;
     cursor: pointer;
 }
+.help-container,
+.settings-container,
+.dashboard-container {
+    position: relative;
+    display: inline;
+}
 
+.help-indicator,
+.settings-indicator, 
+.dashboard-indicator {
+    position: absolute;
+    padding: 5px;
+    font-weight: bold;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    top: 15px;
+    right: 0px;
+    display: none;
+}
 
 /******************************************************SEARCH-AUTOCOMPLETE*************************************************************/
 #search-results {

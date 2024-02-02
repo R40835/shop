@@ -155,6 +155,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 emailInput.classList.add('newsletter-field-error');
                 confirmEmailInput.classList.add('newsletter-field-error');
                 break;
+            case 'existing-email':
+                document.getElementById('existing-email').style.display = 'block';
+                emailInput.classList.add('newsletter-field-error');
+                confirmEmailInput.value = "";
+                choiceField.value = choiceField.options[0].value;
+                break;
             case 'invalid-first-name':
                 document.getElementById('first-name-char').style.display = 'block';
                 firstNameInput.classList.add('newsletter-field-error');

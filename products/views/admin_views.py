@@ -3,11 +3,11 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.core.paginator import Paginator
 from django.db.models import Q
 
-from ..models import Follower, Product, TopCategory, MidCategory, BottomCategory, Purchase
+from ..models import Follower, Product, ProductImage, TopCategory, MidCategory, BottomCategory, Purchase
 
 from ..forms.admin_forms import AdminProductUploadForm, AdminSaleConfirmationForm, AdminMidCategoryCreationForm, \
                                 AdminBottomCategoryCreationForm, AdminEditMidCategoryForm, AdminUpdateProductForm, \
-                                AdminTopCategoryCreationForm
+                                AdminTopCategoryCreationForm, AdminProductImageForm
 
 
 def is_superuser(user):
@@ -25,15 +25,25 @@ def admin_upload_product(request):
     """
     if request.method == 'POST':
         form = AdminProductUploadForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return redirect('products:index')
+        image_form = AdminProductUploadForm(request.POST, request.FILES)
+        if form.is_valid() and image_form.is_valid():
+            product = form.save()
+            images = request.FILES.getlist('extra_image')
+            if images:
+                for image in images:
+                    product_image = ProductImage.objects.create(extra_image=image)
+                    product_image.product.set([product]) 
+            return redirect('products:dashboard')
         else:
             print(form.errors)
     else:
         form = AdminProductUploadForm()
-        print(form.fields)
-    context = {'form': form}
+        image_form = AdminProductImageForm()
+        print(image_form.fields['extra_image'].required)
+    context = {
+                'form': form, 
+                'image_form': image_form
+            }
     return render(request, "admin/upload_content.html", context)
 
 
@@ -51,7 +61,7 @@ def admin_product_sold(request, product_pk):
                 quantity=form.cleaned_data['quantity'],
                 product_id=product_pk
             )
-            return redirect('products:index')
+            return redirect('products:dashboard')
     else:
         form = AdminSaleConfirmationForm()
     context = {'form': form, 'product': product}
@@ -68,7 +78,7 @@ def admin_create_top_category(request):
         form = AdminTopCategoryCreationForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect('products:index')
+            return redirect('products:dashboard')
     else:
         form = AdminTopCategoryCreationForm()
     context = {'form': form}
@@ -85,7 +95,7 @@ def admin_create_mid_category(request):
         form = AdminMidCategoryCreationForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect('products:index')
+            return redirect('products:dashboard')
     else:
         form = AdminMidCategoryCreationForm()
     context = {'form': form}
@@ -102,7 +112,7 @@ def admin_create_bottom_category(request):
         form = AdminBottomCategoryCreationForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return redirect('products:index')
+            return redirect('products:dashboard')
     else:
         form = AdminBottomCategoryCreationForm()
     context = {'form': form}
@@ -120,7 +130,7 @@ def admin_edit_category(request, category_pk):
         form = AdminEditMidCategoryForm(request.POST, request.FILES, instance=category)
         if form.is_valid():
             form.save()
-            return redirect('products:index')
+            return redirect('products:dashboard')
     form = AdminEditMidCategoryForm(instance=category)
     context = {'form': form}
     return render(request, "admin/update_category.html", context)
@@ -137,7 +147,7 @@ def admin_update_product(request, product_pk):
         form = AdminUpdateProductForm(request.POST, request.FILES, instance=product)
         if form.is_valid():
             form.save()
-            return redirect('products:index')
+            return redirect('products:dashboard')
     form = AdminUpdateProductForm(instance=product)
     context = {'form': form}
     return render(request, "admin/update_product.html", context)

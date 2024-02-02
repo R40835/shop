@@ -65,13 +65,22 @@
                     </form>     
                 </div>
                 <div id="right-links">
-                    <img class="settings" src="/static/icons/gear.svg" alt="Search Icon" width="20" height="20">
-                    <img class="help" src="/static/icons/help.svg" alt="Search Icon" width="20" height="20">
+                    <img class="settings" src="/static/icons/gear.svg" alt="Gear Icon" width="20" height="20">
+                    <div class="settings-container">
+                        <small class="settings-indicator">Settings</small>
+                    </div>
+
+                    <img class="help" src="/static/icons/help.svg" alt="Help Icon" width="20" height="20">
+                    <div class="help-container">
+                        <small class="help-indicator">help</small>
+                    </div>
                     {% if request.user.is_superuser %}
-                        <img class="dashboard" src="/static/icons/dashboard.svg" alt="Search Icon" width="20" height="20">    
+                        <img class="dashboard" src="/static/icons/dashboard.svg" alt="Dashboard Icon" width="20" height="20">    
+                        <div class="dashboard-container">
+                            <small class="dashboard-indicator">Dashboard</small>
+                        </div>
                     {% endif %}
                 </div>
-
                 <div class="nav-links">
                     <div id="cancel-link" style="display: none;">
                         <a href="" class="cancel-link">Cancel</a>
@@ -170,14 +179,40 @@
         <p>Thank you for following us! We will get in touch as soon as we have new products of interest.</p>
         <button id="continue-button">Continue</button>
     </div>
-
     <script>
         const help = document.querySelector('.help');
         const settings = document.querySelector('.settings');
         const dashboard = document.querySelector('.dashboard');
+        const helpIndicator = document.querySelector('.help-indicator');
+        const dashboardIndicator = document.querySelector('.dashboard-indicator');
+        const settingsIndicator = document.querySelector('.settings-indicator');
 
         dashboard.addEventListener('click', () => {
             window.location.href = '/products/dashboard/';
+        })
+
+        dashboard.addEventListener('mouseover', () => {
+            dashboardIndicator.style.display = 'inline';
+        })
+
+        dashboard.addEventListener('mouseout', () => {
+            dashboardIndicator.style.display = 'none';
+        })
+
+        settings.addEventListener('mouseover', () => {
+            settingsIndicator.style.display = 'inline';
+        })
+
+        settings.addEventListener('mouseout', () => {
+            settingsIndicator.style.display = 'none';
+        })
+
+        help.addEventListener('mouseover', () => {
+            helpIndicator.style.display = 'inline';
+        })
+
+        help.addEventListener('mouseout', () => {
+            helpIndicator.style.display = 'none';
         })
 
         help.addEventListener('click', () => {
