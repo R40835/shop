@@ -10,6 +10,18 @@ body {
     font-family: 'Roboto', sans-serif;
 }
 
+.link {
+    visibility: hidden;
+    text-decoration: none;
+    color: inherit;
+    outline: none;
+}
+
+/*reset visibility for link's child*/
+.link > * {
+    visibility: visible;
+}
+
 .centered-element {
     display: flex;
     flex-direction: column;

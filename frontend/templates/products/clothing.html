@@ -7,6 +7,15 @@
     <link rel="stylesheet" href="{% static "css/top-category.css" %}">
     <link rel="stylesheet" href="{% static "css/filter_category.css" %}">
 {% endblock styles %}
+{% block app_links %}
+    <a href="{% url 'products:index' %}">Home</a>
+    <div class="dropdown">
+        <a class="hovered" id="dropdown-button" href="#">Products <span id="dropdown-symbol">&#9660;</span></a>
+    </div>
+    <a href="" id="subscribe-link">Subscribe</a>
+    <a href="{% url 'products:location' %}">Location</a>
+    <a href="{% url 'products:about' %}">About</a>
+{% endblock app_links %}
 {% block content %}
 <div class="page-path">
     <h4>Clothing</h4> 

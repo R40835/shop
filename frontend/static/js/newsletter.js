@@ -58,6 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
     newsletterLink.addEventListener('click', (event) => {
         event.preventDefault(); 
         newsletterForm.style.display = 'block';
+        newsletterLink.classList.add('hovered');
     });
     
     document.addEventListener('click', (event) => {
@@ -65,6 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
             reinitialiseNewsletterForm();
             clearNewsletterFormErrors();
             hideNewsletterForm();
+            newsletterLink.classList.remove('hovered');
         }
     });
 
@@ -76,6 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
         reinitialiseNewsletterForm();
         clearNewsletterFormErrors();
         hideNewsletterForm();
+        newsletterLink.classList.remove('hovered');
     });
     
     closeMessages.forEach(closeMessage => {
@@ -137,6 +140,7 @@ document.addEventListener("DOMContentLoaded", () => {
         switch (response) {
             case 'success':
                 hideNewsletterForm();
+                newsletterLink.classList.remove('hovered');
                 successMessage.style.display = "block";
                 reinitialiseNewsletterForm();
                 break;

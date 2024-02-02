@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseBadRequest
 from django.core.paginator import Paginator
 from django.db.models import Q
 
@@ -104,30 +104,42 @@ def newsletter(request):
         form = NewsLetterForm()
     context = {'form': form}
     return render(request, "products/newsletter.html", context)
-
+    
 
 def search(request):
     """
-    Searching for Categories/Products.
+    Getting the search query written in the searchbar and 
+    passing it and redirecting to the search results view.
     """
-    items = None
     if request.method == 'GET':
         query = request.GET.get('q')
-        search_result = Product.objects.filter(
-            Q(name__icontains=query) |
-            Q(top_category__name__icontains=query) |
-            Q(mid_category__name__icontains=query) |
-            Q(bottom_category__name__icontains=query)
-        ).order_by('-created_at')
-        if search_result.exists():
-            items = search_result
-        else:
-            items = None
-        context = {
-            'searched': query,
-            'items': items,
-        }
-        return render(request, 'products/search.html', context)
+        return redirect('products:search-results', query=query)
+    return HttpResponseBadRequest("Bad Request")
+
+
+def search_results(request, query):
+    """
+    Rendering the search results queried by the user.
+    """
+    items = Product.objects.filter(
+        Q(name__icontains=query) |
+        Q(top_category__name__icontains=query) |
+        Q(mid_category__name__icontains=query) |
+        Q(bottom_category__name__icontains=query)
+    ).order_by('-created_at')
+
+    items_per_page = 4
+    paginator = Paginator(items, items_per_page)
+    page_number = request.GET.get('page')
+
+    items = paginator.get_page(page_number)
+
+    context = {
+        'searched': query,
+        'items': items,
+    }
+    return render(request, 'products/search.html', context)
+
     
 
 def item(request, product_pk):

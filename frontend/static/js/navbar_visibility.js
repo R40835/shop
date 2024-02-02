@@ -3,7 +3,7 @@ var navbar = document.getElementById("navbar");
 var navbarHeight = navbar.offsetHeight;
 
 window.addEventListener("scroll", function() {
-  var currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+  var currentScroll = document.documentElement.scrollTop;
 
   if (currentScroll > lastScrollTop && currentScroll > navbarHeight) {
     // Scrolling down, hide the navbar

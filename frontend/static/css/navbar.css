@@ -41,34 +41,24 @@
     padding: 10px 0;
     margin-left: 15px;
     font-weight: bold;
-    position: relative; /* Ensure relative positioning */
+    border-bottom: 2px solid transparent; /* Initially, set border-bottom to transparent */
+    transition: border-bottom-color 0.5s; /* Add a smooth transition effect for color change */
 }
 
-.nav-links a::after,
-#dropdown-button::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 0;
-    height: 2px; /* Adjust the height of the border bottom as needed */
-    background-color: #dec88e; /* Adjust the color of the border bottom as needed */
-    transition: width 0.3s ease; /* Add transition for smooth effect */
+.nav-links a.hovered {
+    border-bottom-color: #555; 
 }
+
+.nav-links a:hover {
+    border-bottom-color: #555; /* dec88e Change the color of border-bottom on hover */
+}
+#dropdown-button.hovered {
+    border-bottom-color: #555;
+} 
 
 #dropdown-symbol {
     font-size: 10px;
 }
-
-.nav-links a:hover::after,
-#dropdown-button:hover::after {
-    width: 100%;
-}
-
-#dropdown-button.hovered::after {
-    width: 100%; /* Extend the border bottom when hovered */
-}
-
 /***********************************************/
 /* Style the right section (search, fav, and cart links) */
 .right-section {

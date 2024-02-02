@@ -13,6 +13,7 @@ urlpatterns = [
     path('location/', user_views.location, name='location'),
     path('news-letter/', user_views.newsletter, name='news-letter'),
     path('search/', user_views.search, name='search'),
+    path('search-results/<query>/', user_views.search_results, name='search-results'),
     path('item/<product_pk>/', user_views.item, name='item'),
     path('category/<int:mid_category_pk>/', user_views.mid_category_products, name='category-products'),
     # admin
