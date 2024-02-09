@@ -1,4 +1,4 @@
-.navbar {
+.navbar-top {
     height: 80px;
     top: 0;
     position: fixed; 
@@ -7,42 +7,82 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #fff; /* #dc143c #333 */
-    /* border-bottom: 1px solid #ccc; */
+    background-color: #fff; 
     color: #555;
     padding: 10px;
     transition: top 0.3s;
     z-index: 2000;
-    /* font-size: large; */
+    font-family: 'Times New Roman', Times, serif;
 }
 
-/* Style the left section (logo) */
-.left-section {
-    flex: 1;
+.navbar {
+    height: 80px;
+    top: 80px;
+    position: fixed; 
+    box-sizing: border-box;
+    width: 100%;
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-evenly;
+    align-items: center;
+    background-color: #fff; /* #dc143c #333 */
+    color: #555;
+    padding: 10px 0px;
+    transition: top 0.3s;
+    z-index: 2000;
+    font-family: 'Raleway', sans-serif;
+    /* font-weight: bold; */
+}
+    
+/* Left section */
+.left-section {
+    width: 80%;
+    text-align: center;
+}
+
+/* Right section */
+.right-section {
+    width: 20%;
+    display: flex;
+    justify-content: flex-end;
     align-items: center;
 }
 
+/* Search bar */
+.search-bar {
+    margin-right: 20px;
+}
+
+/* Anchor links */
+.navbar-link {
+    color: #555;
+    text-decoration: none;
+    font-size: 14px;
+    padding: 10px 0;
+    margin: 0 25px;
+    border-bottom: 3px solid transparent; /* Initially, set border-bottom to transparent */
+    transition: border-bottom-color 0.5s; /* Add a smooth transition effect for color change */
+}
+
+.navbar a.hovered {
+    border-bottom-color: #555; 
+}
+
+.navbar a:hover {
+    border-bottom-color: #555; /* dec88e Change the color of border-bottom on hover */
+}
+
 .logo {
-    font-size: 1.5em;
+    font-size: 2.5em;
     font-weight: bold;
+    font-family:  'Times New Roman', Times, serif; /* 'Times New Roman', Times, serif */
 }
 
 /* Style the middle section (main links) */
 .middle-section {
-    flex: 2;
-    text-align: center;
-}
-
-.nav-links a {
-    color: #555;
-    text-decoration: none;
-    padding: 10px 0;
-    margin-left: 15px;
-    font-weight: bold;
-    border-bottom: 2px solid transparent; /* Initially, set border-bottom to transparent */
-    transition: border-bottom-color 0.5s; /* Add a smooth transition effect for color change */
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .nav-links a.hovered {
@@ -52,98 +92,70 @@
 .nav-links a:hover {
     border-bottom-color: #555; /* dec88e Change the color of border-bottom on hover */
 }
+
 #dropdown-button.hovered {
     border-bottom-color: #555;
 } 
 
-#dropdown-symbol {
-    font-size: 10px;
-}
-/***********************************************/
-/* Style the right section (search, fav, and cart links) */
-.right-section {
-    flex: 1;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-}
-
-.search-field,
-.navbar .middle-section .search-field {
+.search-field {
+    /* background-color: #dc143c; */
+    margin-right: 10px;
+    width: 100%;
     position: relative;
     transition: all 0.5s ease;
     transform-origin: right center;
+    flex-grow: 1; /* This will make the search bar expand to fill the available space */
 }
 
 .navbar input[type="text"] {
-    padding: 8px;
-    border-radius: 25px;
+    padding: 10px;
+    border-radius: none;
     color: #555; 
-    border: 1px solid #fff; 
-    background-color: #f0efef; /* rgba(241, 222, 222, 0.5) */
+    /* width: 220px; */
+    border: 3px solid transparent; /* 1px solid #fff */
+    background-color: transparent; /* #f0efef */
     transition: all 0.5s ease;
+    border-bottom-left-radius: none;
+    border-top-right-radius: none;
 }
 
-
-.navbar .middle-section input[type="text"] {
-    width: 100%;
-    padding: 8px;
-    border-radius: 25px;
-    color: #555; 
-    border: 1px solid #fff; 
-    background-color: #f0efef; 
-    transition: all 0.5s ease;
-
-}
-
+.navbar input:hover,
 .navbar input:focus,
-.navbar .middle-section input:focus {
-    border: 1px solid #dec88e; 
+.navbar input:valid {
+    border-bottom: 3px solid #555; 
     outline: none; 
 }
 
 .search-field input[type="text"]::placeholder {
-    color: #777; /* Placeholder text color */
-}
+    color: transparent;  
+} 
+
+.search-field input[type="text"]:focus::placeholder,
+.search-field input[type="text"]:hover::placeholder {
+    color: #555;  
+} 
 
 .search-button {
     position: absolute;
-    right: 0;
+    right: -5px;
     top: 0;
     background-color: transparent;
-    color: #dec88e;
-    border: 1px solid transparent;
+    color: #555;
+    border: none;
     border-radius: 25px;
     padding: 8px 15px;
     cursor: pointer;
 }
 
-.navbar .middle-section .search-button {
+.language {
+    position: relative;
+    cursor: pointer;
+}
+
+.sort-down {
     position: absolute;
-    right: -18px; /* overlapping search button */
-    top: 0;
-    background-color: transparent;
-    color: #dec88e;
-    border: 1px solid transparent;
-    border-radius: 25px;
-    padding: 8px 15px;
-    cursor: pointer;
-}
-
-.search-field input[type="text"]:not(:focus) + .search-button:hover {
-    background-color: #ddd;
-    border: 1px solid #fff;
-    border-left: none;
-    border-top-left-radius: 0; 
-    border-bottom-left-radius: 0;
-}
-.search-button:hover,
-.navbar .middle-section .search-button:hover {
-    background-color: #ddd;
-    border: 1px solid #dec88e;
-    border-left: none;
-    border-top-left-radius: 0; 
-    border-bottom-left-radius: 0;
+    top: -5px;
+    left: 0px;
 }
 
 .help,
@@ -154,7 +166,8 @@
 }
 .help-container,
 .settings-container,
-.dashboard-container {
+.dashboard-container,
+.language-picker-container {
     position: relative;
     display: inline;
 }
@@ -172,7 +185,21 @@
     display: none;
 }
 
-/******************************************************SEARCH-AUTOCOMPLETE*************************************************************/
+.language-picker {
+    position: absolute;
+    padding: 15px 5px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    top: 15px;
+    left: 0px;
+    display: none;
+}
+
+.language-picker a {
+    padding-top: 15px;
+}
+
 #search-results {
     list-style: none;
     padding: 0;
@@ -196,10 +223,6 @@
 .result-not-found {
     color: #dc143c;
     padding: 8px;
-}
-/* Style the right section links */
-.right-section .nav-links a {
-    margin-left: 15px;
 }
 
 .image-container {
@@ -227,71 +250,145 @@
     margin: 0;
     padding: 5px;
 }
-/********************************************************************DOPDOWN BUTTON***************************************************/
-.dropdown {
-    position: relative;
-    display: inline-block;
-}
 
-.dropdown a {
-    display: inline; /* keep it or mess up layout */
-}
-
-.dropdown-content {
-    top: 100%;
-    text-align: left;
-    display: none;
+/************************************************************DOPDOWN BUTTON + CONTENT ************************************************/
+.collection-content,
+.linens-textiles-content {
     position: absolute;
-    background-color: #fff;
-    color: #333;
-    width: 100%;
-    /* box-shadow: 0 8px 16px rgba(0,0,0,0.2); */
-    z-index: 1;
-}
-
-.dropdown-content {
-    list-style: none;
+    display: block;
+    color: #555;
+    text-align: left;
     padding: 0;
     margin: 0;
-    position: absolute;
     width: 100%;
-    /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); */
+    height: 0;
     background-color: #fff;
     top: 100%;
     left: 0;
     z-index: 2000;
+    transition: height 0.5s ease-in-out;
+    border-top: 1px groove #eee;
 }
+
+.collection-content.collapsed,
+.linens-textiles-content.collapsed {
+    height: 100vh; /* Set height to 0 when collapsed */
+    overflow: hidden; /* Hide content overflow */
+}
+
+
+/* .collection-content,
+.linens-textiles-content {
+    position: absolute;
+    display: none;
+    color: #555;
+    text-align: left;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: #fff;
+    top: 100%;
+    left: 0;
+    z-index: 2000;
+    transition: height 0.5s ease-in-out;
+    border-top: 1px groove #eee;
+} */
+
+.close-collection,
+.close-linens-textiles {
+    display: none;
+    position: absolute;
+    top: 0px;
+    right: 10px;
+    font-size: 50px;
+    color: #dc143c;
+    cursor: pointer;
+}
+
+/* .dropdown-separation {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+} */
 
 /*****************************************************************DROPDOWN CONTENT****************************************************/
-.grid-container {
-    display: flex;
+.grid-container,
+.grid-container-two {
+    display: none;
+    width: 80%;
+    /* background-color: #dc143c; */
+    /* display: flex; */
     justify-content: space-between; /* Distribute items evenly along the main axis */
+    margin: 10px auto; /* 150px */
+    margin-top: 100px; /* in order for the content to be beneath the close button */
 }
 
-.grid-container p,
-.grid-container a {
+.grid-container-two {
+    margin-top: 10px;
+}
+
+.grid-container a,
+.grid-container-two a {
     display: block;
-    color: #333;
+    color: #555;
+    font-size: 12px;
+    padding: 5px 0;
     text-decoration: none;
     margin: 0;
 }
-.grid-container p:hover,
-.grid-container a:hover {
+
+.grid-container a:hover, 
+.grid-container-two a:hover {
     color: #777;
     cursor: pointer;
 }
-.left-content, .middle-content, .right-content {
-    margin-left: 13%;
-    flex-basis: 33%; /* Adjust as needed to leave space for margins */
-    border-right: 1px solid #ccc;
-}
 
+.left-content, 
+.middle-left-content, 
+.middle-center-content, 
+.middle-right-content, 
 .right-content {
-    border-right: none;
+    flex-basis: 20%; /* Adjust as needed to leave space for margins */
 }
 
 .title {
+    color: #333;
     font-size: large;
+    font-family: 'Times New Roman', Times, serif;
     font-weight: bold;
     padding-bottom: 10px;
+}
+
+.collections-image {
+    background-image: url('images/collections.jpg'); 
+    background-color: #cccccc;
+    height: 200px;
+    width: 200px;
+    background-repeat: no-repeat;
+    background-size: 100% 100%; 
+    position: relative;
+}
+
+.linens-textiles-image {
+    background-image: url('images/linens&textiles.jpg'); 
+    background-color: #cccccc;
+    height: 200px;
+    width: 200px;
+    background-repeat: no-repeat;
+    background-size: 100% 100%; 
+    position: relative;
+}
+
+.collections-home,
+.linens-textiles-home {
+    position: absolute;
+    bottom: -40px;
+    left: 0px;
+}
+
+#novelties {
+    font-weight: 900;
+    color: #111;
 }

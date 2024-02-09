@@ -19,7 +19,7 @@ class CategoryInterface(models.Model):
         """
         Overriding the save method to resize the images uploaded.
         """
-        self.name = self.name.capitalize() if self.name else None
+        self.name = self.name.upper() if self.name else None
         self.description = self.description.capitalize() if self.description else None
 
         super(CategoryInterface, self).save(*args, **kwargs)

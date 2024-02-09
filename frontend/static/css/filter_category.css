@@ -47,22 +47,22 @@
 .bar a {
     display: inline;
     color: #555;
-    font-weight: bold;
+    /* font-weight: bold; */
     text-decoration: none;
     padding: 10px;
+    padding-right: 40px;
     transition: background-color 0.3s ease-in-out;
 }
 
 .bar .sub-category {
-    border: 1px solid #555;
-    border-radius: 25px;
+    font-size: larger;
 }
 
 .bar .sub-category:hover {
     cursor: pointer ;
-    color: #fff;
-    border: 1px solid #dec88e;
-    background-color: #dec88e;
+    color: #777;
+    /* border: 1px solid #dec88e;
+    background-color: #dec88e; */
 }
 
 .bar a:hover {

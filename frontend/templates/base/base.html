@@ -7,22 +7,24 @@
     {% block title %}
         <title>Base</title>
     {% endblock title %}
-    {% block styles %}
-    {% endblock styles %}
     <!-- loading css -->
     <link rel="stylesheet" href="{% static "css/core.css" %}">
     <link rel="stylesheet" href="{% static "css/navbar.css" %}">
     <link rel="stylesheet" href="{% static "css/newsletter.css" %}">
     <link rel="stylesheet" href="{% static "css/footer.css" %}">
+    <!-- loading more styles for other pages -->
+    {% block styles %}
+    {% endblock styles %}
     <!-- loading leaflet -->
     <link rel="stylesheet" href="/static/leaflet/leaflet.css"/>
     <script src="/static/leaflet/leaflet.js"></script>
     <!-- google font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!--<link href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap" rel="stylesheet"> -->
+    <!-- font a -->
     <link href="https://fonts.googleapis.com/css2?family=Oxygen&family=Space+Grotesk:wght@500&family=Teko&display=swap" rel="stylesheet">
-
+    <!-- font b -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@100&family=Oxygen&family=Raleway:wght@100;200;500&family=Roboto&family=Teko&display=swap" rel="stylesheet">
     <!-- app base path -->
     <script>var basePath = "{% url 'index' %}";</script>
     <!-- force reloading when using browser back button -->
@@ -37,44 +39,50 @@
 </head>
 <body>
     <nav>
+        <div id="navbar-top" class="navbar-top">
+            <div class="middle-section">
+                <div class="logo">DARREL WALDYN</div>
+            </div>
+        </div>    
         <div id="navbar" class="navbar">
             <div class="left-section">
-                <div class="logo">Shop</div>
+                {% block app_links %}
+                    <div id="middle-links" class="nav-links">
+                        <a class="navbar-link" href="{% url 'products:index' %}">HOME</a>
+                        <a class="navbar-link" id="novelties" href="">NOUVEAUTÉS</a>
+                        <a class="navbar-link" id="collection-dropdown" href="">COLLECTIONS</a>
+                        <a class="navbar-link" id="linens-textiles-dropdown" href="">MAISON</a>
+                        <a class="navbar-link" href="{% url 'products:about' %}">DARREL WALDYN WORLD</a>
+                        <a class="navbar-link" href="">INSTAGRAM</a>
+                        <a class="navbar-link" href="{% url 'products:location' %}">CONTACT</a>
+                        <a class="navbar-link" href="" id="subscribe-link">NEWSLETTER</a>
+                    </div>    
+                {% endblock app_links %}
             </div>    
-            <div class="middle-section">
-                <div id="middle-links" class="nav-links">
-                    {% block app_links %}
-                        <a href="{% url 'products:index' %}">Home</a>
-                        <div class="dropdown">
-                            <a id="dropdown-button" href="">Products <span id="dropdown-symbol">&#9660;</span></a>
-                        </div>
-                        <a href="" id="subscribe-link">Subscribe</a>
-                        <a href="{% url 'products:location' %}">Location</a>
-                        <a href="{% url 'products:about' %}">About</a>
-                    {% endblock app_links %}
-                </div>    
-                <span id="middle-search"></span>
-            </div>
             <div class="right-section">
                 <div id="right-search">
                     <form id="search-form" action="{% url 'products:search' %}" method="GET" role="search">{% csrf_token %}
                         <div id="searchbar" class="search-field">
-                            <input id="product-search" type="text" name="q" value="{{ request.GET.q }}" placeholder="Search" required>
+                            <input id="product-search" type="text" name="q" value="{{ request.GET.q }}" placeholder="What are you looking for?" required>
                             <button class="search-button">
-                                <img class="search-icon" src="/static/icons/magnifying-glass.svg" alt="Search Icon" width="12" height="12">
+                                <img class="search-icon" src="/static/icons/search.svg" alt="Search Icon" width="25" height="25">
                             </button>     
                         </div>
                     </form>     
                 </div>
                 <div id="right-links">
-                    <img class="settings" src="/static/icons/gear.svg" alt="Gear Icon" width="20" height="20">
-                    <div class="settings-container">
-                        <small class="settings-indicator">Settings</small>
+                    <div class="language">
+                            <img class="sort-down" src="/static/icons/sort-down.svg" alt="Down Icon" width="25" height="25">
+                        <a class="navbar-link" href="">
+                            ENGLISH
+                        </a>    
                     </div>
-
-                    <img class="help" src="/static/icons/help.svg" alt="Help Icon" width="20" height="20">
-                    <div class="help-container">
-                        <small class="help-indicator">help</small>
+                    <!-- language picker-->
+                    <div class="language-picker-container">
+                        <div class="language-picker">
+                            <a href="">FRENCH</a>
+                            <a href="">ARABIC</a>                                
+                        </div>
                     </div>
                     {% if request.user.is_superuser %}
                         <img class="dashboard" src="/static/icons/dashboard.svg" alt="Dashboard Icon" width="20" height="20">    
@@ -83,37 +91,95 @@
                         </div>
                     {% endif %}
                 </div>
-                <div class="nav-links">
-                    <div id="cancel-link" style="display: none;">
-                        <a href="" class="cancel-link">Cancel</a>
-                    </div>
-                </div>
             </div>
+            <!-- search results -->
             <span class="centered-element" id="search-results"></span>
-            <div class="dropdown-content">
-                <div class="grid-container">
+            <!-- collection dropdown -->
+            <div class="collection-content">
+                <div id="close-collection-button" class="close-collection">&times;</div>
+                <div id="collection-grid" class="grid-container">
                     <div class="left-content">
-                        <a class="title" href="{% url 'products:clothing' %}">Clothing</a>
+                        <div class="collections-image">
+                            <a class="collections-home title" href="">COLLECTIONS HOME ></a>
+                        </div>
+                    </div>
+                    <div class="middle-left-content">
+                        <a class="title" href="#">ANNÉE 2024</a>
+                        <a id="season" href="">COLLECTION AUTOMNE-HIVER</a>
+                        <a id="season" href="">COLLECTION PRINTEMPS-ÉTÉ</a>
+                    </div>
+                    <div class="middle-center-content">
+                        <a class="title" href="{% url 'products:collections' %}">COLLECTIONS</a>
                         {% for category in clothing %}
                             <a href="{% url 'products:category-products' category.pk %}">{{category.name}}</a>
                         {% endfor %}    
-                        <br>
                     </div>
-                    <div class="middle-content">
-                        <a class="title" href="#">Garniture</a>
-                        {% for category in garniture %}
-                            <a href="{% url 'products:category-products' category.pk %}">{{category.name}}</a>
-                        {% endfor %}    
-                        <br>
+                    <div class="middle-right-content">
+                        <a class="title" href="#">ACCESSORIES</a>
+                        <a href="">COLLIERS & BRACELETS</a>
+                        <a href="">BAGUES</a>
+                        <a href="">SACS</a>
                     </div>
                     <div class="right-content">
-                        <a class="title" href="#">Collections</a>
-                        <p>Winter 2024</p>
-                        <p>Summer 2024</p>
-                        <p>Spring 2024</p>
-                        <p>Autumn 2024</p>
-                        <br>
+                        <a class="title" href="#">NOUVEAUTÉS</a>
+                        <a href="">TOPS</a>
+                        <a href="">VESTES & MENTAUX</a>
+                        <a href="">CAFTANS & KIMONOS</a>
                     </div>
+                </div>
+            </div>
+            <!-- linens & textiles dropdown -->
+            <div class="linens-textiles-content">
+                <div id="close-linens-textiles-button" class="close-linens-textiles">&times;</div>
+                <div id="house-grid" class="grid-container">
+                    <div class="left-content">
+                        <div class="linens-textiles-image">
+                            <a class="linens-textiles-home title" href="">MAISON HOME ></a>
+                        </div>
+                    </div>
+                    <div class="middle-left-content">
+                        <!-- {% for category in garniture %}
+                            <a href="{% url 'products:category-products' category.pk %}">{{category.name}}</a>
+                        {% endfor %}     -->
+                        <a class="title" href="">VÊTEMENT D'INTÉRIEUR</a>
+                        <a href="">ROBES D'INTÉRIEURS</a>
+                        <a href="">PYJAMAS ET NUISETTES</a>
+                        <a href="">KIMONO DÉSHABILLÉ</a>
+                        <a href="">AUTRES</a>
+                    </div>
+                    <div class="middle-center-content">
+                        <a class="title" href="">LITERIE ADULTES</a>
+                        <a href="">DRAPS</a>
+                        <a href="">HOUSSES DE COUETTE</a>
+                        <a href="">TAIE D'OREILLER</a>
+                        <a href="">COUVRE LIT & JETÉE DE LIT</a>
+                        <a href="">COUSSINS</a>
+                    </div>
+                    <div class="middle-right-content">
+                        <a class="title" href="">LITERIE ENFANTS</a>
+                        <a href="">DRAPS</a>
+                        <a href="">HOUSSES DE COUETTE</a>
+                        <a href="">TAIE D'OREILLER</a>
+                        <a href="">COUVRE LIT & JETÉE DE LIT</a>
+                        <a href="">COUSSINS</a>
+                    </div>
+                    <div class="right-content">
+                        <a class="title" href="">CUISINE</a>
+                        <a href="">NAPPE & CHEMIN DE TABLE & SERVIETTE</a>
+                        <a href="">AUTRES</a>
+                    </div>
+                </div>
+                <div id="house-grid-two" class="grid-container-two">
+                    <div class="left-content"></div>
+                    <div class="middle-left-content">
+                        <a class="title" href="">NOUVEAUTÉS</a>
+                        <a href="">PYJAMAS ET NUISETTES</a>
+                        <a href="">DRAPS</a>
+                        <a href="">COUSSINS</a>
+                    </div>
+                    <div class="middle-center-content"></div>
+                    <div class="middle-right-content"></div>
+                    <div class="right-content"></div>
                 </div>
             </div>
         </div>
@@ -128,7 +194,7 @@
             <div class="close-button-container">
                 <div id="close-newsletter" class="close-button">&times;</div>
             </div>    
-            <h1 class="centered-element">Subscribe</h1>
+            <h1 class="centered-element">Newsletter</h1>
             <h3>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
             <form method="post">{% csrf_token %}
                 <div class="name-field-container">
@@ -152,6 +218,7 @@
                 <small id="confirm-email-field-required" class="newsletter-error">This field is required!</small>
                 <small id="unmatching-email" class="newsletter-error">Emails do not match!</small>
                 <input class="newsletter-field" id="confirm-email" type="text" placeholder="Confirm email..." required>
+
                 <label for="choice-field">Shopping Preference</label>
                 <select name="choice-field" id="choice-field">
                     <option value="All">All</option>
@@ -161,7 +228,7 @@
                     <option value="option4">option4</option>
                 </select>
                 <div class="centered-element">
-                    <button class="submit-button">Subscribe</button>
+                    <button class="submit-button" type="submit">Subscribe</button>
                 </div>
             </form>    
         </div>
@@ -181,55 +248,12 @@
         <p>Thank you for following us! We will get in touch as soon as we have new products of interest.</p>
         <button id="continue-button">Continue</button>
     </div>
-    <script>
-        const help = document.querySelector('.help');
-        const settings = document.querySelector('.settings');
-        const dashboard = document.querySelector('.dashboard');
-        const helpIndicator = document.querySelector('.help-indicator');
-        const dashboardIndicator = document.querySelector('.dashboard-indicator');
-        const settingsIndicator = document.querySelector('.settings-indicator');
 
-        dashboard.addEventListener('click', () => {
-            window.location.href = '/products/dashboard/';
-        })
-
-        dashboard.addEventListener('mouseover', () => {
-            dashboardIndicator.style.display = 'inline';
-        })
-
-        dashboard.addEventListener('mouseout', () => {
-            dashboardIndicator.style.display = 'none';
-        })
-
-        settings.addEventListener('mouseover', () => {
-            settingsIndicator.style.display = 'inline';
-        })
-
-        settings.addEventListener('mouseout', () => {
-            settingsIndicator.style.display = 'none';
-        })
-
-        help.addEventListener('mouseover', () => {
-            helpIndicator.style.display = 'inline';
-        })
-
-        help.addEventListener('mouseout', () => {
-            helpIndicator.style.display = 'none';
-        })
-
-        help.addEventListener('click', () => {
-            window.location.href = '/products/dashboard/';
-        })
-
-        settings.addEventListener('click', () => {
-            window.location.href = '/products/dashboard/';
-        })
-    </script>
-
+    <script type="text/javascript" src="/static/js/newsletter.js"></script>
+    <script type="text/javascript" src="/static/js/language_picker.js"></script>
     {% block content %}
     {% endblock content %}
     <script type="text/javascript" src="/static/js/filterbar_visibility.js"></script>
-    <script type="text/javascript" src="/static/js/newsletter.js"></script>
 
     <footer>
         <div class="footer-container">
@@ -257,16 +281,5 @@
             <p>&copy; 2024 Your Website. All Rights Reserved. | Designed by Your Name</p>
         </div>
     </footer>
-    
 </body>
 </html>
-    <!-- <h1>Actions</h1>
-    {% if request.user.is_superuser %}
-        Admin - <a href="{% url 'products:upload-content' %}">Upload product</a>
-        <br>
-        Admin - <a href="{% url 'products:create-category' %}">Create category</a>
-    {% else %}
-        Customer - <a href="{% url 'products:news-letter' %}">News letter</a>
-    {% endif %}
-    <br>-->
-

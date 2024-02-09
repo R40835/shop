@@ -7,13 +7,16 @@
     <link rel="stylesheet" href="{% static "css/location.css" %}">
 {% endblock styles %}
 {% block app_links %}
-    <a href="{% url 'products:index' %}">Home</a>
-    <div class="dropdown">
-        <a id="dropdown-button" href="#">Products <span id="dropdown-symbol">&#9660;</span></a>
-    </div>
-    <a href="" id="subscribe-link">Subscribe</a>
-    <a class="hovered" href="{% url 'products:location' %}">Location</a>
-    <a href="{% url 'products:about' %}">About</a>
+    <div id="middle-links" class="nav-links">
+        <a class="navbar-link" href="{% url 'products:index' %}">HOME</a>
+        <a class="navbar-link" id="novelties" href="">NOUVEAUTÉS</a>
+        <a class="navbar-link" id="collection-dropdown" href="">COLLECTIONS</a>
+        <a class="navbar-link" id="linens-textiles-dropdown" href="">MAISON</a>
+        <a class="navbar-link" href="{% url 'products:about' %}">DARREL WALDYN WORLD</a>
+        <a class="navbar-link" href="">INSTAGRAM</a>
+        <a class="navbar-link hovered" href="{% url 'products:location' %}">CONTACT</a>
+        <a class="navbar-link" href="" id="subscribe-link">NEWSLETTER</a>
+    </div>    
 {% endblock app_links %}
 {% block content %}
 <div class="page-path">

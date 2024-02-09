@@ -8,13 +8,16 @@
     <link rel="stylesheet" href="{% static "css/filter_category.css" %}">
 {% endblock styles %}
 {% block app_links %}
-    <a href="{% url 'products:index' %}">Home</a>
-    <div class="dropdown">
-        <a class="hovered" id="dropdown-button" href="#">Products <span id="dropdown-symbol">&#9660;</span></a>
-    </div>
-    <a href="" id="subscribe-link">Subscribe</a>
-    <a href="{% url 'products:location' %}">Location</a>
-    <a href="{% url 'products:about' %}">About</a>
+<div id="middle-links" class="nav-links">
+    <a class="navbar-link" href="{% url 'products:index' %}">HOME</a>
+    <a class="navbar-link" id="novelties" href="">NOUVEAUTÉS</a>
+    <a class="navbar-link" id="collection-dropdown" href="">COLLECTIONS</a>
+    <a class="navbar-link" id="linens-textiles-dropdown" href="">MAISON</a>
+    <a class="navbar-link" href="{% url 'products:about' %}">DARREL WALDYN WORLD</a>
+    <a class="navbar-link" href="">INSTAGRAM</a>
+    <a class="navbar-link" href="{% url 'products:location' %}">CONTACT</a>
+    <a class="navbar-link" href="" id="subscribe-link">NEWSLETTER</a>
+</div>    
 {% endblock app_links %}
 {% block content %}
 <div class="page-path">
@@ -30,9 +33,14 @@
         <h3>111 results</h3>
     </div>
     <div class="middle-section">
-        {% for category in clothing %}
+        <!-- {% for category in clothing %}
             <a class="sub-category" href="{% url 'products:category-products' category.pk  %}">{{category}}</a>
-        {% endfor %}
+        {% endfor %} -->
+        <a class="sub-category" href="">DRESS</a>
+        <a class="sub-category" href="">TOPS</a>
+        <a class="sub-category" href="">HATS</a>
+        <a class="sub-category" href="">TROUSERS</a>
+        
     </div>
     <div class="right-section">
         <img src="/static/icons/filter.svg" alt="Filter Icon" width="20" height="20">
@@ -47,7 +55,7 @@
 </div>                                                                       
 <div class="image-grid">
     <div class="grid-item">
-        <img src="https://media.4rgos.it/s/Argos/tuc140150182_R_SET?$Main768$&w=620&h=620" alt="Image 1">
+        <img src="https://thumbs.dreamstime.com/b/young-man-blank-t-shirt-dressed-grey-light-background-mock-up-70689268.jpg" alt="Image 1">
         <h3>Dresses</h3>
     </div>
     <div class="grid-item">
@@ -63,12 +71,12 @@
         <img src="https://images.asos-media.com/products/asos-design-oversized-t-shirt-with-racing-car-graphic-in-washed-cream/205436418-1-cream/?$n_480w$&wid=476&fit=constrain" alt="Image 3">
         <h3>Hats</h3>
     </div>
-    <div class="grid-item"><img src="https://media.4rgos.it/s/Argos/tuc140150182_R_SET?$Main768$&w=620&h=620" alt="Image 1"></div>
+    <div class="grid-item"><img src="https://thumbs.dreamstime.com/b/young-man-blank-t-shirt-dressed-grey-light-background-mock-up-70689268.jpg" alt="Image 1"></div>
     <div class="grid-item"><img src="https://www.pjpan.co.uk/media/catalog/product/cache/ddc9bd1b85fcfa71e5e91929f8504b46/m/e/mens-blue-organic-tshirt_1.jpg" alt="Image 2"></div>
 
     <div class="grid-item"><img src="https://www.pjpan.co.uk/media/catalog/product/cache/ddc9bd1b85fcfa71e5e91929f8504b46/m/e/mens-blue-organic-tshirt_1.jpg" alt="Image 2"></div>
     <div class="grid-item"><img src="https://images.asos-media.com/products/asos-design-oversized-t-shirt-with-racing-car-graphic-in-washed-cream/205436418-1-cream/?$n_480w$&wid=476&fit=constrain" alt="Image 3"></div>
-    <div class="grid-item"><img src="https://media.4rgos.it/s/Argos/tuc140150182_R_SET?$Main768$&w=620&h=620" alt="Image 1"></div>
+    <div class="grid-item"><img src="https://thumbs.dreamstime.com/b/young-man-blank-t-shirt-dressed-grey-light-background-mock-up-70689268.jpg" alt="Image 1"></div>
 
 </div>
 <button class="infinite-scroll centered-element">View More</button>

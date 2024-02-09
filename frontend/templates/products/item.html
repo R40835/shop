@@ -8,13 +8,16 @@
     <link rel="stylesheet" href="{% static "css/product_suggestions.css" %}">
 {% endblock styles %}
 {% block app_links %}
-    <a href="{% url 'products:index' %}">Home</a>
-    <div class="dropdown">
-        <a class="hovered" id="dropdown-button" href="#">Products <span id="dropdown-symbol">&#9660;</span></a>
-    </div>
-    <a href="" id="subscribe-link">Subscribe</a>
-    <a href="{% url 'products:location' %}">Location</a>
-    <a href="{% url 'products:about' %}">About</a>
+    <div id="middle-links" class="nav-links">
+        <a class="navbar-link" href="{% url 'products:index' %}">HOME</a>
+        <a class="navbar-link" href="">NOVELTIES</a>
+        <a class="navbar-link" id="collection-dropdown" href="">COLLECTIONS</a>
+        <a class="navbar-link" id="linens-textiles-dropdown" href="">MAISON</a>
+        <a class="navbar-link" href="{% url 'products:about' %}">DARREL WALDYN WORLD</a>
+        <a class="navbar-link" href="">INSTAGRAM</a>
+        <a class="navbar-link" href="{% url 'products:location' %}">CONTACT</a>
+        <a class="navbar-link" href="" id="subscribe-link">NEWSLETTER</a>
+    </div>    
 {% endblock app_links %}
 {% block content %}
 <!--path must consist of anchor tags-->

@@ -12,10 +12,10 @@ if (filterbar) {
     function showFilterbar(direction) {
         switch(direction) {
             case 'up':
-                filterbarClone.style.top = "80px";
+                // filterbarClone.style.top = "0px";
                 break;
             case 'down':
-                filterbarClone.style.top = "0px";
+                filterbarClone.style.top = "160px";
                 break;
         }
         filterbarClone.style.width = '100%';
@@ -42,13 +42,13 @@ if (filterbar) {
             if (cloneCreated) {
                 cloneCreated = hideFilterbar(filterbarClone);
             }
-            if (filterbarCurrentYPosition <= 0) {
+            if (filterbarCurrentYPosition <= 180) {
                 // stick filterbar to the top as you reach it by scrolling down
                 cloneCreated = showFilterbar('down'); 
             }
 
         } else {
-            if (filterbarCurrentYPosition < 0) {
+            if (filterbarCurrentYPosition < 180) {
                 // Scrolling up or at the top, show the navbar
                 cloneCreated = showFilterbar('up');
             }

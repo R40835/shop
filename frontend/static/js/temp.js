@@ -20,23 +20,23 @@ function sleep(miliseconds) {
     }
  }
 
-//  if (event.target !== collectionDropdownButton && houseOpened) {
-//     // If linens/textiles is opened, wait for its transition to finish before opening collection
-//     linensAndTextilesContent.addEventListener('transitionend', () => {
-//         updateDropdown('open', 'collection');
-//         // Remove the event listener after it's used to prevent multiple event registrations
-//         linensAndTextilesContent.removeEventListener('transitionend', arguments.callee);
-//     });
-//     console.log(houseOpened, collectionOpened)
-// }
-// if (event.target !== linensTextilesDropdownButton && collectionOpened) {
-//      // If collection is opened, wait for its transition to finish before opening linens/textiles
-//      collectionContent.addEventListener('transitionend', () => {
-//         updateDropdown('open', 'linens&textiles');
-//         // Remove the event listener after it's used to prevent multiple event registrations
-//         collectionContent.removeEventListener('transitionend', arguments.callee);
-//     });
-// }
+ if (event.target !== collectionDropdownButton && houseOpened) {
+    // If linens/textiles is opened, wait for its transition to finish before opening collection
+    linensAndTextilesContent.addEventListener('transitionend', () => {
+        updateDropdown('open', 'collection');
+        // Remove the event listener after it's used to prevent multiple event registrations
+        linensAndTextilesContent.removeEventListener('transitionend', arguments.callee);
+    });
+    console.log(houseOpened, collectionOpened)
+}
+if (event.target !== linensTextilesDropdownButton && collectionOpened) {
+     // If collection is opened, wait for its transition to finish before opening linens/textiles
+     collectionContent.addEventListener('transitionend', () => {
+        updateDropdown('open', 'linens&textiles');
+        // Remove the event listener after it's used to prevent multiple event registrations
+        collectionContent.removeEventListener('transitionend', arguments.callee);
+    });
+}
 
 function updateDropdown(action, option) {
     if (option === 'collection') {

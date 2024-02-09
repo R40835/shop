@@ -1,47 +1,46 @@
 const paginator = document.getElementById("items-paginator");
 const loadingArea = document.getElementById('loading-area');
+
 let currentPage;
 let totalPages;
+let viewMoreButton;
+let loadingSpinner;
+
 
 if (paginator) {
+    viewMoreButton = document.getElementById('view-more');
+    loadingSpinner = document.getElementById('product-spinner-container');
+
     currentPage = parseInt(paginator.getAttribute("current-page"));
     totalPages = parseInt(paginator.getAttribute("total-pages"));
-    console.log(`the current page is ${currentPage}`);
-    console.log(`the total no of pages is ${totalPages}`);
-
 }
 
-function appendMessagesToChatLog(pageNumber) {
+function loadProducts(pageNumber) {
+    loadingSpinner.style.display = 'block';
 
     if (pageNumber <= totalPages) {
         const nextPageUrl = `?page=${pageNumber}`;
-        console.log(`next page url ${nextPageUrl}`)
         fetch(nextPageUrl)
             .then(response => response.text())
             .then(content => {
                 const parser = new DOMParser();
                 const doc = parser.parseFromString(content, 'text/html');
-                // console.log(doc);
-                const products = doc.querySelectorAll('.products-grid');
-                // console.log(products)
-                products.forEach(product => {
-                    loadingArea.appendChild(product);
-                    // console.log(product.childNodes)
-                });
+                const products = doc.querySelector('.products-grid');
 
+                loadingArea.appendChild(products);
+                
                 if (pageNumber == totalPages) {
                     viewMoreButton.remove();
                 }
     
+                loadingSpinner.style.display = 'none';
             })
             .catch(error => {
                 console.error('Error:', error);
             });    
     } 
 }
-const viewMoreButton = document.getElementById('view-more');
 viewMoreButton.addEventListener('click', () => {
     currentPage++;
-    console.log(`next page is: ${currentPage}`)
-    appendMessagesToChatLog(currentPage);
+    loadProducts(currentPage);
 });

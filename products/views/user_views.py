@@ -37,20 +37,20 @@ def about(request):
     return render(request, "products/about.html")
 
 
-def clothing(request): 
+def collections(request): 
     """
     Dresses Page.
     """
     is_admin: bool = request.user.is_superuser
     items = Product.objects.filter(top_category__name='clothing').order_by('-created_at')
-    items = [item.check_availabality() for item in items]
+    items = [item.check_availabality() for item in items] # call this method after a sale confirmation instead; more efficient
 
     items_per_page = 12
     paginator = Paginator(items, items_per_page)
     page_number = request.GET.get('page')
     page = paginator.get_page(page_number)
     context = {'page': page, 'is_admin': is_admin}
-    return render(request, "products/clothing.html", context)
+    return render(request, "products/collections.html", context)
 
 
 def garniture(request): 

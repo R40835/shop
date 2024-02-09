@@ -57,6 +57,6 @@
 
 /* Change button styles on hover */
 .jumbotron-button:hover {
-    background-color: #dec88e; /* E30B5D | FF658B*/
-    border-color: #dec88e;
+    background-color: #555; /* E30B5D | FF658B | dec88e*/
+    border-color: #555;
 }

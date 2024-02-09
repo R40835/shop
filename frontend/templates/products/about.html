@@ -1,17 +1,22 @@
-{% extends "base/base.html" %} 
+{% extends "base/base.html" %}
+{% load static %}
 {% block title %}
-    <title>About</title>
+    <title>Couvertures</title>
 {% endblock title %}
 {% block styles %}
+    <link rel="stylesheet" href="{% static "css/category.css" %}">
+    <link rel="stylesheet" href="{% static "css/filter_category.css" %}">
 {% endblock styles %}
 {% block app_links %}
-    <a href="{% url 'products:index' %}">Home</a>
-    <div class="dropdown">
-        <a id="dropdown-button" href="#">Products <span id="dropdown-symbol">&#9660;</span></a>
-    </div>
-    <a href="" id="subscribe-link">Subscribe</a>
-    <a href="{% url 'products:location' %}">Location</a>
-    <a class="hovered" href="{% url 'products:about' %}">About</a>
+    <div id="middle-links" class="nav-links">
+        <a class="navbar-link" href="{% url 'products:index' %}">HOME</a>
+        <a class="navbar-link" id="collection-dropdown" href="">COLLECTIONS</a>
+        <a class="navbar-link" id="linens-textiles-dropdown" href="">LINENS & TEXTILES</a>
+        <a class="navbar-link" href="{% url 'products:about' %}">NOVELTIES</a>
+        <a class="navbar-link" href="{% url 'products:about' %}">MAISON</a>
+        <a class="navbar-link hovered" href="{% url 'products:about' %}">DARREL WALDYN WORLD</a>
+        <a class="navbar-link" href="">INSTAGRAM</a>
+        <a class="navbar-link" href="{% url 'products:location' %}">CONTACT</a>
+        <a class="navbar-link" href="" id="subscribe-link">NEWSLETTER</a>
+    </div>    
 {% endblock app_links %}
-{% block content %}
-{% endblock content %}

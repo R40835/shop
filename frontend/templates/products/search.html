@@ -7,18 +7,21 @@
     <link rel="stylesheet" href="{% static "css/category.css" %}">
 {% endblock styles %}
 {% block app_links %}
-    <a href="{% url 'products:index' %}">Home</a>
-    <div class="dropdown">
-        <a class="hovered" id="dropdown-button" href="#">Products <span id="dropdown-symbol">&#9660;</span></a>
-    </div>
-    <a href="" id="subscribe-link">Subscribe</a>
-    <a href="{% url 'products:location' %}">Location</a>
-    <a href="{% url 'products:about' %}">About</a>
+    <div id="middle-links" class="nav-links">
+        <a class="navbar-link" href="{% url 'products:index' %}">HOME</a>
+        <a class="navbar-link" id="novelties" href="">NOUVEAUTÉS</a>
+        <a class="navbar-link" id="collection-dropdown" href="">COLLECTIONS</a>
+        <a class="navbar-link" id="linens-textiles-dropdown" href="">MAISON</a>
+        <a class="navbar-link" href="{% url 'products:about' %}">DARREL WALDYN WORLD</a>
+        <a class="navbar-link" href="">INSTAGRAM</a>
+        <a class="navbar-link" href="{% url 'products:location' %}">CONTACT</a>
+        <a class="navbar-link" href="" id="subscribe-link">NEWSLETTER</a>
+    </div>    
 {% endblock app_links %}
 {% block content %}
-<div class="page-path">
-    <h4>Product Search > {{searched}}</h4>
-</div>
+    <div class="page-path">
+        <h4>Product Search > {{searched}}</h4>
+    </div>
 {% if items %}
     <br><br>
     <div class="products-grid">
@@ -44,27 +47,8 @@
     <button id="view-more" class="infinite-scroll centered-element" type="submit">View More</button>
     <a id="items-paginator" href="?page={{ items.next_page_number }}" style="display: hidden;" current-page="{{ items.number }}" total-pages="{{ items.paginator.num_pages }}"></a>
 {% endif %}
+<div id="product-spinner-container">
+    <div class="product-spinner"></div>
+</div>
 <script type="text/javascript" src="/static/js/infinite_scroll.js"></script>
-
-<script>
-
-
-    // Function to handle click events on .product elements
-// function handleProductClick(event) {
-//     const products = document.querySelectorAll('.product');
-//     if (products) {
-//         products.forEach(product => {
-//             const productViewPath = product.getAttribute('path');
-//             product.addEventListener('click', () => {
-//                 console.log(productViewPath)
-
-//                 window.location.href = productViewPath;
-//             });
-//         });
-//     }
-// }
-// // Attach event listener to a parent element that contains all .product elements
-// document.addEventListener('click', handleProductClick);
-</script>
-
 {% endblock content %}

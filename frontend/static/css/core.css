@@ -3,11 +3,14 @@ body {
     margin: 0;
     padding: 0;
     background-color: #fff;
-    padding-top: 80px; /* set the height relative to the navbar so that content would fit */
-    /* font-family: 'Oxygen', sans-serif; */
+    padding-top: 160px; /* set the height relative to the navbar so that content would fit */
+    font-family: 'Oxygen', sans-serif;
     /* font-family: 'Space Grotesk', sans-serif; */
-    /*font-family: 'Teko', sans-serif; /* applying google font */
-    font-family: 'Roboto', sans-serif;
+    /* font-family: 'Teko', sans-serif; /* applying google font */
+    /* font-family: 'Times New Roman', Times, serif;  */
+    /* engravers */
+    /* eucrosiaupc */
+    /* calistomp*/
 }
 
 .link {
@@ -64,6 +67,24 @@ body {
 }
   
 .centered-spinner {
+    border: 5px solid rgba(0, 0, 255, 0.1); /* Light blue border */
+    border-top: 5px solid #007bff;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite; /* Spin animation */
+}
+
+#product-spinner-container {
+    display: none;
+    position: fixed;
+    bottom: 20%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 5000; /* Ensure the spinner is above other content */
+}
+
+.product-spinner {
     border: 5px solid rgba(0, 0, 255, 0.1); /* Light blue border */
     border-top: 5px solid #007bff;
     border-radius: 50%;
