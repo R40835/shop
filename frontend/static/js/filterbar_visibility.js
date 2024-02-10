@@ -58,13 +58,15 @@ if (filterbar) {
     
     const filter = document.querySelector('.filter-link');
     const sidebar = document.getElementById('sidebar');
-
+    const closeSidebar = document.getElementById('close-sidebar')
+    
     window.addEventListener('click', function(event) {
-        if (event.target.classList.value === filter.classList.value) {
+        if (event.target === filter) {
             sidebar.style.display = 'block';
-        } else {
+        } 
+        if (event.target === closeSidebar || event.target !== filter && !sidebar.contains(event.target)) {
             sidebar.style.display = 'none';
-        }
+        }    
     });
 
 } 

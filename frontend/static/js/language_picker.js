@@ -18,10 +18,11 @@ if (dashboard) {
     })
 }
 
-language.addEventListener('mouseover', () => {
+language.addEventListener('click', (event) => {
+    event.preventDefault();
     languagePicker.style.display = 'inline';
 })
 
-language.addEventListener('mouseout', () => {
-    languagePicker.style.display = 'none';
-})
+// language.addEventListener('mouseout', () => {
+//     languagePicker.style.display = 'none';
+// })

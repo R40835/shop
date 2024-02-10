@@ -69,21 +69,6 @@ def garniture(request):
     return render(request, "products/garniture.html", context)
 
 
-def jackets(request): 
-    """
-    Blankets Page.
-    """
-    is_admin: bool = request.is_superuser
-    items = Product.objects.filter(category__name='jacket').order_by('-created_at')
-    items = [item.check_availabality() for item in items]
-    items_per_page = 12
-    paginator = Paginator(items, items_per_page)
-    page_number = request.GET.get('page')
-    page = paginator.get_page(page_number)
-    context = {'page': page, 'is_admin': is_admin}
-    return render(request, "products/jackets.html", context)
-
-
 def newsletter(request):
     """
     News Letter Page - For vistors keen to be notified about novelties.

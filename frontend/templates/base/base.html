@@ -80,8 +80,8 @@
                     <!-- language picker-->
                     <div class="language-picker-container">
                         <div class="language-picker">
-                            <a href="">FRENCH</a>
-                            <a href="">ARABIC</a>                                
+                            <a class="language-option" href="">FRENCH</a>
+                            <a class="language-option" href="">ARABIC</a>                                
                         </div>
                     </div>
                     {% if request.user.is_superuser %}
@@ -185,7 +185,6 @@
         </div>
     </nav>
     <script type="text/javascript" src="/static/js/dropdown_layout.js"></script>
-    <script type="text/javascript" src="/static/js/search_layout.js"></script>
     <script type="text/javascript" src="/static/js/search_autocomplete.js"></script>
     <script type="text/javascript" src="/static/js/navbar_visibility.js"></script>
     <!--NEWSLETTER FORM-->

@@ -8,16 +8,16 @@
     <link rel="stylesheet" href="{% static "css/filter_category.css" %}">
 {% endblock styles %}
 {% block app_links %}
-<div id="middle-links" class="nav-links">
-    <a class="navbar-link" href="{% url 'products:index' %}">HOME</a>
-    <a class="navbar-link" id="novelties" href="">NOUVEAUTÉS</a>
-    <a class="navbar-link" id="collection-dropdown" href="">COLLECTIONS</a>
-    <a class="navbar-link" id="linens-textiles-dropdown" href="">MAISON</a>
-    <a class="navbar-link" href="{% url 'products:about' %}">DARREL WALDYN WORLD</a>
-    <a class="navbar-link" href="">INSTAGRAM</a>
-    <a class="navbar-link" href="{% url 'products:location' %}">CONTACT</a>
-    <a class="navbar-link" href="" id="subscribe-link">NEWSLETTER</a>
-</div>    
+    <div id="middle-links" class="nav-links">
+        <a class="navbar-link" href="{% url 'products:index' %}">HOME</a>
+        <a class="navbar-link" id="novelties" href="">NOUVEAUTÉS</a>
+        <a class="navbar-link" id="collection-dropdown" href="">COLLECTIONS</a>
+        <a class="navbar-link" id="linens-textiles-dropdown" href="">MAISON</a>
+        <a class="navbar-link" href="{% url 'products:about' %}">DARREL WALDYN WORLD</a>
+        <a class="navbar-link" href="">INSTAGRAM</a>
+        <a class="navbar-link" href="{% url 'products:location' %}">CONTACT</a>
+        <a class="navbar-link" href="" id="subscribe-link">NEWSLETTER</a>
+    </div>    
 {% endblock app_links %}
 {% block content %}
 <div class="page-path">
@@ -30,27 +30,25 @@
 </div>
 <div id="filterbar" class="bar">
     <div class="left-section">
-        <h3>111 results</h3>
+        <a>111 RESULTS</a>
     </div>
     <div class="middle-section">
-        <!-- {% for category in clothing %}
-            <a class="sub-category" href="{% url 'products:category-products' category.pk  %}">{{category}}</a>
-        {% endfor %} -->
-        <a class="sub-category" href="">DRESS</a>
-        <a class="sub-category" href="">TOPS</a>
-        <a class="sub-category" href="">HATS</a>
-        <a class="sub-category" href="">TROUSERS</a>
-        
+        <a href="">COLLECTIONS</a>
     </div>
     <div class="right-section">
         <img src="/static/icons/filter.svg" alt="Filter Icon" width="20" height="20">
-        <a class="filter-link" style="display: block;">Sort & Filter</a>
+        <a class="filter-link" style="display: block;">SORT & FILTER</a>
     </div>
 </div>
 <div id="sidebar" class="sidebar">
+    <div class="close-container">
+        <div id="close-sidebar" class="close">&times;</div>
+    </div>
     <div class="sidebar-content">
-        <div class="close">&times;</div>
-        <h3>Color</h3>
+        <h3>CATEGORIES</h3>
+        {% for category in clothing %}
+            <a class="sub-category" href="{% url 'products:category-products' category.pk  %}">{{category}}</a>
+        {% endfor %}         
     </div>
 </div>                                                                       
 <div class="image-grid">

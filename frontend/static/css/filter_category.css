@@ -5,7 +5,7 @@
     right: 0;
     position: fixed; 
     box-sizing: border-box;
-    width: 40%;
+    width: 60%;
     align-items: start;
     background-color: #fff; 
     border-left: 1px solid #ccc;
@@ -15,7 +15,18 @@
     z-index: 2500;
 }
 
-.sidebar-content {
+.sidebar-content a {
+    color: #555;
+    display: block;
+    text-decoration: none;
+    font-size: 14px;
+    padding: 10px 0;
+    margin: 0 25px;
+    border-bottom: 3px solid transparent; /* Initially, set border-bottom to transparent */
+    transition: border-bottom-color 0.5s; /* Add a smooth transition effect for color change */
+}
+
+.close-container {
     position: relative;
 }
 
@@ -37,7 +48,6 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 10px;
     color: #555;
     background-color: #fff;
     z-index: 1;
@@ -47,22 +57,20 @@
 .bar a {
     display: inline;
     color: #555;
-    /* font-weight: bold; */
     text-decoration: none;
+    font-size: 14px;
     padding: 10px;
     padding-right: 40px;
     transition: background-color 0.3s ease-in-out;
 }
 
 .bar .sub-category {
-    font-size: larger;
+    font-size: 14px;
 }
 
 .bar .sub-category:hover {
     cursor: pointer ;
     color: #777;
-    /* border: 1px solid #dec88e;
-    background-color: #dec88e; */
 }
 
 .bar a:hover {
@@ -74,7 +82,7 @@
 }
 
 .bar .middle-section {
-    flex: 2;
+    flex: 6;
     text-align: center;
 }
 

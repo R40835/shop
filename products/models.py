@@ -36,6 +36,9 @@ class CategoryInterface(models.Model):
 class TopCategory(CategoryInterface):
     class Meta:
         ordering = ['-created_at']    
+        indexes = [
+            models.Index(fields=['name'])
+        ]
     
 
 class MidCategory(CategoryInterface):
@@ -43,6 +46,9 @@ class MidCategory(CategoryInterface):
 
     class Meta:
         ordering = ['-created_at']
+        indexes = [
+            models.Index(fields=['name'])
+        ]
     
 
 class BottomCategory(CategoryInterface): 
@@ -50,6 +56,9 @@ class BottomCategory(CategoryInterface):
 
     class Meta:
         ordering = ['-created_at']    
+        indexes = [
+            models.Index(fields=['name'])
+        ]
 
 
 class Product(models.Model):
@@ -60,10 +69,28 @@ class Product(models.Model):
     stock               = models.PositiveIntegerField(null=False, blank=False)
     created_at          = models.DateTimeField(auto_now_add=True)
     available           = models.BooleanField(default=True)
+    colour              = models.CharField(null=True, blank=True)
+    season              = models.CharField(null=True, blank=True)
+    year                = models.IntegerField(null=True, blank=True)
 
     top_category        = models.ForeignKey(TopCategory, on_delete=models.CASCADE, null=False, blank=False)
     mid_category        = models.ForeignKey(MidCategory, on_delete=models.CASCADE, null=False, blank=False)
     bottom_category     = models.ForeignKey(BottomCategory, on_delete=models.CASCADE, null=True, blank=True)
+
+    class Meta:
+        indexes = [
+            models.Index(fields=['id']),
+            models.Index(fields=['colour']),
+            models.Index(fields=['season', 'year']),
+            models.Index(fields=['top_category']),
+            models.Index(fields=['mid_category_id']),
+            models.Index(fields=[
+                'name',
+                'top_category',
+                'mid_category',
+                'bottom_category'
+            ])
+        ]
 
     def check_availabality(self) -> 'Product':
         """
@@ -100,12 +127,16 @@ class ProductImage(models.Model):
 
     product     = models.ManyToManyField(Product, related_name='images')
 
+    class Meta: ... 
+
 
 class Follower(models.Model):
     first_name = models.CharField(max_length=60, null=False, blank=False)
     last_name  = models.CharField(max_length=60, null=False, blank=False)
     email      = models.EmailField(null=False, blank=False, unique=True)
     category   = models.CharField(max_length=60, null=False, blank=False)
+
+    class Meta: ...
 
 
 class Purchase(models.Model):
@@ -114,6 +145,8 @@ class Purchase(models.Model):
 
     product  = models.ForeignKey(Product, on_delete=models.CASCADE)
 
+    class Meta: ...
+
     def save(self, *args, **kwargs) -> None:
         """
         Overriding the save method to update the 
@@ -121,17 +154,3 @@ class Purchase(models.Model):
         """
         self.product.decrement_stock(self.quantity)
         super(Purchase, self).save(*args, **kwargs)
-
-
-class Collection(models.Model):
-    seasons = (
-        ('Winter', 'Winter'),
-        ('Summer', 'Summer'),
-        ('Spring', 'Spring'),
-        ('Autumn', 'Autumn')
-    )
-    year    = models.IntegerField(null=False, blank=False)
-    season  = models.CharField(choices=seasons, null=False, blank=False)
-
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    
