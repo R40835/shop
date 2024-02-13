@@ -3,6 +3,7 @@ const language = document.querySelector('.language');
 
 const dashboardIndicator = document.querySelector('.dashboard-indicator');
 const languagePicker = document.querySelector('.language-picker');
+const languagePickerContainer = document.querySelector('.language-picker-container');
 
 if (dashboard) {
     dashboard.addEventListener('click', () => {
@@ -23,6 +24,12 @@ language.addEventListener('click', (event) => {
     languagePicker.style.display = 'inline';
 })
 
-// language.addEventListener('mouseout', () => {
-//     languagePicker.style.display = 'none';
-// })
+languagePicker.addEventListener('click', (event) => {
+    event.preventDefault();
+})
+
+window.addEventListener('click', (event) => {
+    if (!languagePickerContainer.contains(event.target) && !language.contains(event.target)) { 
+        languagePicker.style.display = 'none';
+    }
+})

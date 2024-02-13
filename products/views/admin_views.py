@@ -61,6 +61,7 @@ def admin_product_sold(request, product_pk):
                 quantity=form.cleaned_data['quantity'],
                 product_id=product_pk
             )
+            #TODO: product.check_availabality() # use this method here instead; must get rid of it in user_views.py
             return redirect('products:dashboard')
     else:
         form = AdminSaleConfirmationForm()

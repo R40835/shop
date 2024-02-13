@@ -126,7 +126,6 @@ def search_results(request, query):
     return render(request, 'products/search.html', context)
 
     
-
 def item(request, product_pk):
     """
     Item/Product view.
@@ -167,7 +166,7 @@ def mid_category_products(request, mid_category_pk):
 
 def location(request):
     """
-    
+    Shows shop location and other relevant details.
     """
     context = {'': ''}
     return render(request, "products/location.html", context)
